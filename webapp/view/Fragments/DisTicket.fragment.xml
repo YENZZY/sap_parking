@@ -1,0 +1,17 @@
+<core:FragmentDefinition
+    xmlns:core="sap.ui.core"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+  height="100%"
+>
+  <Panel>
+    <HBox alignItems="Center">
+      <Input editable="false" value="{payModel>/}"/>
+      <core:Icon src="sap-icon://sys-add" class="sapUiSmallMargin"/>
+      <Input value="{payModel>/}" width="2em" class="sapUiSmallMarginEnd"/>
+      <core:Icon src="sap-icon://sys-minus"/>
+    </HBox>
+  </Panel>  
+</core:FragmentDefinition>
+
+    
