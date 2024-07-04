@@ -1,4 +1,4 @@
-<mvc:View controllerName="parking.controller.Main"
+<mvc:View controllerName="parking.controller.Page"
      xmlns:core="sap.ui.core"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m"
@@ -10,10 +10,11 @@
       <OverflowToolbar>
 			  <Title text="차량 조회" titleStyle="H4"/>
       </OverflowToolbar>
+      <Title value="{carinfoModel>/NumberPlate}" titleStyle="H4"/>
         <HBox width="100%" justifyContent="Center" class="sapUiLargeMarginTop">
             <VBox class="sapUiMediumMarginEnd">
-                <Image src="/img/car1.png" width="300px" height="200px" class="sapUiSmallMarginBottom"/>
-                <Title text="{= '요금 : ' + ${fee} + ' 원'}" titleStyle="H2"/>
+                <Image src="/img/car1.png" width="300px" height="235px" class="sapUiSmallMarginBottom"/>
+                <Input id="ParkingFee" editable="false"/>
             </VBox>
             <VBox>
               <HBox height="100%" alignItems="Center" class="sapUiMediumMarginBottom">
@@ -30,11 +31,11 @@
               </HBox>
               <HBox height="100%" alignContent="Center" class="sapUiMediumMarginBottom">
                   <Label text="입차시간" design="Bold" class="sapUiTinyMarginEnd"/>
-                  <Input id="EntryTime" type="Text" width="20em" value="{carinfoModel>/EntryTime}" editable="false"/>
+                  <Input id="EntryTime" type="Text" width="20em" value="{carinfoModel>/EntryTimeFormatted}" editable="false"/>
               </HBox>
               <HBox height="100%" alignContent="Center" class="sapUiMediumMarginBottom">
                   <Label text="주차시간" design="Bold" class="sapUiTinyMarginEnd"/>
-                  <Input id="ParkingTime" type="Text" width="20em" value="{carinfoModel>/ParkingTime}" editable="false"/>
+                  <Input id="ParkingTime" type="Text" width="20em" editable="false"/>
               </HBox>
               <HBox justifyContent="End" class="sapUiMediumMarginBottom">
                 <Button text="정산하기" press="onPay" />

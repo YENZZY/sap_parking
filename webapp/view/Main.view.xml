@@ -7,18 +7,19 @@
 	<Page id="page">
 	<Panel height="100%">
 		<OverflowToolbar >
-			<Title text="정산할 차량 조회"/>
+			<Title text="정산할 차량 조회" titleStyle="H4"/>
 			<ToolbarSpacer/>
 			<Button press="onBuy" visible="true" text="할인권 구매" type="Ghost"></Button>
 		</OverflowToolbar>
-		<Toolbar width="100%" style="Clear">
+		<Toolbar width="100%" style="Clear" class="sapUiSmallMargin">
 			<ToolbarSpacer/>
-				<SearchField id="findNumber" width="50%" search="onSearch" placeholder="차량번호 4자리를 입력해주세요."/>
+			<Input id="findNumber" width="50%" placeholder="차량번호 4자리를 입력해주세요."/>
+        	<core:Icon src="sap-icon://search" press="onSearch"/>
 			<ToolbarSpacer/>
 		</Toolbar>
 
 		<!-- 차량번호 조회 -->
-			<VBox width="100%" >
+			<VBox width="100%" class="sapUiLargeMarginBottom">
 			<HBox width="100%" justifyContent="Center">
 				<Button text="1" press="onClick"></Button>
 				<Button text="2" press="onClick"></Button>
@@ -35,24 +36,23 @@
 				<Button text="9" press="onClick"></Button>
 			</HBox>
 			<HBox width="100%" justifyContent="Center">
-				<Button text="X" press="onClick"></Button>
+				<Button text="⌫" press="onClear"></Button>
 				<Button text="0" press="onClick"></Button>
-				<Button text="O" press="onClick"></Button>
+				<Button text="⏎" press="onSearch"></Button>
 			</HBox>
 			</VBox>
 			<OverflowToolbar>
-							<Title text="정산된 차량 내역 목록" level="H2"/>
+				<Title text="정산된 차량 내역 목록" titleStyle="H4"/>
 				</OverflowToolbar>
 		<!-- 정산된 차량 내역 목록 -->
 			<Table id="CompleteTable"
 				inset="false"
 				items="{
-					path: 'carinfoModel>/',
+					path: 'paidModel>/',
 					sorter: {
 						path: 'NumberPlate'
 					}
 				}">
-						<Title text="정산된 차량 내역 목록" level="H2"/>
 				<columns>
 				<Column
 				width="12em">
@@ -74,10 +74,10 @@
 			<items>
 				<ColumnListItem vAlign="Middle">
 				<cells>
-				<Text	text="{carinfoModel>NumberPlate}" />
-				<Text	text="{carinfoModel>TypeName}" />
-				<Text	text="{carinfoModel>Brand}" />
-				<Text	text="{carinfoModel>ExitTime}" />
+				<Text	text="{paidModel>NumberPlate}" />
+				<Text	text="{paidModel>TypeName}" />
+				<Text	text="{paidModel>Brand}" />
+				<Text	text="{paidModel>ExitTime}" />
 				</cells>
 				</ColumnListItem>
 			</items>
