@@ -88,6 +88,34 @@ function (Controller, JSONModel, MessageBox,Filter,FilterOperator) {
         //할인권 구매 버튼 클릭시 이동
         onBuy: function () {
 
-        }
+        },
+
+        //정기권 구매 dialog
+        onRegister: function () {
+            if(!this.oCarDialog) {
+                this.oCarDialog = this.loadFragment({
+                    name: "parking/view/Fragments/CarDialog"
+                });
+            }
+            this.oCarDialog.then(function (oDialog) {
+                this.oDialog = oDialog;
+                this.oDialog.open();
+            
+            }.bind(this));
+        },
+
+        //정기권 구매 다이얼로그 저장
+        onSaveCar: function () {
+            this.oDialog.close();
+        },
+
+        //정기권 구매 다이얼로그 닫기
+        onCloseCar: function () {
+            this.oDialog.close();
+        },
+
+        //다이얼로그 초기화
+        
+
     });
 });

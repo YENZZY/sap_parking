@@ -10,7 +10,7 @@
       <OverflowToolbar>
 			  <Title text="차량 조회" titleStyle="H4"/>
       </OverflowToolbar>
-      <Title value="{carinfoModel>/NumberPlate}" titleStyle="H4"/>
+      <!-- <Title value="{NumberPlate}" titleStyle="H4"/> -->
         <HBox width="100%" justifyContent="Center" class="sapUiLargeMarginTop">
             <VBox class="sapUiMediumMarginEnd">
                 <Image src="/img/car1.png" width="300px" height="235px" class="sapUiSmallMarginBottom"/>

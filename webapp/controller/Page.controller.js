@@ -47,6 +47,7 @@ function (Controller, JSONModel, MessageBox) {
             }
 
             var entryTime = oCarinfoModel.getProperty("/EntryTime");
+            var typeName = oCarinfoModel.getProperty("/TypeName");
 
             if (entryTime) {
                 var entryDate = new Date(entryTime);
@@ -72,9 +73,15 @@ function (Controller, JSONModel, MessageBox) {
                 }
                 
                 if (ofee) {
-                
-                    ofee.setValue("요금 : " + fee + "원");
-                
+                    if(typeName==="정기권 차량"){
+
+                        ofee.setValue("요금 : " + 0 + " 원");
+
+                    } else {
+
+                    ofee.setValue("요금 : " + fee + " 원");
+
+                    }
                 } else {
                 
                     MessageBox.error("주차 요금 데이터를 불러오지 못했습니다.");

@@ -9,12 +9,13 @@
 		<OverflowToolbar >
 			<Title text="정산할 차량 조회" titleStyle="H4"/>
 			<ToolbarSpacer/>
-			<Button press="onBuy" visible="true" text="할인권 구매" type="Ghost"></Button>
+			<Button press="onRegister" visible="true" text=" 정기권 등록 " type="Emphasized" ariaHasPopup="Dialog"></Button>
+			<Button press="onBuy" visible="true" text=" 할인권 구매 " type="Ghost" ariaHasPopup="Dialog"></Button>
 		</OverflowToolbar>
 		<Toolbar width="100%" style="Clear" class="sapUiSmallMargin">
 			<ToolbarSpacer/>
 			<Input id="findNumber" width="50%" placeholder="차량번호 4자리를 입력해주세요."/>
-        	<core:Icon src="sap-icon://search" press="onSearch"/>
+        	<core:Icon src="sap-icon://search" press="onSearch" size="1.5em" color="#0484fc"/>
 			<ToolbarSpacer/>
 		</Toolbar>
 

@@ -1,0 +1,56 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:f="sap.ui.layout.form"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core"
+>
+	<Dialog
+		id="carDialog"
+		title="정기권 등록"
+    >
+		<content>
+			<VBox width="100%" justifyContent="Center">
+				<f:SimpleForm id="registerCarinfo"
+					editable="true"
+					layout="ColumnLayout"
+					columnsM="1"
+					columnsL="1"
+					columnsXL="1"
+                    >
+					<f:content>
+						<Label text="차량번호" />
+						<Input required="true" change="onChange" width="20em" value="{
+							path : 'NumberPlate',
+							type : 'sap.ui.model.type.String'
+						}" />
+						<Label text="차량종류" />
+						<Input value="{registerModel>Brand}" width="20em"/>
+						<Label text="차량구분" />
+						<Select id="SelTypeName" selectedKey="{RegisterModel>/TypeUuid}" width="23em">
+							<items>
+								<core:Item text="{TypeModel>/TypeName}" key="{TypeModel>/Uuid}" />
+							</items>
+						</Select>
+					</f:content>
+				</f:SimpleForm>
+			</VBox>
+		</content>
+		<footer>
+			<Toolbar>
+            <ToolbarSpacer/>
+				<content>
+					<Button id= "saveCar"
+                            type="Accept"
+							text="저장"
+							press="onSaveCar" />
+					
+                    <Button id="cancelCar"
+						text="취소"
+						type="Reject"
+						press="onCloseCar"
+						ariaHasPopup="Dialog" />
+				</content>
+			</Toolbar>
+		</footer>
+	</Dialog>
+</core:FragmentDefinition>
