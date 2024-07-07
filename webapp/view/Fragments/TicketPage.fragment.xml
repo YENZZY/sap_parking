@@ -20,7 +20,7 @@
 </l:VerticalLayout> -->
 <!-- 정산된 차량 내역 목록 -->
 <OverflowToolbar>
-    <Title text="할인권 보유 현황" level="H2"/>
+    <!-- <Title text="할인권 보유 현황" level="H2"/> -->
     <ToolbarSpacer/>
 <Button
     tooltip="Sort"
@@ -52,6 +52,10 @@
             width="12em">
             <Text text="사용개수" textAlign="Center"/>
             </Column>
+             <Column
+            width="12em">
+            <Text text="할인권 사용" textAlign="Center"/>
+            </Column>
         </columns>
         <items>
             <ColumnListItem vAlign="Middle">
@@ -59,10 +63,11 @@
               <Text	text="{myticketModel>DiscountName}" textAlign="Center"/>
               <Text	text="{myticketModel>DiscountTime}" textAlign="Center"/>
               <Text	text="{myticketModel>TotalCount}" textAlign="Center"/>
-              <Text	text="{myticketModel>UsedCount}" textAlign="Center"/>
+              <Text	text="{myticketModel>UsedCount}"/>
+             
             <HBox>
-              <Button	text="+" press="plus"/>
-              <Button	text="-" press="minus"/>
+              <Button	text="﹢" press="onPlus" class="sapUiTinyMarginEnd" type="Accept"/>
+              <Button	text="⧿" press="onMinus" type="Reject"/>
             </HBox>
             </cells>
             </ColumnListItem>

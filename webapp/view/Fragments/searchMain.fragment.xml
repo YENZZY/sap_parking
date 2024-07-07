@@ -36,7 +36,7 @@
 				<Button text="9" press="onClick"></Button>
 			</HBox>
 			<HBox width="100%" justifyContent="Center">
-				<Button text="⌫" press="onClear"></Button>
+				<Button text="⌦" press="onClear"></Button>
 				<Button text="0" press="onClick"></Button>
 				<Button text="⏎" press="onSearch"></Button>
 			</HBox>

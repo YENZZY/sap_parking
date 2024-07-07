@@ -9,7 +9,7 @@
 		id="carDialog"
 		title="정기권 등록"
 		contentWidth="30%"
-		contentHeight="30%"
+		contentHeight="60%"
     >
 		<content>
 			<VBox>
@@ -21,6 +21,7 @@
 					columnsXL="1"
                     >
 					<f:content>
+						<Image src="/img/parking2.jpg" width="100%" height="300px" class="sapUiSmallMarginBottom" visible="true"/>
 						<Label text="차량구분"/>
 						<Input id="inputTypeName" value="{registerModel>/TypeName}" required="true" change="onChange" editable="false" visible="true"/>
 

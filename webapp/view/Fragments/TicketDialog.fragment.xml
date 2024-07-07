@@ -12,16 +12,17 @@
     >
 		<content>
 			<VBox width="100%" justifyContent="Center" alignItems="Center" class="sapUiMediumMarginTop">
+				<Image src="/img/carticket.jpg" width="26em" height="16em" class="sapUiMediumMarginBottom" visible="true"/>
 				<HBox justifyContent="Center" width="100%" alignItems="Center" class="sapUiSmallMarginBottom">
 					<Label text="차량번호" class="sapUiTinyMarginEnd"/>
-					<Input id="carNumber" value="{registerModel>/NumberPlate}" required="true" change="onChange" editable="false" class="sapUiTinyMarginEnd" width="19em"/>
+					<Input id="carNumber" value="{registerModel>/NumberPlate}" required="true" change="onChange" editable="false" class="sapUiTinyMarginEnd" width="20em"/>
 				</HBox>
-				<HBox justifyContent="Center" width="100%" alignItems="Center" class="sapUiMediumMarginBottom">
+				<HBox justifyContent="Center" width="100%" alignItems="Center" class="sapUiLargeMarginBottom">
 					<Label text="티켓 종류" class="sapUiTinyMarginEnd"/>
 					<Select id="selTicketName"
 							items="{discountModel>/}"
 							selectedKey="{ticketModel>/Discountuuid}"
-							width="12em"
+							width="15em"
 							class="sapUiTinyMarginEnd"
 							change="onSelTicketChange"
 					>
@@ -30,7 +31,7 @@
 					<!-- <core:Icon src="sap-icon://sys-minus" width="1em" class="sapUiTinyMarginEnd"/> -->
 					
 					<!-- 티켓 남은개수 -->
-					<Input id="totalTicket" value="{ticketModel>/TotalCount}" width="2em" class="sapUiTinyMarginEnd" editable="false"/>
+					<Input id="totalTicket" value="{ticketModel>/TotalCount}" width="2em" class="sapUiTinyMarginEnd" editable="false" visible="false"/>
 					
 					 <!-- 티켓 추가개수 -->
 					<Input id="plusTicket" value="0" width="2em" class="sapUiTinyMarginEnd"/>
