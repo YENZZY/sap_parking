@@ -7,27 +7,40 @@
 
 	<Dialog
 		id="TicketDialog"
-		title="할인권 구매"
-		contentWidth="30%"
+		title="할인권 등록"
+		contentWidth="32%"
     >
 		<content>
 			<VBox width="100%" justifyContent="Center" alignItems="Center" class="sapUiMediumMarginTop">
 				<HBox justifyContent="Center" width="100%" alignItems="Center" class="sapUiSmallMarginBottom">
 					<Label text="차량번호" class="sapUiTinyMarginEnd"/>
-					<Input id="carNumber" value="{registerModel>/NumberPlate}" required="true" change="onChange" editable="false" class="sapUiTinyMarginEnd" width="15em"/>
+					<Input id="carNumber" value="{registerModel>/NumberPlate}" required="true" change="onChange" editable="false" class="sapUiTinyMarginEnd" width="19em"/>
 				</HBox>
 				<HBox justifyContent="Center" width="100%" alignItems="Center" class="sapUiMediumMarginBottom">
 					<Label text="티켓 종류" class="sapUiTinyMarginEnd"/>
-					<Select id="selTypeName" required="true" selectedKey="{TicketModel>/Discountuuid}" class="sapUiTinyMarginEnd">
-						<items>
-							<core:Item text="1시간 주차 할인권" key="{TicketModel>/Discountuuid}"/> 
-							<!-- {TicketModel>/DiscountName} -->
-						</items>
+					<Select id="selTicketName"
+							items="{discountModel>/}"
+							selectedKey="{ticketModel>/Discountuuid}"
+							width="12em"
+							class="sapUiTinyMarginEnd"
+							change="onSelTicketChange"
+					>
+						<core:Item key="{discountModel>Uuid}" text="{discountModel>DiscountName}" />
 					</Select>
-					<core:Icon src="sap-icon://sys-minus" width="1em" class="sapUiTinyMarginEnd"/>
-					<Input value="{TicketModel>/TotalCount}" width="2em" class="sapUiTinyMarginEnd"/>
-					<core:Icon src="sap-icon://sys-add" width="1em" />
+					<!-- <core:Icon src="sap-icon://sys-minus" width="1em" class="sapUiTinyMarginEnd"/> -->
+					
+					<!-- 티켓 남은개수 -->
+					<Input id="totalTicket" value="{ticketModel>/TotalCount}" width="2em" class="sapUiTinyMarginEnd" editable="false"/>
+					
+					 <!-- 티켓 추가개수 -->
+					<Input id="plusTicket" value="0" width="2em" class="sapUiTinyMarginEnd"/>
+					<!-- <core:Icon src="sap-icon://sys-add" width="1em" class="sapUiTinyMarginEnd"/> -->
+					<Button text="저장" width="4em" press="onSaveTicket"/>
 				</HBox>
+				<!-- <HBox>
+					<Text id="displayDiscountUuid" text="할인권 UUID" />
+					<Text id="displayTotalCount" text="총 개수" />
+				</HBox> -->
 			</VBox>
 		</content>
 		<footer>
@@ -37,7 +50,7 @@
 					<Button id= "buyTicket"
                             type="Accept"
 							text="구매"
-							press="onbuyTicket" />
+							press="onBuyTicket" />
 					
                     <Button id="cancelTicket"
 						text="취소"

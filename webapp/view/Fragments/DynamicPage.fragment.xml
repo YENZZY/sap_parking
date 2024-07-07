@@ -18,38 +18,32 @@
 						<!-- <Title text="CYE PARKING SYSTEM"/> -->
 						<!-- <Button icon="sap-icon://car-rental" type="Transparent" press=""/>
 							<c:Icon src="sap-icon://car-rental"/> -->
-							<Title text="차량 조회" />
+							<Title text="차량 조회 내역"/>
 					</f:heading>
 					<!-- <Button icon="sap-icon://decline" type="Transparent" press="onBack"/>-->
-					<f:actions>
+					<!-- <f:actions>
 						<Button press="onRegister" visible="true" text=" 정기권 등록 " type="Emphasized" ariaHasPopup="Dialog"></Button>
 						<Button press="onBuy" visible="true" text=" 할인권 등록 " type="Ghost" ariaHasPopup="Dialog"></Button>
-						<!-- <Button text="수정" type="Emphasized"/>
+						<Button text="수정" type="Emphasized"/>
 						<Button text="삭제" type="Transparent"/>
-						<Button text="Toggle Footer" type="Transparent" press="onToggleFooter"/> -->
-					</f:actions>
-					<!-- <f:navigationActions>
-					</f:navigationActions>  -->
+						<Button text="Toggle Footer" type="Transparent" press="onToggleFooter"/>
+					</f:actions> -->
+					<f:navigationActions>
+					</f:navigationActions> 
 				</f:DynamicPageTitle>
 			</f:title>
 		
 			<!-- DynamicPage Header -->
 			<f:header>
 				<f:DynamicPageHeader pinnable="true">
-					<c:Fragment fragmentName="parking.view.Fragments.searchMain" type="XML"/>
+					<c:Fragment fragmentName="parking.view.Fragments.CarPage" type="XML"/>
 				</f:DynamicPageHeader>
 			</f:header>
 			<f:content>
 				<IconTabBar id="iconTabBar" class="sapUiResponsiveContentPadding">
 					<items>
-						<IconTabFilter text="정산완료 차량" id="paidCar" visible="true">
-							<c:Fragment fragmentName="parking.view.Fragments.paidCarMain" type="XML"/>
-						</IconTabFilter>
-						<IconTabFilter text="정기권 차량" visible="true" id="ticketCar">
-							<c:Fragment fragmentName="parking.view.Fragments.Vipcar" type="XML"/>
-						</IconTabFilter>
-						<IconTabFilter text="현황 분석" id="chart" visible="true">
-							<c:Fragment fragmentName="parking.view.Fragments.Chart" type="XML"/>
+						<IconTabFilter text="할인권 보유 내역" id="myTicket" visible="true">
+							<c:Fragment fragmentName="parking.view.Fragments.TicketPage" type="XML"/>
 						</IconTabFilter>
 					</items>
 				</IconTabBar>

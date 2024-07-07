@@ -1,0 +1,71 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:f="sap.ui.layout.form"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core"
+    xmlns:l="sap.ui.layout"
+>
+<!-- 주차장 이용가능 대수 -->
+<!-- <l:VerticalLayout
+    width="100%"
+>
+    <l:content>
+        <ProgressIndicator
+            class="sapUiSmallMarginBottom"
+            percentValue="50"
+            displayValue="주차장 이용 가능 대수"
+            showValue="true"
+            state="Error"/>
+    </l:content>
+</l:VerticalLayout> -->
+<!-- 정산된 차량 내역 목록 -->
+<OverflowToolbar>
+    <Title text="할인권 보유 현황" level="H2"/>
+    <ToolbarSpacer/>
+<Button
+    tooltip="Sort"
+    icon="sap-icon://sort"
+    press="onSort"/>
+</OverflowToolbar>
+    <Table id="myticketTable"
+        inset="false"
+        items="{
+            path: 'myticketModel>/',
+            sorter: {
+                path: 'DiscountName'
+            }
+        }">
+        <columns>
+            <Column
+            width="12em">
+            <Text text="할인권명" textAlign="Center"/>
+            </Column>
+            <Column
+            width="12em">
+            <Text text="할인시간" textAlign="Center"/>
+            </Column>
+            <Column
+            width="12em">
+            <Text text="남은개수" textAlign="Center"/>
+            </Column>
+            <Column
+            width="12em">
+            <Text text="사용개수" textAlign="Center"/>
+            </Column>
+        </columns>
+        <items>
+            <ColumnListItem vAlign="Middle">
+            <cells>
+              <Text	text="{myticketModel>DiscountName}" textAlign="Center"/>
+              <Text	text="{myticketModel>DiscountTime}" textAlign="Center"/>
+              <Text	text="{myticketModel>TotalCount}" textAlign="Center"/>
+              <Text	text="{myticketModel>UsedCount}" textAlign="Center"/>
+            <HBox>
+              <Button	text="+" press="plus"/>
+              <Button	text="-" press="minus"/>
+            </HBox>
+            </cells>
+            </ColumnListItem>
+        </items>
+    </Table>
+</core:FragmentDefinition>

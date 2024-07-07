@@ -1,0 +1,39 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:f="sap.ui.layout.form"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core"
+> 
+      <!-- <Title value="{NumberPlate}" titleStyle="H4"/> -->
+        <HBox width="100%" justifyContent="Center" class="sapUiLargeMarginTop">
+            <VBox class="sapUiMediumMarginEnd">
+                <Image src="/img/car1.png" width="300px" height="235px" class="sapUiSmallMarginBottom"/>
+                <Input id="ParkingFee" editable="false"/>
+            </VBox>
+            <VBox>
+              <HBox height="100%" alignItems="Center" class="sapUiMediumMarginBottom">
+                  <Label text="차량번호" labelFor="NumberPlate" design="Bold" class="sapUiTinyMarginEnd"/>
+                  <Input id="NamePlate" type="Text" width="20em" value="{carinfoModel>/NumberPlate}" editable="false"/>
+              </HBox>
+              <HBox height="100%" alignContent="Center" class="sapUiMediumMarginBottom">
+                  <Label text="차량구분" labelFor="TypeName" design="Bold" class="sapUiTinyMarginEnd"/>
+                  <Input id="TypeName" type="Text" width="20em" value="{carinfoModel>/TypeName}" editable="false"/>
+              </HBox>
+              <HBox height="100%" alignContent="Center" class="sapUiMediumMarginBottom">
+                  <Label text="차량종류" design="Bold" class="sapUiTinyMarginEnd"/>
+                  <Input id="Brand" type="Text" width="20em" value="{carinfoModel>/Brand}" editable="false"/>
+              </HBox>
+              <HBox height="100%" alignContent="Center" class="sapUiMediumMarginBottom">
+                  <Label text="입차시간" design="Bold" class="sapUiTinyMarginEnd"/>
+                  <Input id="EntryTime" type="Text" width="20em" value="{carinfoModel>/EntryTimeFormatted}" editable="false"/>
+              </HBox>
+              <HBox height="100%" alignContent="Center" class="sapUiMediumMarginBottom">
+                  <Label text="주차시간" design="Bold" class="sapUiTinyMarginEnd"/>
+                  <Input id="ParkingTime" type="Text" width="20em" editable="false"/>
+              </HBox>
+              <HBox justifyContent="End" class="sapUiMediumMarginBottom">
+                <Button text="정산하기" press="onPay" />
+              </HBox>
+            </VBox>
+        </HBox>
+</core:FragmentDefinition>
