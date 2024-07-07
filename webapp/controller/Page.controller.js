@@ -28,7 +28,7 @@ function (Controller, JSONModel, MessageBox) {
                     this.setModel(oCarinfoModel,"carinfoModel");
                     this.calculateParkingTime();
                 }.bind(this), error: function () {
-                    MessageBox.information("지점 조회를 할 수 없습니다.");
+                    MessageBox.information("carinfoModel 조회를 할 수 없습니다.");
                 }
             });
             

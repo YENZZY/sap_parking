@@ -1,0 +1,58 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:f="sap.ui.layout.form"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core"
+    xmlns:l="sap.ui.layout"
+>
+<!-- 주차장 이용가능 대수 -->
+<!-- <l:VerticalLayout
+    width="100%"
+>
+    <l:content>
+        <ProgressIndicator
+            class="sapUiSmallMarginBottom"
+            percentValue="50"
+            displayValue="주차장 이용 가능 대수"
+            showValue="true"
+            state="Error"/>
+    </l:content>
+</l:VerticalLayout> -->
+
+<!-- 정산된 차량 내역 목록 -->
+<OverflowToolbar>
+    <Title text="정기권 차량 현황" level="H2"/>
+    <ToolbarSpacer/>
+<Button
+    tooltip="Sort"
+    icon="sap-icon://sort"
+    press="onSort"/>
+</OverflowToolbar>
+    <Table id="VipcarTable"
+        inset="false"
+        items="{
+            path: 'vipcarModel>/',
+            sorter: {
+                path: 'NumberPlate'
+            }
+        }">
+        <columns>
+            <Column
+            width="12em">
+            <Text text="차량번호" textAlign="Center"/>
+            </Column>
+            <Column
+            width="12em">
+            <Text text="차량종류" textAlign="Center"/>
+            </Column>
+        </columns>
+        <items>
+            <ColumnListItem vAlign="Middle">
+            <cells>
+            <Text	text="{vipcarModel>NumberPlate}" textAlign="Center"/>
+            <Text	text="{vipcarModel>Brand}" textAlign="Center"/>
+            </cells>
+            </ColumnListItem>
+        </items>
+    </Table>
+</core:FragmentDefinition>

@@ -14,3 +14,4 @@
     <Button text="정산하기" press="onPay"></Button>
   </Panel>
 </core:FragmentDefinition>
+<!-- x 사용안함 -->

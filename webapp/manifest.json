@@ -33,6 +33,33 @@
           "localUri": "localService/metadata.xml",
           "odataVersion": "2.0"
         }
+      },
+      "mainService3": {
+        "uri": "/sap/opu/odata/sap/YAPI_CARTYPE_YE/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "localUri": "localService/metadata.xml",
+          "odataVersion": "2.0"
+        }
+      },
+      "mainService4": {
+        "uri": "/sap/opu/odata/sap/YAPI_VIPCAR_YE/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "localUri": "localService/metadata.xml",
+          "odataVersion": "2.0"
+        }
+      },
+      "mainService5": {
+        "uri": "/sap/opu/odata/sap/YAPI_CARDETAIL_YE/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "localUri": "localService/metadata.xml",
+          "odataVersion": "2.0"
+        }
       }
     }
   },
@@ -86,6 +113,21 @@
       },
       "discountData": {
         "dataSource": "mainService2",
+        "preload": true,
+        "settings": {}
+      },
+      "cartypeData": {
+        "dataSource": "mainService3",
+        "preload": true,
+        "settings": {}
+      },
+      "vipcarData": {
+        "dataSource": "mainService4",
+        "preload": true,
+        "settings": {}
+      },
+      "cardetailData": {
+        "dataSource": "mainService5",
         "preload": true,
         "settings": {}
       }

@@ -1,0 +1,44 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:f="sap.ui.layout.form"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core"
+>
+<!-- <OverflowToolbar>
+			<core:Icon src="sap-icon://car-rental"></core:Icon>
+			<Title text="차량 조회" titleStyle="H4"/>
+			<ToolbarSpacer/>
+			<Button press="onRegister" visible="true" text=" 정기권 등록 " type="Emphasized" ariaHasPopup="Dialog"></Button>
+			<Button press="onBuy" visible="true" text=" 할인권 구매 " type="Ghost" ariaHasPopup="Dialog"></Button>
+		</OverflowToolbar> -->
+		<Toolbar width="100%" style="Clear" class="sapUiSmallMargin">
+			<ToolbarSpacer/>
+			<Input id="findNumber" width="50%" placeholder="차량번호 4자리를 입력해주세요."/>
+        	<core:Icon src="sap-icon://search" press="onSearch" size="1.5em" color="#0484fc"/>
+			<ToolbarSpacer/>
+		</Toolbar>
+
+		<!-- 차량번호 조회 -->
+			<VBox width="100%" class="sapUiLargeMarginBottom">
+			<HBox width="100%" justifyContent="Center">
+				<Button text="1" press="onClick"></Button>
+				<Button text="2" press="onClick"></Button>
+				<Button text="3" press="onClick"></Button>
+			</HBox>
+			<HBox width="100%" justifyContent="Center">
+				<Button text="4" press="onClick"></Button>
+				<Button text="5" press="onClick"></Button>
+				<Button text="6" press="onClick"></Button>
+			</HBox>
+			<HBox width="100%" justifyContent="Center">
+				<Button text="7" press="onClick"></Button>
+				<Button text="8" press="onClick"></Button>
+				<Button text="9" press="onClick"></Button>
+			</HBox>
+			<HBox width="100%" justifyContent="Center">
+				<Button text="⌫" press="onClear"></Button>
+				<Button text="0" press="onClick"></Button>
+				<Button text="⏎" press="onSearch"></Button>
+			</HBox>
+			</VBox>
+</core:FragmentDefinition>

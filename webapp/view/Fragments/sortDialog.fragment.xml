@@ -1,0 +1,13 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<ViewSettingsDialog
+		confirm="SortDialog">
+		<sortItems>
+			<ViewSettingsItem text="차량번호" key="NumberPlate" />
+			<ViewSettingsItem text="차량구분" key="TypeName" />
+			<ViewSettingsItem text="차량종류" key="Brand" />
+			<ViewSettingsItem text="출차시간" key="ExitTime" selected="true"/>
+		</sortItems>
+	</ViewSettingsDialog>
+</core:FragmentDefinition>
