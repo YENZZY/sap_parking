@@ -389,12 +389,6 @@ function (Controller, JSONModel, MessageBox,Sorter,Filter,FilterOperator,Fragmen
                                 MessageBox.information("정기권이 등록되어있는 차량입니다.");
                             }
                         }
-                        // else {
-                        //     this.carDialogEditableOk();
-                        //     MessageBox.information("차량번호가 조회되지 않습니다.");
-                        //     oSearch.setValue(""); // 검색 필드 초기화
-                        //     this.oDialog.close();
-                        // }
                     }.bind(this),
                     error: function () {
                         MessageBox.error("해당하는 차량번호가 없습니다.");
@@ -437,7 +431,6 @@ function (Controller, JSONModel, MessageBox,Sorter,Filter,FilterOperator,Fragmen
                         // 정기권 차량 테이블에 등록
                         oVipcarModel.create("/Vipcar",{
                         NumberPlate : saveCarData.NumberPlate,
-                        Brand : saveCarData.Brand
                        });
 
                             MessageBox.success("차량 정보가 성공적으로 업데이트되었습니다.");
@@ -462,12 +455,9 @@ function (Controller, JSONModel, MessageBox,Sorter,Filter,FilterOperator,Fragmen
              // 정기권 차량 테이블에 등록
              oVipcarModel.create("/Vipcar",{
                 NumberPlate : saveCarData.NumberPlate,
-                Brand : saveCarData.Brand
                });
                MessageBox.success("차량 정보가 성공적으로 업데이트되었습니다.");
                 this.oDialog.close();
-               console.log("vipcar",oVipcarModel);
-               console.log("number",saveCarData.NumberPlate);
                 // vipcarModel 재실행(갱신)
                 this._getData();
             }
@@ -478,16 +468,12 @@ function (Controller, JSONModel, MessageBox,Sorter,Filter,FilterOperator,Fragmen
             // 다이얼로그가 닫힐 때 입력 필드의 값을 초기화
             var oTypeName = this.byId("SelTypeName");
             var oNumberPlate = this.byId("inputNumberPlate");
-            var oBrand = this.byId("inputBrand");
         
             if (oTypeName) {
                 oTypeName.setSelectedKey(""); // Select의 선택된 키 초기화
             }
             if (oNumberPlate) {
                 oNumberPlate.setValue(""); // Input 필드의 값 초기화
-            }
-            if (oBrand) {
-                oBrand.setValue(""); // Input 필드의 값 초기화
             }
         
             this.oDialog.close();
@@ -519,13 +505,11 @@ function (Controller, JSONModel, MessageBox,Sorter,Filter,FilterOperator,Fragmen
     carDialogEditableOk: function () {
         this.byId("inputTypeName").setVisible(false);
         this.byId("inputNumberPlate").setEditable(true);
-        this.byId("inputBrand").setEditable(true);
     },
 
     carDialogEditable: function () {
         this.byId("inputTypeName").setVisible(true);
         this.byId("inputNumberPlate").setEditable(false);
-        this.byId("inputBrand").setEditable(false);
     },
 
     oGrids: function () {

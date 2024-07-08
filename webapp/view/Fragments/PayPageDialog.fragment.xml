@@ -1,0 +1,64 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:f="sap.ui.layout.form"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core"
+>
+	<Dialog
+		id="payDialog"
+		title="주차 요금 정산"
+        contentWidth="25%"
+    >
+		<content>
+			<VBox>
+				<f:SimpleForm id="payMoney"
+					editable="true"
+					layout="ColumnLayout"
+					columnsM="1"
+					columnsL="1"
+					columnsXL="1"
+                    >
+					<f:content>
+						<Label text="차량번호" design="Bold" class="sapUiTinyMarginEnd"/>
+						    <Input id="payNumberPlate" value="{carinfoModel>/NumberPlate}" required="true" change="onChange" editable="false" class="sapUiTinyMarginBottom"/>
+                        <Label text="주차시간" design="Bold" class="sapUiTinyMarginEnd"/>
+                            <Text id="payParkingTime" text="{carinfoModel>/ParkingTime}" class="sapUiTinyMarginBottom"/>
+                        <Label text="요금" labelFor="payFee" design="Bold" class="sapUiTinyMarginEnd"/>
+                            <ObjectNumber
+                                id="PayFee"
+                                number="{carinfoModel>/ParkingFee}"
+                                unit="원"           
+                            />
+                        <Text text="(할인 금액" width="70%"/>
+                            <ObjectNumber
+                                id="PayDisFee"
+                                number="{carinfoModel>/ParkingDisFee}"
+                                unit="원)"
+                                state="Error"
+                                class="sapUiTinyMarginBottom"
+                            />
+                        <Label text="요금 납부" design="Bold" class="sapUiTinyMarginEnd sapUiTinyMarginBottom"/>
+                        <Input id="PayMoney" placeholder="납부하실 금액을 입력해주세요." class="sapUiTinyMarginBottom"/>
+					</f:content>
+				</f:SimpleForm>
+			</VBox>
+		</content>
+		<footer>
+			<Toolbar>
+            <ToolbarSpacer/>
+				<content>
+					<Button id= "payTicket"
+                            type="Accept"
+							text="결제"
+							press="onPayTicket" visible="true"/>
+					
+                    <Button id="cancelPay"
+						text="취소"
+						type="Reject"
+						press="onClosePay"
+						ariaHasPopup="Dialog" visible="true"/>
+				</content>
+			</Toolbar>
+		</footer>
+	</Dialog>
+</core:FragmentDefinition>

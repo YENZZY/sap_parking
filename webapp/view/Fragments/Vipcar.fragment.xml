@@ -41,16 +41,11 @@
             width="12em">
             <Text text="차량번호" textAlign="Center"/>
             </Column>
-            <Column
-            width="12em">
-            <Text text="차량종류" textAlign="Center"/>
-            </Column>
         </columns>
         <items>
             <ColumnListItem vAlign="Middle">
             <cells>
             <Text	text="{vipcarModel>NumberPlate}" textAlign="Center"/>
-            <Text	text="{vipcarModel>Brand}" textAlign="Center"/>
             </cells>
             </ColumnListItem>
         </items>

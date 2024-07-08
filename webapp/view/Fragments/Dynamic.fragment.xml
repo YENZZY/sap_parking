@@ -36,14 +36,14 @@
 			<!-- DynamicPage Header -->
 			<f:header>
 				<f:DynamicPageHeader pinnable="true">
-					<c:Fragment fragmentName="parking.view.Fragments.searchMain" type="XML"/>
+					<c:Fragment fragmentName="parking.view.Fragments.SearchMain" type="XML"/>
 				</f:DynamicPageHeader>
 			</f:header>
 			<f:content>
 				<IconTabBar id="iconTabBar" class="sapUiResponsiveContentPadding">
 					<items>
 						<IconTabFilter text="정산완료 차량" id="paidCar" visible="true">
-							<c:Fragment fragmentName="parking.view.Fragments.paidCarMain" type="XML"/>
+							<c:Fragment fragmentName="parking.view.Fragments.PaidCarMain" type="XML"/>
 						</IconTabFilter>
 						<IconTabFilter text="정기권 차량" visible="true" id="ticketCar">
 							<c:Fragment fragmentName="parking.view.Fragments.Vipcar" type="XML"/>

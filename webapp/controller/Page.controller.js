@@ -46,19 +46,19 @@ function (Controller, JSONModel, MessageBox) {
             });
         },
 
+        // 주차요금 계산하기 (할인 쿠폰 적용)
         calculateParkingTime: function () {
-            debugger;
             var oCarinfoModel = this.getView().getModel("carinfoModel");
             var oMyticketModel = this.getView().getModel("myticketModel");
-        
+
             if (!oCarinfoModel) {
                 MessageBox.error("carinfoModel을 찾을 수 없습니다.");
                 return;
             }
-        
+
             var entryTime = oCarinfoModel.getProperty("/EntryTime");
             var typeName = oCarinfoModel.getProperty("/TypeName");
-        
+
             if (entryTime) {
                 var entryDate = new Date(entryTime);
                 var currentTime = new Date();
@@ -66,33 +66,33 @@ function (Controller, JSONModel, MessageBox) {
                 var oParkingTime = currentTime.getTime() - entryDate.getTime();
                 var oParkingHour = Math.floor(oParkingTime / (1000 * 60 * 60)); // 시간
                 var oParkingMinutes = Math.floor((oParkingTime % (1000 * 60 * 60)) / (1000 * 60)); // 분
-        
+
                 var fee = (oParkingHour + (oParkingMinutes > 0 ? 1 : 0)) * 1000;
-        
+
                 var ofee = this.byId("ParkingFee");
                 var oPkTime = this.byId("ParkingTime");
                 var oDisFeeId = this.byId("ParkingDisFee");
-        
+
                 var totalDisTime = 0;
                 var totalDisFee = 0;
-        
+
                 if (oMyticketModel && oMyticketModel.getProperty("/").length) {
                     oMyticketModel.getProperty("/").forEach(function (item) {
                         totalDisTime += item.UsedCount * item.DiscountTime;
                         totalDisFee += item.UsedCount * item.DiscountTime * 1000;
                     });
                 }
-        
+
                 var discountedParkingHours = oParkingHour - totalDisTime;
                 var discountedFee = fee - totalDisFee;
-        
+
                 if (oPkTime) {
                     var parkingTimeText = discountedParkingHours + " 시간 " + oParkingMinutes + " 분";
                     oPkTime.setText(parkingTimeText);
                 } else {
                     MessageBox.error("주차 시간 데이터를 불러오지 못했습니다.");
                 }
-        
+
                 if (ofee) {
                     if (typeName === "정기권 차량") {
                         ofee.setNumber(0);
@@ -105,143 +105,167 @@ function (Controller, JSONModel, MessageBox) {
                 } else {
                     MessageBox.error("주차 요금 데이터를 불러오지 못했습니다.");
                 }
-            }
-        },        
 
-        //할인 요금 구하기
-        ParkingDisFee: function () {
-            oMyticketModel = this.getView().getModel("myticketModel");
-            oParkingTime = this.byId("ParkingTime");
-            oParkingFee = this.byId("ParkingDisFee");
+                // myticketModel에 주차 요금과 주차 시간 저장
+                if (oMyticketModel) {
+                    oMyticketModel.setProperty("/ParkingFee", discountedFee);
+                    oMyticketModel.setProperty("/ParkingDisFee",totalDisFee);
+                    oMyticketModel.setProperty("/ParkingTime", parkingTimeText);
+                }
+            }
+        },
+
+         //정산 버튼 클릭시 이동
+         onPay: function () {
+            var oRegisterData = this.getView().getModel("carinfoModel");
+            var oMyticketData = this.getView().getModel("myticketModel");
+            var carinfoUuid = oRegisterData.Uuid;
+            if(!this.oPayDialog){
+                this.oPayDialog = this.loadFragment({
+                    name: "parking.view.Fragments.PayPageDialog"
+                });
+            }
+            this.oPayDialog.then(function (oDialog){
+                this.oDialog = oDialog;
             
-            // ticketuuid = oMyticketModel.getProperty("/Uuid");
+            
+            
+            this.oDialog.open();
 
-            console.log(usedTicket);
-            console.log(oMyticketData);
-            console.log(ticketuuid);
-            if(oMyticketModel){ 
-                this.forEach(item => {
-                   var TotalFee =+ DiscountTime * UsedTicket * 1000; 
-                   var TotalTime =+ DiscountTime * UsedTicket;
-                });
-                oParkingTime
+            }.bind(this));
+         },
+        
+        //  정산하기 결제 
+        onPayTicket: function () {
+            var carinfoData = this.getView().getModel("carinfoModel");
+            var myticketData = this.getView().getModel("myticketModel");
+            var cardetailModel = this.getOwnerComponent().getModel("cardetailData");
+            
+            cardetailModel.create("/Cardetail",{
+                
+            })
 
-
-
-            }
-        },
-
-        // 할인권 +
-        onPlus: function () {
-            var oTable = this.byId("myticketTable"); // 테이블 객체 가져오기
-            var aSelectedIndex = oTable.getSelectedIndex(); // 선택된 행 인덱스 가져오기
-        
-            if (aSelectedIndex === -1) {
-                MessageBox.error("할인권을 선택해주세요.");
-                return;
-            }
-        
-            var oMyticketModel = this.getView().getModel("myticketModel"); // 모델 가져오기
-            var oMainModel = this.getOwnerComponent().getModel(); // 메인 모델 가져오기
-            var oMyticketData = oMyticketModel.getData(); // 모델 데이터 가져오기
-        
-            var oRowData = oMyticketData[aSelectedIndex]; // 선택된 행 데이터 가져오기
-        
-            if (oRowData.TotalCount > 0) {
-                oRowData.TotalCount--; // 남은 개수 감소
-                oRowData.UsedCount++; // 사용된 개수 증가
-        
-                // UI에서 판매 버튼 비활성화
-                if (oRowData.TotalCount === 0) {
-                    var oButton = this.byId("onPlus"); // Plus 버튼 가져오기
-                    oButton.setEnabled(false); // 버튼 비활성화
-                }
-        
-                // Item 엔티티 업데이트
-                this.updateItem(oMainModel, oRowData.Uuid, oRowData.Parentsuuid, oRowData.TotalCount, oRowData.UsedCount)
-                    .then(function() {
-                        // 업데이트 성공 시 처리
-                        MessageBox.success("선택된 할인권이 판매 처리되었습니다.");
-                    })
-                    .catch(function(err) {
-                        // 업데이트 실패 시 처리
-                        MessageBox.error("할인권 업데이트에 실패하였습니다.");
-                    })
-                    .finally(function() {
-                        // 모든 데이터 업데이트 후, UI 모델 다시 설정
-                        oMyticketModel.setData(oMyticketData);
-                    });
-            }
 
         },
-        // 할인권 -
-        onMinus: function() {
-            var oTable = this.byId("myticketTable"); // 테이블 객체 가져오기
-            var aSelectedIndex = oTable.getSelectedIndex(); // 선택된 행 인덱스 가져오기
-        
-            if (aSelectedIndex === -1) {
-                MessageBox.error("할인권을 선택해주세요.");
-                return;
-            }
-        
-            var oMyticketModel = this.getView().getModel("myticketModel"); // 모델 가져오기
-            var oMainModel = this.getOwnerComponent().getModel(); // 메인 모델 가져오기
-            var oMyticketData = oMyticketModel.getData(); // 모델 데이터 가져오기
-        
-            var oRowData = oMyticketData[aSelectedIndex]; // 선택된 행 데이터 가져오기
-        
-            if (oRowData.TotalCount > 0) {
-                oRowData.TotalCount -= 1; // 남은 개수 감소
-                oRowData.UsedCount += 1; // 사용된 개수 증가
-        
-                // UI에서 판매 버튼 비활성화
-                if (oRowData.TotalCount === 0) {
-                    var oButton = this.byId("onPlus"); // Plus 버튼 가져오기
-                    oButton.setEnabled(false); // 버튼 비활성화
-                }
-        
-                // Item 엔티티 업데이트
-                this.updateItem(oMainModel, oRowData.Uuid, oRowData.Parentsuuid, oRowData.TotalCount, oRowData.UsedCount)
-                    .then(function() {
-                        // 업데이트 성공 시 처리
-                        MessageBox.success("선택된 할인권이 판매 처리되었습니다.");
-                    })
-                    .catch(function(err) {
-                        // 업데이트 실패 시 처리
-                        MessageBox.error("할인권 업데이트에 실패하였습니다.");
-                    })
-                    .finally(function() {
-                        // 모든 데이터 업데이트 후, UI 모델 다시 설정
-                        oMyticketModel.setData(oMyticketData);
-                    });
-            }
-        },
-        
-        // Item 엔티티 업데이트 함수
-        updateItem: function(oMainModel, Uuid, Parentsuuid, TotalCount, UsedCount) {
-            var itemPath = "/Ticket(Uuid=guid'" + Uuid + "', Parentsuuid=guid'" + Parentsuuid + "')";
-            var oItemData = {
-                Uuid: Uuid,
-                Parentsuuid: Parentsuuid,
-                TotalCount: TotalCount,
-                UsedCount: UsedCount
-            };
-        
-            return new Promise(function(resolve, reject) {
-                oMainModel.update(itemPath, oItemData, {
-                    success: function(oData) {
-                        resolve(oData);
-                    },
-                    error: function(err) {
-                        reject(err);
-                    }
-                });
-            });
-        },
+        // 정산하기 다이얼로그 닫기
+        onClosePay: function () {
+            var oInputPay = this.byId("PayMoney");
 
-        //정산 버튼 클릭시 이동
-        onPay: function () {
+            if(oInputPay){
+                oInputPay.setValue("");
+            }
 
+            this.oDialog.close();
         }
+
+
+        // // 할인권 +
+        // onPlus: function () {
+        //     var oTable = this.byId("myticketTable"); // 테이블 객체 가져오기
+        //     var aSelectedIndex = oTable.getSelectedIndex(); // 선택된 행 인덱스 가져오기
+        
+        //     if (aSelectedIndex === -1) {
+        //         MessageBox.error("할인권을 선택해주세요.");
+        //         return;
+        //     }
+        
+        //     var oMyticketModel = this.getView().getModel("myticketModel"); // 모델 가져오기
+        //     var oMainModel = this.getOwnerComponent().getModel(); // 메인 모델 가져오기
+        //     var oMyticketData = oMyticketModel.getData(); // 모델 데이터 가져오기
+        
+        //     var oRowData = oMyticketData[aSelectedIndex]; // 선택된 행 데이터 가져오기
+        
+        //     if (oRowData.TotalCount > 0) {
+        //         oRowData.TotalCount--; // 남은 개수 감소
+        //         oRowData.UsedCount++; // 사용된 개수 증가
+        
+        //         // UI에서 판매 버튼 비활성화
+        //         if (oRowData.TotalCount === 0) {
+        //             var oButton = this.byId("onPlus"); // Plus 버튼 가져오기
+        //             oButton.setEnabled(false); // 버튼 비활성화
+        //         }
+        
+        //         // Item 엔티티 업데이트
+        //         this.updateItem(oMainModel, oRowData.Uuid, oRowData.Parentsuuid, oRowData.TotalCount, oRowData.UsedCount)
+        //             .then(function() {
+        //                 // 업데이트 성공 시 처리
+        //                 MessageBox.success("선택된 할인권이 판매 처리되었습니다.");
+        //             })
+        //             .catch(function(err) {
+        //                 // 업데이트 실패 시 처리
+        //                 MessageBox.error("할인권 업데이트에 실패하였습니다.");
+        //             })
+        //             .finally(function() {
+        //                 // 모든 데이터 업데이트 후, UI 모델 다시 설정
+        //                 oMyticketModel.setData(oMyticketData);
+        //             });
+        //     }
+
+        // },
+        // // 할인권 -
+        // onMinus: function() {
+        //     var oTable = this.byId("myticketTable"); // 테이블 객체 가져오기
+        //     var aSelectedIndex = oTable.getSelectedIndex(); // 선택된 행 인덱스 가져오기
+        
+        //     if (aSelectedIndex === -1) {
+        //         MessageBox.error("할인권을 선택해주세요.");
+        //         return;
+        //     }
+        
+        //     var oMyticketModel = this.getView().getModel("myticketModel"); // 모델 가져오기
+        //     var oMainModel = this.getOwnerComponent().getModel(); // 메인 모델 가져오기
+        //     var oMyticketData = oMyticketModel.getData(); // 모델 데이터 가져오기
+        
+        //     var oRowData = oMyticketData[aSelectedIndex]; // 선택된 행 데이터 가져오기
+        
+        //     if (oRowData.TotalCount > 0) {
+        //         oRowData.TotalCount -= 1; // 남은 개수 감소
+        //         oRowData.UsedCount += 1; // 사용된 개수 증가
+        
+        //         // UI에서 판매 버튼 비활성화
+        //         if (oRowData.TotalCount === 0) {
+        //             var oButton = this.byId("onPlus"); // Plus 버튼 가져오기
+        //             oButton.setEnabled(false); // 버튼 비활성화
+        //         }
+        
+        //         // Item 엔티티 업데이트
+        //         this.updateItem(oMainModel, oRowData.Uuid, oRowData.Parentsuuid, oRowData.TotalCount, oRowData.UsedCount)
+        //             .then(function() {
+        //                 // 업데이트 성공 시 처리
+        //                 MessageBox.success("선택된 할인권이 판매 처리되었습니다.");
+        //             })
+        //             .catch(function(err) {
+        //                 // 업데이트 실패 시 처리
+        //                 MessageBox.error("할인권 업데이트에 실패하였습니다.");
+        //             })
+        //             .finally(function() {
+        //                 // 모든 데이터 업데이트 후, UI 모델 다시 설정
+        //                 oMyticketModel.setData(oMyticketData);
+        //             });
+        //     }
+        // },
+        
+        // // Item 엔티티 업데이트 함수
+        // updateItem: function(oMainModel, Uuid, Parentsuuid, TotalCount, UsedCount) {
+        //     var itemPath = "/Ticket(Uuid=guid'" + Uuid + "', Parentsuuid=guid'" + Parentsuuid + "')";
+        //     var oItemData = {
+        //         Uuid: Uuid,
+        //         Parentsuuid: Parentsuuid,
+        //         TotalCount: TotalCount,
+        //         UsedCount: UsedCount
+        //     };
+        
+        //     return new Promise(function(resolve, reject) {
+        //         oMainModel.update(itemPath, oItemData, {
+        //             success: function(oData) {
+        //                 resolve(oData);
+        //             },
+        //             error: function(err) {
+        //                 reject(err);
+        //             }
+        //         });
+        //     });
+        // },
+
     });
 });
