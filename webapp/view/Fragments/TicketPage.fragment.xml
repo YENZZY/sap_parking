@@ -46,29 +46,29 @@
             </Column>
             <Column
             width="12em">
-            <Text text="남은개수" textAlign="Center"/>
+            <Text text="사용한 개수" textAlign="Center"/>
             </Column>
-            <Column
+            <!-- <Column
             width="12em">
             <Text text="사용개수" textAlign="Center"/>
             </Column>
              <Column
             width="12em">
             <Text text="할인권 사용" textAlign="Center"/>
-            </Column>
+            </Column> -->
         </columns>
         <items>
             <ColumnListItem vAlign="Middle">
             <cells>
               <Text	text="{myticketModel>DiscountName}" textAlign="Center"/>
               <Text	text="{myticketModel>DiscountTime}" textAlign="Center"/>
-              <Text	text="{myticketModel>TotalCount}" textAlign="Center"/>
-              <Text	text="{myticketModel>UsedCount}"/>
+              <Text	text="{myticketModel>UsedCount}" textAlign="Center"/>
+              <!-- <Text	text="{myticketModel>UsedCount}"/> -->
              
-            <HBox>
+            <!-- <HBox>
               <Button	text="﹢" press="onPlus" class="sapUiTinyMarginEnd" type="Accept"/>
               <Button	text="⧿" press="onMinus" type="Reject"/>
-            </HBox>
+            </HBox> -->
             </cells>
             </ColumnListItem>
         </items>

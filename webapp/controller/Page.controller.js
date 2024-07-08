@@ -46,21 +46,17 @@ function (Controller, JSONModel, MessageBox) {
             });
         },
 
-        //주차시간 구하기
         calculateParkingTime: function () {
-            
             var oCarinfoModel = this.getView().getModel("carinfoModel");
-
+        
             if (!oCarinfoModel) {
-
                 MessageBox.error("carinfoModel을 찾을 수 없습니다.");
                 return;
-            
             }
-
+        
             var entryTime = oCarinfoModel.getProperty("/EntryTime");
             var typeName = oCarinfoModel.getProperty("/TypeName");
-
+        
             if (entryTime) {
                 var entryDate = new Date(entryTime);
                 var currentTime = new Date();
@@ -68,38 +64,36 @@ function (Controller, JSONModel, MessageBox) {
                 var oParkingTime = currentTime.getTime() - entryDate.getTime();
                 var oParkingHour = Math.floor(oParkingTime / (1000 * 60 * 60)); // 시간
                 var oParkingMinutes = Math.floor((oParkingTime % (1000 * 60 * 60)) / (1000 * 60)); // 분
-
+        
                 var fee = (oParkingHour + (oParkingMinutes > 0 ? 1 : 0)) * 1000;
-                
-                var ofee = this.byId("ParkingFee")
+        
+                var ofee = this.byId("ParkingFee");
                 var oPkTime = this.byId("ParkingTime");
-
+        
                 if (oPkTime) {
-                
-                    oPkTime.setValue(oParkingHour + " 시간 " + oParkingMinutes + " 분");
-                
+                    oPkTime.setText(oParkingHour + " 시간 " + oParkingMinutes + " 분");
                 } else {
-                
                     MessageBox.error("주차 시간 데이터를 불러오지 못했습니다.");
-                
                 }
-                
+        
                 if (ofee) {
-                    if(typeName==="정기권 차량"){
-
-                        ofee.setValue("요금 : " + 0 + " 원");
-
+                    if (typeName === "정기권 차량") {
+                        ofee.setNumber(0);
                     } else {
-
-                    ofee.setValue("요금 : " + fee + " 원");
-
+                        ofee.setNumber(fee);
                     }
                 } else {
-                
                     MessageBox.error("주차 요금 데이터를 불러오지 못했습니다.");
-                
                 }
             }
+        },
+
+        //할인 요금 구하기
+        ondisfee: function () {
+            oMyticketData = this.getModel("myticketModel").getData();
+            usedTicket = oMyticketData.TotalCount;
+            console.log(usedTicket);
+            console.log(oMyticketData);
         },
 
         // 할인권 +

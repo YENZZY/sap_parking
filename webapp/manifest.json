@@ -51,20 +51,25 @@
           "localUri": "localService/metadata.xml",
           "odataVersion": "2.0"
         }
-      },
-      "mainService5": {
-        "uri": "/sap/opu/odata/sap/YAPI_CARDETAIL_YE/",
-        "type": "OData",
-        "settings": {
-          "annotations": [],
-          "localUri": "localService/metadata.xml",
-          "odataVersion": "2.0"
+      }
+    },
+    "crossNavigation": {
+      "inbounds": {
+        "clc-main": {
+          "semanticObject": "clc",
+          "action": "main",
+          "title": "{{flpTitle}}",
+          "subTitle": "{{flpSubtitle}}",
+          "signature": {
+            "parameters": {},
+            "additionalParameters": "allowed"
+          }
         }
       }
     }
   },
   "sap.ui": {
-    "fullWidth" : true,
+    "fullWidth": true,
     "technology": "UI5",
     "icons": {
       "icon": "",
@@ -123,11 +128,6 @@
       },
       "vipcarData": {
         "dataSource": "mainService4",
-        "preload": true,
-        "settings": {}
-      },
-      "cardetailData": {
-        "dataSource": "mainService5",
         "preload": true,
         "settings": {}
       }

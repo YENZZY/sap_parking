@@ -12,7 +12,7 @@
     >
 		<content>
 			<VBox width="100%" justifyContent="Center" alignItems="Center" class="sapUiMediumMarginTop">
-				<Image src="/img/carticket.jpg" width="26em" height="16em" class="sapUiMediumMarginBottom" visible="true"/>
+				<Image src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSOdl7LIRHxhY9t52dzi8sxzKXwWdD6a9LJySuJW5sl5C2zj8cR" width="26em" height="16em" class="sapUiMediumMarginBottom" visible="true"/>
 				<HBox justifyContent="Center" width="100%" alignItems="Center" class="sapUiSmallMarginBottom">
 					<Label text="차량번호" class="sapUiTinyMarginEnd"/>
 					<Input id="carNumber" value="{registerModel>/NumberPlate}" required="true" change="onChange" editable="false" class="sapUiTinyMarginEnd" width="20em"/>
