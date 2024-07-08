@@ -16,10 +16,11 @@
                         unit="원"
                         class="sapUiTinyMarginEnd"
                     />
+                    <Label text="( 할인 금액 :" labelFor="parkingDisFee" design="Bold" class="sapUiTinyMarginEnd"/>
                     <ObjectNumber
                         id="ParkingDisFee"
-                        number="222"
-                        unit="원"
+                        number=""
+                        unit="원 )"
                         state="Error"
                     />
                 </HBox>

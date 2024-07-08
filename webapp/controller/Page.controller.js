@@ -29,7 +29,6 @@ function (Controller, JSONModel, MessageBox) {
                 success: function (oData) {
                     var oCarinfoModel = new JSONModel(oData);
                     this.setModel(oCarinfoModel,"carinfoModel");
-                    this.calculateParkingTime();
                 }.bind(this), error: function () {
                     MessageBox.information("carinfoModel 조회를 할 수 없습니다.");
                 }
@@ -40,6 +39,7 @@ function (Controller, JSONModel, MessageBox) {
                     console.log(oData2);
                     var oMyTicketModel = new JSONModel(oData2.results);
                     this.setModel(oMyTicketModel,"myticketModel");
+                    this.calculateParkingTime();
                 }.bind(this), error: function () {
                     MessageBox.information("myticketModel 조회를 할 수 없습니다.");
                 }
@@ -47,7 +47,9 @@ function (Controller, JSONModel, MessageBox) {
         },
 
         calculateParkingTime: function () {
+            debugger;
             var oCarinfoModel = this.getView().getModel("carinfoModel");
+            var oMyticketModel = this.getView().getModel("myticketModel");
         
             if (!oCarinfoModel) {
                 MessageBox.error("carinfoModel을 찾을 수 없습니다.");
@@ -69,9 +71,24 @@ function (Controller, JSONModel, MessageBox) {
         
                 var ofee = this.byId("ParkingFee");
                 var oPkTime = this.byId("ParkingTime");
+                var oDisFeeId = this.byId("ParkingDisFee");
+        
+                var totalDisTime = 0;
+                var totalDisFee = 0;
+        
+                if (oMyticketModel && oMyticketModel.getProperty("/").length) {
+                    oMyticketModel.getProperty("/").forEach(function (item) {
+                        totalDisTime += item.UsedCount * item.DiscountTime;
+                        totalDisFee += item.UsedCount * item.DiscountTime * 1000;
+                    });
+                }
+        
+                var discountedParkingHours = oParkingHour - totalDisTime;
+                var discountedFee = fee - totalDisFee;
         
                 if (oPkTime) {
-                    oPkTime.setText(oParkingHour + " 시간 " + oParkingMinutes + " 분");
+                    var parkingTimeText = discountedParkingHours + " 시간 " + oParkingMinutes + " 분";
+                    oPkTime.setText(parkingTimeText);
                 } else {
                     MessageBox.error("주차 시간 데이터를 불러오지 못했습니다.");
                 }
@@ -80,20 +97,38 @@ function (Controller, JSONModel, MessageBox) {
                     if (typeName === "정기권 차량") {
                         ofee.setNumber(0);
                     } else {
-                        ofee.setNumber(fee);
+                        ofee.setNumber(discountedFee);
+                        if (oDisFeeId) {
+                            oDisFeeId.setNumber(totalDisFee);
+                        }
                     }
                 } else {
                     MessageBox.error("주차 요금 데이터를 불러오지 못했습니다.");
                 }
             }
-        },
+        },        
 
         //할인 요금 구하기
-        ondisfee: function () {
-            oMyticketData = this.getModel("myticketModel").getData();
-            usedTicket = oMyticketData.TotalCount;
+        ParkingDisFee: function () {
+            oMyticketModel = this.getView().getModel("myticketModel");
+            oParkingTime = this.byId("ParkingTime");
+            oParkingFee = this.byId("ParkingDisFee");
+            
+            // ticketuuid = oMyticketModel.getProperty("/Uuid");
+
             console.log(usedTicket);
             console.log(oMyticketData);
+            console.log(ticketuuid);
+            if(oMyticketModel){ 
+                this.forEach(item => {
+                   var TotalFee =+ DiscountTime * UsedTicket * 1000; 
+                   var TotalTime =+ DiscountTime * UsedTicket;
+                });
+                oParkingTime
+
+
+
+            }
         },
 
         // 할인권 +
