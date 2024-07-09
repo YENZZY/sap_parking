@@ -1,0 +1,17 @@
+<!-- Ticket Dialog 할인권 등록에서 + 버튼 클릭 시 할인권 추가 가능 -->
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form">
+    <Label text="티켓 종류" design="Bold"/>
+    <Select id="selTicketName" items="{discountModel>/}" selectedKey="{ticketModel>/Discountuuid}" width="15rem" change="onSelTicketChange">
+        <core:Item key="{discountModel>Uuid}" text="{discountModel>DiscountName}"/>
+    </Select>
+    <Input id="UsedTicket" value="{ticketModel>/UsedCount}" width="2rem">
+        <layoutData>
+            <f:ColumnElementData cellsSmall="2" cellsLarge="2" />
+        </layoutData>
+    </Input>
+</core:FragmentDefinition>
+
+
+
+
+

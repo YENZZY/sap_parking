@@ -56,8 +56,8 @@
                   <!-- <Input id="EntryTime" type="Text" width="20rem" value="{carinfoModel>/EntryTime}" editable="false"/> -->
               </HBox>
               <HBox height="100%" alignContent="Center" class="sapUiMediumMarginBottom">
-                  <Label text="주차시간" design="Bold" class="sapUiTinyMarginEnd"/>
-                  <Text id="ParkingTime" text="{carinfoModel>/ParkingTime}" width="20rem"/>
+              <Label text="주차시간" design="Bold" class="sapUiTinyMarginEnd"/>
+                  		<Text id="ParkingTime" text="{carinfoModel>/ParkingTime}" width="20rem"/>
                   <!-- <Input id="ParkingTime" type="Text" width="20rem" editable="false"/> -->
               </HBox>
               <HBox justifyContent="End" class="sapUiMediumMarginBottom">

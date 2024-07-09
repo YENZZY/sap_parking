@@ -130,9 +130,7 @@ function (Controller, JSONModel, MessageBox) {
             }
             this.oPayDialog.then(function (oDialog){
                 this.oDialog = oDialog;
-            
-            
-            
+           
             this.oDialog.open();
 
             }.bind(this));
@@ -206,7 +204,6 @@ function (Controller, JSONModel, MessageBox) {
 
             this.oDialog.close();
         }
-
 
         // // 할인권 +
         // onPlus: function () {

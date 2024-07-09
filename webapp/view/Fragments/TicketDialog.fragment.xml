@@ -1,90 +1,81 @@
-<core:FragmentDefinition
+<core:FragmentDefinition 
 	xmlns="sap.m"
 	xmlns:f="sap.ui.layout.form"
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:core="sap.ui.core"
 >
+    <Dialog id="TicketDialog" title="할인권 등록" contentWidth="22%">
+        <content>
+                <f:SimpleForm id="ticketForm" editable="true" layout="ColumnLayout" columnsM="1" columnsL="1" columnsXL="1">
+                    <f:content>
+                        <!-- <Label text="차량구분" design="Bold"/>
+                        <Input id="ticketTypeName" value="{registerModel>/TypeName}" required="true" change="onChange" editable="false" visible="true"/>
+                         -->
+                        <Label text="차량번호" design="Bold"/>
+                        <Input id="ticketNumberPlate" value="{registerModel>/NumberPlate}" required="true" change="onChange" editable="false"/>
+                        
+                        <!-- <Label text="입차시간" design="Bold"/>
+                        <Text text="{path: 'carinfoModel>/EntryTime', type: 'sap.ui.model.type.DateTime', formatOptions: {pattern: 'yyyy-MM-dd HH:mm:ss'}}" width="20rem"/>
+                         -->
+                        <Label text="주차시간" design="Bold"/>
+                        <Text id="ParkingTime" text="{carinfoModel>/ParkingTime}" width="20rem"/>
+                        
+                        <Label text="티켓 종류" design="Bold"/>
+                        <!-- <Select id="selTicketName" items="{discountModel>/}" selectedKey="{ticketModel>/Discountuuid}" width="15rem" change="onSelTicketChange">
+                            <core:Item key="{discountModel>Uuid}" text="{discountModel>DiscountName}"/>
+                        </Select>
+                        <Input id="UsedTicket" value="{ticketModel>/UsedCount}" width="2rem">
+                            <layoutData>
+                                <f:ColumnElementData cellsSmall="2" cellsLarge="2" />
+                            </layoutData>
+                        </Input>  -->
 
-	<Dialog
-		id="TicketDialog"
-		title="할인권 등록"
-		contentWidth="32%"
-    >
-		<content>
-			<VBox>
-				<f:SimpleForm id="ticketForm"
-					editable="true"
-					layout="ColumnLayout"
-					columnsM="1"
-					columnsL="1"
-					columnsXL="1"
-                    >
-					<f:content>
-						<Image src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSOdl7LIRHxhY9t52dzi8sxzKXwWdD6a9LJySuJW5sl5C2zj8cR" width="100%" height="280px" visible="true"/>
-						<Label text="차량구분"/>
-						<Input id="inputTypeName" value="{registerModel>/TypeName}" required="true" change="onChange" editable="false" visible="true"/>
+                        <!-- 할인권 추가 버튼 -->
+                        <!-- <Button text="﹢" press="onAddDiscount" width="2rem"/>  -->
+                    </f:content>
+                </f:SimpleForm>
 
-						<!-- <Select id="selTypeName" required="true" selectedKey="{RegisterModel>/TypeUuid}" editable="false">
+				<Table id="TicketTable"
+							inset="false"
+							items="{
+								path: 'discountModel>/'
+							}">
+							<columns>
+								<Column
+								width="5rem">
+								<Text text="할인권명" textAlign="Center"/>
+								</Column>
+								<Column
+								width="5rem">
+								<Text text="개수" textAlign="Center"/>
+								</Column>
+								<Column
+								width="5rem">
+								<Text text="추가 / 삭제" textAlign="Center"/>
+								</Column>
+							</columns>
 							<items>
-								<core:Item text="{TypeModel>/TypeName}" key="{TypeModel>/Uuid}"/>
+								<ColumnListItem vAlign="Middle">
+								<cells>
+								<Text text="{discountModel>DiscountName}" textAlign="Center"/>
+								<Input id="UsedTicket" value="0" textAlign="Center" width="2rem"/>
+								<HBox>
+									<Button	text="﹢" press="onPlus" class="sapUiTinyMarginEnd" type="Accept"/>
+									<Button	text="⧿" press="onMinus" type="Reject"/>
+								</HBox>
+								</cells>
+								</ColumnListItem>
 							</items>
-						</Select> -->
-						<Label text="차량번호" />
-						<Input id="inputNumberPlate" value="{registerModel>/NumberPlate}" required="true" change="onChange" editable="false"/>
-					</f:content>
-				</f:SimpleForm>
-			</VBox>
-		</content>
-		<!-- <content>
-			<VBox width="100%" justifyContent="Center" alignItems="Center" class="sapUiMediumMarginTop">
-				<Image src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSOdl7LIRHxhY9t52dzi8sxzKXwWdD6a9LJySuJW5sl5C2zj8cR" width="26rem" height="16rem" class="sapUiMediumMarginBottom" visible="true"/>
-				<HBox justifyContent="Center" width="100%" alignItems="Center" class="sapUiSmallMarginBottom">
-					<Label text="차량번호" class="sapUiTinyMarginEnd"/>
-					<Input id="carNumber" value="{registerModel>/NumberPlate}" required="true" change="onChange" editable="false" class="sapUiTinyMarginEnd" width="20rem"/>
-				</HBox>
-				<HBox justifyContent="Center" width="100%" alignItems="Center" class="sapUiLargeMarginBottom">
-					<Label text="티켓 종류" class="sapUiTinyMarginEnd"/>
-					<Select id="selTicketName"
-							items="{discountModel>/}"
-							selectedKey="{ticketModel>/Discountuuid}"
-							width="15rem"
-							class="sapUiTinyMarginEnd"
-							change="onSelTicketChange"
-					>
-						<core:Item key="{discountModel>Uuid}" text="{discountModel>DiscountName}" />
-					</Select>
-					<core:Icon src="sap-icon://sys-minus" width="1em" class="sapUiTinyMarginEnd"/>
-					
-					 티켓 남은개수
-					<Input id="totalTicket" value="{ticketModel>/TotalCount}" width="2rem" class="sapUiTinyMarginEnd" editable="false" visible="false"/>
-					
-					 티켓 추가개수
-					<Input id="plusTicket" value="0" width="2rem" class="sapUiTinyMarginEnd"/>
-					 <core:Icon src="sap-icon://sys-add" width="1em" class="sapUiTinyMarginEnd"/>
-					<Button text="저장" width="4rem" press="onSaveTicket"/>
-				</HBox>
-				<HBox>
-					<Text id="displayDiscountUuid" text="할인권 UUID" />
-					<Text id="displayTotalCount" text="총 개수" />
-				</HBox> 
-			</VBox>
-		</content> -->
-		<footer>
-			<Toolbar>
-            <ToolbarSpacer/>
-				<content>
-					<Button id= "buyTicket"
-                            type="Accept"
-							text="등록"
-							press="onBuyTicket" />
-					
-                    <Button id="cancelTicket"
-						text="취소"
-						type="Reject"
-						press="onCloseTicket"
-						ariaHasPopup="Dialog" />
-				</content>
-			</Toolbar>
-		</footer>
-	</Dialog>
+						</Table>
+        </content>
+        <footer>
+            <Toolbar>
+                <ToolbarSpacer/>
+                <content>
+                    <Button id="buyTicket" type="Accept" text="등록" press="onBuyTicket" />
+                    <Button id="cancelTicket" text="취소" type="Reject" press="onCloseTicket" ariaHasPopup="Dialog" />
+                </content>
+            </Toolbar>
+        </footer>
+    </Dialog>
 </core:FragmentDefinition>

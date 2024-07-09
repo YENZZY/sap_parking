@@ -115,6 +115,25 @@ function (Controller, JSONModel, MessageBox,Sorter,Filter,FilterOperator,Fragmen
             oSearch.setValue("");
         },
 
+        // 할인권 구매 dialog 할인권 추가 버튼
+        // onAddDiscount: function() {
+        //     var oVBox = this.byId("discountContainer");
+
+        //     Fragment.load({
+        //         id: this.createId("discountItem" + oVBox.getItems().length),
+        //         name: "parking.view.Fragments.Page.AddTicket",
+        //         controller: this
+        //     }).then(function(oFragment) {
+        //         // Assuming oFragment is a container (e.g., VBox or HBox)
+        //         var oForm = this.byId("ticketForm");
+        //         oFragment.getItems().forEach(function(oItem) {
+        //             oForm.addContent(oItem);
+        //         });
+        //     }.bind(this)).catch(function(oError) {
+        //         console.error("Error loading fragment:", oError);
+        //     });
+        // },
+        
         //할인권 구매 버튼 클릭시 이동
         onBuy: function () {
             var oMainModel = this.getOwnerComponent().getModel();
@@ -136,46 +155,46 @@ function (Controller, JSONModel, MessageBox,Sorter,Filter,FilterOperator,Fragmen
 
                 var oTicketModel = new JSONModel();
                 this.setModel(oTicketModel, "ticketModel");
-                
-                // 할인권 데이터 가져오기
-                var oDiscountModel = this.getOwnerComponent().getModel("discountData");
-                this._getODataRead(oDiscountModel, "/Discount")
-                    .then(function (aGetData) {
-                        // Select 컨트롤에 바인딩된 모델 설정
-                        var oSelect = this.byId("selTicketName");
-                        oSelect.setModel(new JSONModel(aGetData), "discountModel");
-                        console.log("agetdata", aGetData);
-                    }.bind(this))
-                    .catch(function () {
-                        MessageBox.error("할인권 데이터를 불러올 수 없습니다.");
-                    });
+                this.oTDialog.open();
+                // // 할인권 데이터 가져오기
+                // var oDiscountModel = this.getOwnerComponent().getModel("discountData");
+                // this._getODataRead(oDiscountModel, "/Discount")
+                //     .then(function (aGetData) {
+                //         // Select 컨트롤에 바인딩된 모델 설정
+                //         var oSelect = this.byId("selTicketName");
+                //         oSelect.setModel(new JSONModel(aGetData), "discountModel");
+                //         console.log("agetdata", aGetData);
+                //     }.bind(this))
+                //     .catch(function () {
+                //         MessageBox.error("할인권 데이터를 불러올 수 없습니다.");
+                //     });
 
-                // 차량번호 불러오기
-                oMainModel.read("/Carinfo", {
-                    filters: oNumberPlate,
-                    success: function (oTData) {
-                        console.log(oTData);
-                        if (oTData.results && oTData.results.length > 0) {
-                            var TypeNameMatch = oTData.results[0].TypeName;
-                            if (TypeNameMatch === "일반 차량") {
-                                oRegisterModel.setData(oTData.results[0]); // 첫 번째 결과를 모델에 설정
-                                oSearch.setValue(""); // 검색 필드 초기화
-                                this.oTDialog.open();
-                            } else {
-                                oSearch.setValue(""); // 검색 필드 초기화
-                                MessageBox.information("정기권이 등록되어있는 차량입니다.");
-                            }
-                        } else {
-                            MessageBox.information("차량번호가 조회되지 않습니다.");
-                            oSearch.setValue(""); // 검색 필드 초기화
-                            this.oTDialog.close();
-                        }
-                    }.bind(this),
-                    error: function () {
-                        MessageBox.error("해당하는 차량번호가 없습니다.");
-                        oSearch.setValue(""); // 검색 필드 초기화
-                    }
-                });
+                // // 차량번호 불러오기
+                // oMainModel.read("/Carinfo", {
+                //     filters: oNumberPlate,
+                //     success: function (oTData) {
+                //         console.log(oTData);
+                //         if (oTData.results && oTData.results.length > 0) {
+                //             var TypeNameMatch = oTData.results[0].TypeName;
+                //             if (TypeNameMatch === "일반 차량") {
+                //                 oRegisterModel.setData(oTData.results[0]); // 첫 번째 결과를 모델에 설정
+                //                 oSearch.setValue(""); // 검색 필드 초기화
+                //                 this.oTDialog.open();
+                //             } else {
+                //                 oSearch.setValue(""); // 검색 필드 초기화
+                //                 MessageBox.information("정기권이 등록되어있는 차량입니다.");
+                //             }
+                //         } else {
+                //             MessageBox.information("차량번호가 조회되지 않습니다.");
+                //             oSearch.setValue(""); // 검색 필드 초기화
+                //             this.oTDialog.close();
+                //         }
+                //     }.bind(this),
+                //     error: function () {
+                //         MessageBox.error("해당하는 차량번호가 없습니다.");
+                //         oSearch.setValue(""); // 검색 필드 초기화
+                //     }
+                //});
 			}.bind(this));
     },
         
@@ -363,7 +382,7 @@ function (Controller, JSONModel, MessageBox,Sorter,Filter,FilterOperator,Fragmen
                     name: "parking.view.Fragments.CarDialog"
                 });
             }
-        
+            
             // 모델 초기화
             var oRegisterModel = new JSONModel();
             this.getView().setModel(oRegisterModel, "registerModel");
@@ -393,7 +412,7 @@ function (Controller, JSONModel, MessageBox,Sorter,Filter,FilterOperator,Fragmen
                             }
                         }.bind(this),
                         error: function () {
-                            MessageBox.error("데이터 조회 중 오류가 발생했습니다.");
+                            MessageBox.error("차량번호 4자리를 입력해주세요.");
                             oSearch.setValue(""); // 검색 필드 초기화
                         }
                     });
