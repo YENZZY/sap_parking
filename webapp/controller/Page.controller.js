@@ -137,13 +137,24 @@ function (Controller, JSONModel, MessageBox) {
         
         //  정산하기 결제 
         onPayTicket: function () {
-            var carinfoData = this.getView().getModel("carinfoModel");
+            var carinfoData = this.getView().getModel("carinfoModel").oData;
             var myticketData = this.getView().getModel("myticketModel");
             var cardetailModel = this.getOwnerComponent().getModel("cardetailData");
+            var paymoney = this.byId("PayMoney").getValue();
+            console.log(carinfoData);
+            console.log(myticketData);
+            console.log(carinfoData.ParkingFee);
+            if(paymoney==carinfoData.ParkingFee){
+                cardetailModel.create("/Cardetail",{
+                    Carinfouuid: carinfoData.Carinfouuid,
+                    Discountuuid: myticketData.Discountuuid,
+                    EntryTime: carinfoData.EntryTime,
+                    UsedCount: myticketData.UsedCount
+                })
+            } else {
+                MessageBox.information("결제하실 금액이 남았습니다.")
+            }
             
-            cardetailModel.create("/Cardetail",{
-                
-            })
 
 
         },
