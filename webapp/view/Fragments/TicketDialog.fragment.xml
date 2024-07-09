@@ -11,46 +11,71 @@
 		contentWidth="32%"
     >
 		<content>
+			<VBox>
+				<f:SimpleForm id="ticketForm"
+					editable="true"
+					layout="ColumnLayout"
+					columnsM="1"
+					columnsL="1"
+					columnsXL="1"
+                    >
+					<f:content>
+						<Image src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSOdl7LIRHxhY9t52dzi8sxzKXwWdD6a9LJySuJW5sl5C2zj8cR" width="100%" height="280px" visible="true"/>
+						<Label text="차량구분"/>
+						<Input id="inputTypeName" value="{registerModel>/TypeName}" required="true" change="onChange" editable="false" visible="true"/>
+
+						<!-- <Select id="selTypeName" required="true" selectedKey="{RegisterModel>/TypeUuid}" editable="false">
+							<items>
+								<core:Item text="{TypeModel>/TypeName}" key="{TypeModel>/Uuid}"/>
+							</items>
+						</Select> -->
+						<Label text="차량번호" />
+						<Input id="inputNumberPlate" value="{registerModel>/NumberPlate}" required="true" change="onChange" editable="false"/>
+					</f:content>
+				</f:SimpleForm>
+			</VBox>
+		</content>
+		<!-- <content>
 			<VBox width="100%" justifyContent="Center" alignItems="Center" class="sapUiMediumMarginTop">
-				<Image src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSOdl7LIRHxhY9t52dzi8sxzKXwWdD6a9LJySuJW5sl5C2zj8cR" width="26em" height="16em" class="sapUiMediumMarginBottom" visible="true"/>
+				<Image src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSOdl7LIRHxhY9t52dzi8sxzKXwWdD6a9LJySuJW5sl5C2zj8cR" width="26rem" height="16rem" class="sapUiMediumMarginBottom" visible="true"/>
 				<HBox justifyContent="Center" width="100%" alignItems="Center" class="sapUiSmallMarginBottom">
 					<Label text="차량번호" class="sapUiTinyMarginEnd"/>
-					<Input id="carNumber" value="{registerModel>/NumberPlate}" required="true" change="onChange" editable="false" class="sapUiTinyMarginEnd" width="20em"/>
+					<Input id="carNumber" value="{registerModel>/NumberPlate}" required="true" change="onChange" editable="false" class="sapUiTinyMarginEnd" width="20rem"/>
 				</HBox>
 				<HBox justifyContent="Center" width="100%" alignItems="Center" class="sapUiLargeMarginBottom">
 					<Label text="티켓 종류" class="sapUiTinyMarginEnd"/>
 					<Select id="selTicketName"
 							items="{discountModel>/}"
 							selectedKey="{ticketModel>/Discountuuid}"
-							width="15em"
+							width="15rem"
 							class="sapUiTinyMarginEnd"
 							change="onSelTicketChange"
 					>
 						<core:Item key="{discountModel>Uuid}" text="{discountModel>DiscountName}" />
 					</Select>
-					<!-- <core:Icon src="sap-icon://sys-minus" width="1em" class="sapUiTinyMarginEnd"/> -->
+					<core:Icon src="sap-icon://sys-minus" width="1em" class="sapUiTinyMarginEnd"/>
 					
-					<!-- 티켓 남은개수 -->
-					<Input id="totalTicket" value="{ticketModel>/TotalCount}" width="2em" class="sapUiTinyMarginEnd" editable="false" visible="false"/>
+					 티켓 남은개수
+					<Input id="totalTicket" value="{ticketModel>/TotalCount}" width="2rem" class="sapUiTinyMarginEnd" editable="false" visible="false"/>
 					
-					 <!-- 티켓 추가개수 -->
-					<Input id="plusTicket" value="0" width="2em" class="sapUiTinyMarginEnd"/>
-					<!-- <core:Icon src="sap-icon://sys-add" width="1em" class="sapUiTinyMarginEnd"/> -->
-					<Button text="저장" width="4em" press="onSaveTicket"/>
+					 티켓 추가개수
+					<Input id="plusTicket" value="0" width="2rem" class="sapUiTinyMarginEnd"/>
+					 <core:Icon src="sap-icon://sys-add" width="1em" class="sapUiTinyMarginEnd"/>
+					<Button text="저장" width="4rem" press="onSaveTicket"/>
 				</HBox>
-				<!-- <HBox>
+				<HBox>
 					<Text id="displayDiscountUuid" text="할인권 UUID" />
 					<Text id="displayTotalCount" text="총 개수" />
-				</HBox> -->
+				</HBox> 
 			</VBox>
-		</content>
+		</content> -->
 		<footer>
 			<Toolbar>
             <ToolbarSpacer/>
 				<content>
 					<Button id= "buyTicket"
                             type="Accept"
-							text="구매"
+							text="등록"
 							press="onBuyTicket" />
 					
                     <Button id="cancelTicket"

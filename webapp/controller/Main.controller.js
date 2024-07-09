@@ -364,46 +364,46 @@ function (Controller, JSONModel, MessageBox,Sorter,Filter,FilterOperator,Fragmen
                 });
             }
         
+            // 모델 초기화
+            var oRegisterModel = new JSONModel();
+            this.getView().setModel(oRegisterModel, "registerModel");
+        
             this.oCarDialog.then(function (oDialog) {
                 this.oDialog = oDialog;
         
-                // 모델 초기화
-                var oRegisterModel = new JSONModel();
-                this.setModel(oRegisterModel, "registerModel");
-                
-                if(ButtonData){
-                
-                    this.carDialogEditable(); //버튼 및 input박스 활성화 여부
-                
-                oMainModel.read("/Carinfo", {
-                    filters: oNumberPlate,
-                    success: function (oData) {
-                        if (oData.results && oData.results.length > 0) {
-                            var TypeNameMatch = oData.results[0].TypeName;
-                            if (TypeNameMatch === "일반 차량") {
-                                oRegisterModel.setData(oData.results[0]); // 첫 번째 결과를 모델에 설정
-                                oSearch.setValue(""); // 검색 필드 초기화
-                                this.oDialog.open();
+                if (ButtonData) {
+                    // 차량번호가 입력된 경우 데이터베이스 조회
+                    oMainModel.read("/Carinfo", {
+                        filters: oNumberPlate,
+                        success: function (oData) {
+                            if (oData.results && oData.results.length > 0) {
+                                var TypeNameMatch = oData.results[0].TypeName;
+                                if (TypeNameMatch === "일반 차량") {
+                                    oRegisterModel.setData(oData.results[0]); // 첫 번째 결과를 모델에 설정
+                                    oSearch.setValue(""); // 검색 필드 초기화
+                                    this.carDialogEditable(); // 버튼 및 input박스 활성화 여부
+                                    this.oDialog.open();
+                                } else {
+                                    oSearch.setValue(""); // 검색 필드 초기화
+                                    MessageBox.information("정기권이 등록되어있는 차량입니다.");
+                                }
                             } else {
+                                MessageBox.information("해당하는 차량번호가 없습니다.");
                                 oSearch.setValue(""); // 검색 필드 초기화
-                                MessageBox.information("정기권이 등록되어있는 차량입니다.");
                             }
+                        }.bind(this),
+                        error: function () {
+                            MessageBox.error("데이터 조회 중 오류가 발생했습니다.");
+                            oSearch.setValue(""); // 검색 필드 초기화
                         }
-                    }.bind(this),
-                    error: function () {
-                        MessageBox.error("해당하는 차량번호가 없습니다.");
-                        oSearch.setValue(""); // 검색 필드 초기화
-                    }
-                });
-
-            // 정기권 차량 신규 생성 (입차 x)
-            } else {
-                this.oDialog.open();
-                this.carDialogEditableOk();
+                    });
+                } else {
+                    // 차량번호가 입력되지 않은 경우 새로운 차량 등록
+                    this.carDialogEditableOk(); // 새로운 차량 등록 시 활성화
+                    this.oDialog.open();
                 }
             }.bind(this));
-        },
-        
+        },        
 
         //정기권 차량 등록 다이얼로그 저장
         onSaveCar: function () {

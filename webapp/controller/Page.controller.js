@@ -96,10 +96,13 @@ function (Controller, JSONModel, MessageBox) {
                 if (ofee) {
                     if (typeName === "정기권 차량") {
                         ofee.setNumber(0);
+                        oDisFeeId.setNumber(0);
                     } else {
                         ofee.setNumber(discountedFee);
                         if (oDisFeeId) {
                             oDisFeeId.setNumber(totalDisFee);
+                        } else {
+                            oDisFeeId.setNumber(0);
                         }
                     }
                 } else {
@@ -115,7 +118,7 @@ function (Controller, JSONModel, MessageBox) {
             }
         },
 
-         //정산 버튼 클릭시 이동
+        //정산 버튼 클릭시 이동
          onPay: function () {
             var oRegisterData = this.getView().getModel("carinfoModel");
             var oMyticketData = this.getView().getModel("myticketModel");
@@ -137,49 +140,61 @@ function (Controller, JSONModel, MessageBox) {
         
         //  정산하기 결제 
         onPayTicket: function () {
-            var carinfoData = this.getView().getModel("carinfoModel").getData();
-            var myticketData = this.getView().getModel("myticketModel").getData();
-            var oMainModel = this.getOwnerComponent().getModel();
-            var cardetailModel = this.getOwnerComponent().getModel("cardetailData");
-            var paymoney = this.byId("PayMoney").getValue();
-            if (paymoney == carinfoData.ParkingFee) {
-                var promises = [];
+        var carinfoData = this.getView().getModel("carinfoModel").getData();
+        var myticketData = this.getView().getModel("myticketModel").getData();
+        var oMainModel = this.getOwnerComponent().getModel();
+        var cardetailModel = this.getOwnerComponent().getModel("cardetailData");
+        var paymoney = this.byId("PayMoney").getValue();
         
+        if (paymoney == carinfoData.ParkingFee) {
+            var promises = [];
+
+            if (myticketData.length > 0) {
                 myticketData.forEach(function(item) {
                     var oData = {
-                        Carinfouuid: carinfoData.Uuid,
+                        Typeuuid: carinfoData.Typeuuid,
+                        NumberPlate: carinfoData.NumberPlate,
                         EntryTime: carinfoData.EntryTime,
                         Discountuuid: item.Uuid,
                         UsedCount: item.UsedCount
                     };
                     promises.push(this._getODataCreate(cardetailModel, "/Cardetail", oData));
                 }.bind(this));
+            } else {
+                // myticketData가 없을 때는 carinfoData만 이용하여 저장 처리
+                var oData = {
+                    Typeuuid: carinfoData.Typeuuid,
+                    NumberPlate: carinfoData.NumberPlate,
+                    EntryTime: carinfoData.EntryTime
+                };
+                promises.push(this._getODataCreate(cardetailModel, "/Cardetail", oData));
+            }
 
-                $.when.apply($, promises).done(function () {
-                    MessageBox.success("결제가 완료되었습니다.");
-                    var paidmoney = this.byId("PayMoney").setValue("");
-                    if(paidmoney){
-                        if (this.oDialog) {
-                            this.oDialog.close();
-                        }
+            $.when.apply($, promises).done(function () {
+                MessageBox.success("결제가 완료되었습니다.");
+                this.byId("PayMoney").setValue("");
+                if (this.oDialog) {
+                    this.oDialog.close();
                 }
-                    this._getODataDelete(oMainModel,"/Carinfo",carinfoData.Uuid)
-                    .done(function() {
-                        MessageBox.success("Carinfo 데이터가 성공적으로 삭제되었습니다.");
-                        this.navTo("Main");
-                    }.bind(this))
-                    .fail(function() {
-                        MessageBox.error("Carinfo 데이터 삭제 중 오류가 발생했습니다.");
-                    });
+                // Carinfo 데이터 삭제
+                this._getODataDelete(oMainModel, "/Carinfo(guid'" + carinfoData.Uuid + "')")
+                .done(function() {
+                    MessageBox.success("Carinfo 데이터가 성공적으로 삭제되었습니다.");
+                    this.navTo("Main");
+                }.bind(this))
+                .fail(function(oError) {
+                    MessageBox.error("Carinfo 데이터 삭제 중 오류가 발생했습니다.");
+                    console.error("Carinfo 데이터 삭제 오류:", oError);
+                });
 
                 }.bind(this)).fail(function () {
                     MessageBox.error("결제 처리 중 오류가 발생했습니다.");
                 });
-            } else {
-                MessageBox.information("결제하실 금액이 남았습니다.");
-                this.byId("PayMoney").setValue("");
-            }
-        },
+                } else {
+                    MessageBox.information("결제하실 금액이 남았습니다.");
+                    this.byId("PayMoney").setValue("");
+                }
+            },
         
         // 정산하기 다이얼로그 닫기
         onClosePay: function () {

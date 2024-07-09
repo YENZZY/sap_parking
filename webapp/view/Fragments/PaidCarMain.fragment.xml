@@ -19,6 +19,7 @@
     </l:content>
 </l:VerticalLayout> -->
 <!-- 정산된 차량 내역 목록 -->
+<Panel>
 <OverflowToolbar>
     <Title text="정산 차량 현황" level="H2"/>
     <ToolbarSpacer/>
@@ -36,20 +37,16 @@
             }
         }">
         <columns>
-            <Column
-            width="12em">
+            <Column width="12rem" minScreenWidth="Tablet" demandPopin="true">
             <Text text="차량번호" textAlign="Center"/>
             </Column>
-            <Column
-            width="12em">
+            <Column width="12rem" minScreenWidth="Tablet" demandPopin="true">
             <Text text="차량구분" textAlign="Center"/>
             </Column>
-            <Column
-            width="12em">
+            <Column width="12rem" minScreenWidth="Tablet" demandPopin="true">
             <Text text="차량종류" textAlign="Center"/>
             </Column>
-            <Column
-            width="12em">
+            <Column width="12rem" minScreenWidth="Tablet" demandPopin="true">
             <Text text="출차시간" textAlign="Center"/>
             </Column>
         </columns>
@@ -64,4 +61,5 @@
             </ColumnListItem>
         </items>
     </Table>
+    </Panel>
 </core:FragmentDefinition>

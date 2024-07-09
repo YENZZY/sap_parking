@@ -19,6 +19,7 @@
     </l:content>
 </l:VerticalLayout> -->
 <!-- 정산된 차량 내역 목록 -->
+<Panel>
 <OverflowToolbar>
     <!-- <Title text="할인권 보유 현황" level="H2"/> -->
     <ToolbarSpacer/>
@@ -37,15 +38,15 @@
         }">
         <columns>
             <Column
-            width="12em">
+            width="12rem">
             <Text text="할인권명" textAlign="Center"/>
             </Column>
             <Column
-            width="12em">
+            width="12rem">
             <Text text="할인시간" textAlign="Center"/>
             </Column>
             <Column
-            width="12em">
+            width="12rem">
             <Text text="사용한 개수" textAlign="Center"/>
             </Column>
             <!-- <Column
@@ -73,4 +74,5 @@
             </ColumnListItem>
         </items>
     </Table>
+    </Panel>
 </core:FragmentDefinition>

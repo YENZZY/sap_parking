@@ -5,6 +5,7 @@
 	xmlns:core="sap.ui.core"
 > 
       <!-- <Title value="{NumberPlate}" titleStyle="H4"/> -->
+      <Panel width="100%">
         <HBox width="100%" justifyContent="Center" class="sapUiLargeMarginTop">
             <VBox class="sapUiMediumMarginEnd">
                 <Image src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfOMEINIPIaBoNnOP6pvMSUrJnplMq6v6fbScOAxnk1AFSIUk6" width="300px" height="235px" class="sapUiSmallMarginBottom"/>
@@ -28,17 +29,17 @@
             <VBox>
               <HBox height="100%" alignItems="Center" class="sapUiMediumMarginBottom">
                   <Label text="차량번호" labelFor="NumberPlate" design="Bold" class="sapUiTinyMarginEnd"/>
-                  <Text id="NamePlate" width="20em" text="{carinfoModel>/NumberPlate}" />
+                  <Text id="NamePlate" width="20rem" text="{carinfoModel>/NumberPlate}" />
               </HBox>
               <HBox height="100%" alignContent="Center" class="sapUiMediumMarginBottom">
                 <Label text="차량구분" labelFor="TypeName" design="Bold" class="sapUiTinyMarginEnd"/>
-                <Text id="TypeName" width="20em" text="{carinfoModel>/TypeName}"/>
-                <!-- <Input id="TypeName" type="Text" width="20em" value="{carinfoModel>/TypeName}" editable="false"/> -->
+                <Text id="TypeName" width="20rem" text="{carinfoModel>/TypeName}"/>
+                <!-- <Input id="TypeName" type="Text" width="20rem" value="{carinfoModel>/TypeName}" editable="false"/> -->
               </HBox>
               <HBox height="100%" alignContent="Center" class="sapUiMediumMarginBottom">
                   <Label text="차량종류" design="Bold" class="sapUiTinyMarginEnd"/>
-                  <Text id="Brand"  width="20em" text="{carinfoModel>/Brand}" />
-                  <!-- <Input id="Brand" type="Text" width="20em" value="{carinfoModel>/Brand}" editable="false"/> -->
+                  <Text id="Brand"  width="20rem" text="{carinfoModel>/Brand}" />
+                  <!-- <Input id="Brand" type="Text" width="20rem" value="{carinfoModel>/Brand}" editable="false"/> -->
               </HBox>
               <HBox height="100%" alignContent="Center" class="sapUiMediumMarginBottom">
                   <Label text="입차시간" design="Bold" class="sapUiTinyMarginEnd"/>
@@ -50,18 +51,19 @@
                             pattern: 'yyyy-MM-dd HH:mm:ss'
                         }
                     }"
-                    width="20em"
+                    width="20rem"
                 />
-                  <!-- <Input id="EntryTime" type="Text" width="20em" value="{carinfoModel>/EntryTime}" editable="false"/> -->
+                  <!-- <Input id="EntryTime" type="Text" width="20rem" value="{carinfoModel>/EntryTime}" editable="false"/> -->
               </HBox>
               <HBox height="100%" alignContent="Center" class="sapUiMediumMarginBottom">
                   <Label text="주차시간" design="Bold" class="sapUiTinyMarginEnd"/>
-                  <Text id="ParkingTime" text="{carinfoModel>/ParkingTime}" width="20em"/>
-                  <!-- <Input id="ParkingTime" type="Text" width="20em" editable="false"/> -->
+                  <Text id="ParkingTime" text="{carinfoModel>/ParkingTime}" width="20rem"/>
+                  <!-- <Input id="ParkingTime" type="Text" width="20rem" editable="false"/> -->
               </HBox>
               <HBox justifyContent="End" class="sapUiMediumMarginBottom">
                 <Button text="정산하기" press="onPay" />
               </HBox>
             </VBox>
         </HBox>
+        </Panel>
 </core:FragmentDefinition>
