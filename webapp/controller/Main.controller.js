@@ -49,7 +49,9 @@ function (Controller, JSONModel, MessageBox,Sorter,Filter,FilterOperator,Fragmen
 
             });
 
-            this.oVipcardata();
+            this.oVipcardata(); //정산된 차량 테이블 데이터 조회
+            //this.calculateParkingTime(); // 주차시간 및 요금 계산
+
         },
 
         //정산권 차량 데이터 조회
@@ -114,25 +116,6 @@ function (Controller, JSONModel, MessageBox,Sorter,Filter,FilterOperator,Fragmen
 
             oSearch.setValue("");
         },
-
-        // 할인권 구매 dialog 할인권 추가 버튼
-        // onAddDiscount: function() {
-        //     var oVBox = this.byId("discountContainer");
-
-        //     Fragment.load({
-        //         id: this.createId("discountItem" + oVBox.getItems().length),
-        //         name: "parking.view.Fragments.Page.AddTicket",
-        //         controller: this
-        //     }).then(function(oFragment) {
-        //         // Assuming oFragment is a container (e.g., VBox or HBox)
-        //         var oForm = this.byId("ticketForm");
-        //         oFragment.getItems().forEach(function(oItem) {
-        //             oForm.addContent(oItem);
-        //         });
-        //     }.bind(this)).catch(function(oError) {
-        //         console.error("Error loading fragment:", oError);
-        //     });
-        // },
         
         //할인권 구매 버튼 클릭시 이동
         onBuy: function () {
@@ -141,233 +124,179 @@ function (Controller, JSONModel, MessageBox,Sorter,Filter,FilterOperator,Fragmen
             var ButtonData = oSearch.getValue();
             var oNumberPlate = [new Filter("NumberPlate", FilterOperator.EQ, ButtonData)];
             
-            if (!this.oTicketDialog) {
-				this.oTicketDialog = this.loadFragment({
-					name: "parking.view.Fragments.TicketDialog"
-				});
+            // 차량번호가 4자가 아닌 경우
+            if (ButtonData.length !== 4) {
+                oSearch.setValue("");
+                MessageBox.information("차량번호 4자리를 입력해주세요.");
+                return;
             }
-                this.oTicketDialog.then(function (oTDialog) {
-                    this.oTDialog = oTDialog;
-                
-                // 모델 초기화
-                var oRegisterModel = new JSONModel();
-                this.setModel(oRegisterModel, "registerModel");
 
-                var oTicketModel = new JSONModel();
-                this.setModel(oTicketModel, "ticketModel");
-                this.oTDialog.open();
-                // // 할인권 데이터 가져오기
-                // var oDiscountModel = this.getOwnerComponent().getModel("discountData");
-                // this._getODataRead(oDiscountModel, "/Discount")
-                //     .then(function (aGetData) {
-                //         // Select 컨트롤에 바인딩된 모델 설정
-                //         var oSelect = this.byId("selTicketName");
-                //         oSelect.setModel(new JSONModel(aGetData), "discountModel");
-                //         console.log("agetdata", aGetData);
-                //     }.bind(this))
-                //     .catch(function () {
-                //         MessageBox.error("할인권 데이터를 불러올 수 없습니다.");
-                //     });
-
-                // // 차량번호 불러오기
-                // oMainModel.read("/Carinfo", {
-                //     filters: oNumberPlate,
-                //     success: function (oTData) {
-                //         console.log(oTData);
-                //         if (oTData.results && oTData.results.length > 0) {
-                //             var TypeNameMatch = oTData.results[0].TypeName;
-                //             if (TypeNameMatch === "일반 차량") {
-                //                 oRegisterModel.setData(oTData.results[0]); // 첫 번째 결과를 모델에 설정
-                //                 oSearch.setValue(""); // 검색 필드 초기화
-                //                 this.oTDialog.open();
-                //             } else {
-                //                 oSearch.setValue(""); // 검색 필드 초기화
-                //                 MessageBox.information("정기권이 등록되어있는 차량입니다.");
-                //             }
-                //         } else {
-                //             MessageBox.information("차량번호가 조회되지 않습니다.");
-                //             oSearch.setValue(""); // 검색 필드 초기화
-                //             this.oTDialog.close();
-                //         }
-                //     }.bind(this),
-                //     error: function () {
-                //         MessageBox.error("해당하는 차량번호가 없습니다.");
-                //         oSearch.setValue(""); // 검색 필드 초기화
-                //     }
-                //});
-			}.bind(this));
-    },
-        
-         // 할인권 선택 임시 저장
-         onSaveTicket: function () {
-            var oTicketModel = this.getModel("ticketModel"); 
-            var aTicketData = oTicketModel.getData().tickets || []; // tickets 배열로 초기화
-            var plusCount = parseInt(this.byId("plusTicket").getValue(), 10); // 추가할 할인권 개수
-            var sDiscountUuid = this.getModel("ticketModel").getProperty("/Discountuuid");
-            var sParentsuuid = this.getModel("registerModel").getProperty("/Uuid");
-            
-            // 배열에서 기존 항목 찾기
-            var oExistingTicket = aTicketData.find(function(ticket) {
-                return ticket.Discountuuid === sDiscountUuid;
-            });
-        
-            if (oExistingTicket) {
-                // 기존 항목이 있다면 TotalCount 업데이트
-                oExistingTicket.TotalCount += plusCount;
-            } else {
-                // 기존 항목이 없다면 새 항목 추가
-                aTicketData.push({
-                    Discountuuid: sDiscountUuid,
-                    TotalCount: plusCount,
-                    Parentsuuid : sParentsuuid
+            if (!this.oTicketDialog) {
+                this.oTicketDialog = this.loadFragment({
+                    name: "parking.view.Fragments.Main.TicketDialog"
                 });
             }
-           
-            // 데이터 모델 업데이트
-            oTicketModel.setData({
-                tickets: aTicketData
-            });
-            console.log(aTicketData);
 
-             // 화면에 표시할 데이터 설정
-            // this.updateTicketText(sDiscountUuid);
-            
-            // plusTicket input 박스 초기화
-            this.byId("plusTicket").setValue(""); 
-                    
-    }, 
-
-    // updateTicketText: function (sDiscountUuid) {
-    //     var oTicketModel = this.getModel("ticketModel");
-    //     var aTicketData = oTicketModel.getData().tickets || [];
-    //     var oSelectedTicket = aTicketData.find(function(ticket) {
-    //         return ticket.Discountuuid === sDiscountUuid;
-    //     });
-    
-    //     if (oSelectedTicket) {
-    //         this.byId("displayDiscountUuid").setText(oSelectedTicket.Discountuuid);
-    //         this.byId("displayTotalCount").setText(oSelectedTicket.TotalCount.toString());
-    //     }
-    // },
-
-        //select 할인권 변경시 티켓 개수 데이터 변경 
-        onSelTicketChange: function (oEvent) {
-            // var sSelectedKey = oEvent.getSource().getSelectedKey();
-            // var oTicketModel = this.getModel("ticketModel");
-            // var oDiscountModel = this.getModel("discountModel");
-        
-            // if (!oDiscountModel) {
-            //     MessageBox.error("할인권 데이터를 불러올 수 없습니다.");
-            //     return;
-            // }
-        
-            // var oDiscountData = oDiscountModel.getData();
-            // var oSelectedTicket = oDiscountData.find(function (ticket) {
-            //     return ticket.Uuid === sSelectedKey;
-            // });
-        
-            // if (oSelectedTicket) {
-            //     // 티켓 데이터 소스에서 TotalCount 가져오기
-            //     var oTicketSourceModel = this.getOwnerComponent().getModel("ticketSourceData");
-            //     this._getODataRead(oTicketSourceModel, "/TicketData")
-            //         .then(function (aTicketData) {
-            //             var oTicket = aTicketData.results.find(function (ticket) {
-            //                 return ticket.Discountuuid === sSelectedKey;
-            //             });
-        
-            //             var totalCount = oTicket ? oTicket.TotalCount : 0;
-        
-            //             oTicketModel.setData({
-            //                 Discountuuid: oSelectedTicket.Uuid,
-            //                 TotalCount: totalCount
-            //             });
-        
-            //             // 추가 입력 창 초기화
-            //             this.byId("plusTicket").setValue("");
-            //         }.bind(this))
-            //         .catch(function () {
-            //             MessageBox.error("티켓 데이터를 불러올 수 없습니다.");
-            //         });
-            // } else {
-            //     // 만약 선택한 티켓을 찾지 못했다면 기본 값 설정 또는 에러 처리
-            //     oTicketModel.setData({
-            //         Discountuuid: "",
-            //         TotalCount: 0
-            //     });
-            // }
-        },
-               
-        onBuyTicket: function() {
-            var oMainModel = this.getOwnerComponent().getModel();
-            var ticketData = this.getModel("ticketModel").getData().tickets;
-            var registerData = this.getModel("registerModel").getData();
-            console.log(registerData);
-            var carinfoNumberPlate = registerData.NumberPlate;
-            var oNumberPlate = [new Filter("NumberPlate", FilterOperator.EQ, carinfoNumberPlate)];
-             oMainModel.read("/Carinfo", {
+            // 차량번호 불러오기
+            oMainModel.read("/Carinfo", {
                 filters: oNumberPlate,
-                success: function(oData) {
-                    console.log("odata",oData);
-                    if (oData.results.length > 0) {
-                        var oCarinfoData = oData.results[0];
-                        var carinfoUuid = oCarinfoData.Uuid;
-                        console.log(oCarinfoData)
-                        ticketData.forEach(function(item) {
-                            var newUri = "/Carinfo(guid'" + carinfoUuid + "')/to_Ticket";
-                            console.log("item",item);
-                            console.log("newUri",newUri);
-                            this._getODataUpdate(oMainModel, newUri, item).done(function(aReturn) {
-                                // 성공 시 처리할 코드
-                            }.bind(this)).fail(function(err) {
-                                // 실패 시 처리할 코드
-                            }).always(function() {
-                                // 항상 실행될 코드
-                            });
-                        }.bind(this));
+                success: function (oTData) {
+                    console.log(oTData);
+                    if (oTData.results && oTData.results.length > 0) {
+                        var TypeNameMatch = oTData.results[0].TypeName;
+                        if (TypeNameMatch === "일반 차량") {
+                            this.oTicketDialog.then(function (oTDialog) {
+                                this.oTDialog = oTDialog;
 
-                        this.navTo("Main", {});
+                                // 모델 초기화
+                                var oRegisterModel = new JSONModel(oTData.results[0]); // 첫 번째 결과를 모델에 설정
+                                this.setModel(oRegisterModel, "registerModel");
+
+                                var oTicketModel = new JSONModel();
+                                this.setModel(oTicketModel, "ticketModel");
+
+                                // 할인권 데이터 가져오기
+                                var oDiscountModel = this.getOwnerComponent().getModel("discountData");
+                                this._getODataRead(oDiscountModel, "/Discount")
+                                    .then(function (aGetData) {
+                                        this.setModel(new JSONModel(aGetData), "discountModel");
+                                        this.calculateParkingTime();
+                                        this.oTDialog.open();
+                                    }.bind(this))
+                                    .catch(function () {
+                                        MessageBox.error("할인권 데이터를 불러올 수 없습니다.");
+                                    });
+
+                                oSearch.setValue(""); // 검색 필드 초기화
+                            }.bind(this));
+                        } else {
+                            oSearch.setValue(""); // 검색 필드 초기화
+                            MessageBox.information("정기권이 등록되어있는 차량입니다.");
+                        }
+                    } else {
+                        oSearch.setValue(""); // 검색 필드 초기화
+                        MessageBox.information("차량번호가 조회되지 않습니다.");
                     }
                 }.bind(this),
-                    error: function(oError) {
-                    // 오류 처리
-                    }
-                });
-            },
-            // var registerUri = registerData.__metadata.uri;
-            // var startIndex = registerUri.indexOf("/Carinfo");
-            // var extractedUri = registerUri.substring(startIndex);
-            // var param = extractedUri;
-            // console.log(param);
-            // this._getODataUpdate(oMainModel, param, registerData).done(function(aReturn) {
-               
-            //     ticketData.forEach(item => {
-            //          //   item.Parentsuuid = registerData.Uuid;
-            //             var newUri = param + "/to_Ticket";
-            //             this._getODataCreate(oMainModel, newUri, item).done(function(aReturn) {   
-            //                 // 성공 시 처리할 코드
-            //             }.bind(this)).fail(function(err) {
-            //                 // 실패 시 처리할 코드
-            //             }).always(function() {
-            //                 // 항상 실행될 코드
-            //             });
-            //         });
-            //     }.bind(this));
-            //},
-           
-        
-        //할인권 구매 다이얼로그 닫기
-        onCloseTicket: function (){
-            
-            // 다이얼로그가 닫힐 때 입력 필드의 값을 초기화
-            var oNumberPlate = this.byId("inputNumberPlate");
-        
-            
-            if (oNumberPlate) {
-                oNumberPlate.setValue(""); // Input 필드의 값 초기화
+                error: function () {
+                    oSearch.setValue(""); // 검색 필드 초기화
+                    MessageBox.error("해당하는 차량번호가 없습니다.");
+                }
+            });
+        },
+
+        // 할인권 등록 Dialog (할인권 추가)
+        onPlus: function (oEvent) {
+            var oColumnListItem = oEvent.getSource().getParent().getParent();
+            var oContext = oColumnListItem.getBindingContext("discountModel");
+            var sPath = oContext.getPath();
+            var oModel = oContext.getModel();
+            var usedticket = oModel.getProperty(sPath + "/UsedCount");
+            // 1. 행의 셀(테이블 열)들을 배열로 반환 2. 열 : 0,1,2 [2](버튼) 3.해당 열 안의 항목들을 배열로 반환 추가[0], 삭제[1]
+            var minusBtn = oColumnListItem.getCells()[2].getItems()[1]; // minusBtn을 다시 활성화 
+            if (!usedticket) {
+                usedticket = 0;
             }
-           
-            this.oTDialog.close();
-            
+            usedticket += 1;
+
+            oModel.setProperty(sPath + "/UsedCount", usedticket);
+
+            if(usedticket>0){
+                
+                minusBtn.setEnabled(true);
+            }
+        },
+
+        // 할인권 등록 Dialog (할인권 삭제)
+        onMinus: function (oEvent) {
+            var oColumnListItem = oEvent.getSource().getParent().getParent();
+            var oContext = oColumnListItem.getBindingContext("discountModel");
+            var sPath = oContext.getPath();
+            var oModel = oContext.getModel();
+            var usedticket = oModel.getProperty(sPath + "/UsedCount");
+
+            if (!usedticket) {
+                usedticket = 0;
+            }
+            usedticket -= 1;
+
+            if (usedticket < 0) {
+                usedticket = 0;
+            }
+
+            oModel.setProperty(sPath + "/UsedCount", usedticket);
+
+            var minusBtn = oEvent.getSource();
+            if (usedticket <= 0 ) {
+                minusBtn.setEnabled(false); // 버튼 비활성화
+            } else if(usedticket>0 && !usedticket) {
+                minusBtn.setEnabled(true); // 버튼 활성화
+            }
+        },
+       
+        // 할인권 등록 버튼
+        onBuyTicket: function() {
+            var oMainModel = this.getOwnerComponent().getModel();
+            var registerData = this.getModel("registerModel").getData();
+            var discountData = this.getModel("discountModel").getData();
+        
+            // 필터링된 할인권 데이터 가져오기
+            var DiscountData = discountData.filter(function(item) {
+                return item.UsedCount && item.UsedCount != 0;
+            });
+        
+            console.log(registerData.__metadata);
+            console.log("dis",DiscountData);
+        
+            var aPromises = [];
+        
+            // 필터링된 할인권 데이터에 대해 처리
+            DiscountData.forEach(function(item) {
+                var oData = {
+                    Parentsuuid: registerData.Uuid,
+                    Discountuuid: item.Uuid,
+                    UsedCount: item.UsedCount
+                };
+                console.log(oData);
+
+                aPromises.push(this._getODataCreate(oMainModel, "/Carinfo(guid'"+registerData.Uuid+"')/to_Ticket", oData));
+            }.bind(this));
+        
+            // 모든 Promise를 기다림
+            $.when.apply($, aPromises)
+                .done(function() {
+                    MessageBox.success("할인권 등록이 완료 되었습니다.");
+                    if (this.oTDialog) {
+                        this.oTDialog.close();
+                    }
+                }.bind(this))
+                .fail(function() {
+                    MessageBox.error("할인권 등록을 실패 하였습니다.");
+                });
+        },
+        
+        //할인권 구매 다이얼로그 닫기 (다이얼로그가 닫힐 때 버튼 상태 초기화)
+        onCloseTicket: function () {
+            var oDialog = this.byId("TicketDialog"); 
+            var oTable = this.byId("TicketTable"); 
+
+            // 테이블의 각 행에 대해 버튼 상태 초기화
+            var aItems = oTable.getItems();
+            aItems.forEach(function (oItem) {
+                var oPlusBtn = oItem.getCells()[2].getItems()[0]; // 추가 버튼
+                var oMinusBtn = oItem.getCells()[2].getItems()[1]; // 삭제 버튼
+
+                if (oPlusBtn) {
+                    oPlusBtn.setEnabled(true);
+                }
+
+                if (oMinusBtn) {
+                    oMinusBtn.setEnabled(true);
+                }
+            });
+
+            // 다이얼로그 닫기
+            oDialog.close();
         },
 
         //정기권 구매 dialog
@@ -379,7 +308,7 @@ function (Controller, JSONModel, MessageBox,Sorter,Filter,FilterOperator,Fragmen
         
             if (!this.oCarDialog) {
                 this.oCarDialog = this.loadFragment({
-                    name: "parking.view.Fragments.CarDialog"
+                    name: "parking.view.Fragments.Main.CarDialog"
                 });
             }
             
@@ -435,6 +364,7 @@ function (Controller, JSONModel, MessageBox,Sorter,Filter,FilterOperator,Fragmen
             var oCarTypeFilter = [new Filter("TypeName", FilterOperator.EQ, "정기권 차량")];
             
             if(saveCarData.Uuid){
+            
             //차량구분 typeUUid(일반차량->정기권 차량) 업데이트
             oCartypeModel.read("/Cartype", {
                 filters: oCarTypeFilter,
@@ -494,10 +424,81 @@ function (Controller, JSONModel, MessageBox,Sorter,Filter,FilterOperator,Fragmen
             if (oNumberPlate) {
                 oNumberPlate.setValue(""); // Input 필드의 값 초기화
             }
-        
+
             this.oDialog.close();
         },
-        
+        // 주차요금 계산하기 (할인 쿠폰 적용)
+        calculateParkingTime: function () {
+            var oRegisterModel = this.getView().getModel("registerModel");
+            var oticketModel = this.getView().getModel("ticketModel");
+
+            if (!oRegisterModel) {
+                MessageBox.error("registerModel을 찾을 수 없습니다.");
+                return;
+            }
+
+            var entryTime = oRegisterModel.getProperty("/EntryTime");
+            var typeName = oRegisterModel.getProperty("/TypeName");
+
+            if (entryTime) {
+                var entryDate = new Date(entryTime);
+                var currentTime = new Date();
+                // 주차 시간 구하기 (시간/분 형식)
+                var oParkingTime = currentTime.getTime() - entryDate.getTime();
+                var oParkingHour = Math.floor(oParkingTime / (1000 * 60 * 60)); // 시간
+                var oParkingMinutes = Math.floor((oParkingTime % (1000 * 60 * 60)) / (1000 * 60)); // 분
+
+                var fee = (oParkingHour + (oParkingMinutes > 0 ? 1 : 0)) * 1000;
+
+                var ofee = this.byId("ParkingFee");
+                var oPkTime = this.byId("ParkingTime");
+                var oDisFeeId = this.byId("ParkingDisFee");
+
+                var totalDisTime = 0;
+                var totalDisFee = 0;
+
+                if (oticketModel && oticketModel.getProperty("/").length) {
+                    oticketModel.getProperty("/").forEach(function (item) {
+                        // totalDisTime += item.UsedCount * item.DiscountTime;
+                        totalDisFee += item.UsedCount * item.DiscountTime * 1000;
+                    });
+                }
+
+                var discountedParkingHours = oParkingHour - totalDisTime;
+                var discountedFee = fee - totalDisFee;
+
+                if (oPkTime) {
+                    var parkingTimeText = discountedParkingHours + " 시간 " + oParkingMinutes + " 분";
+                    oPkTime.setText(parkingTimeText);
+                } else {
+                    MessageBox.error("주차 시간 데이터를 불러오지 못했습니다.");
+                }
+
+                if (ofee) {
+                    if (typeName === "정기권 차량") {
+                        ofee.setNumber(0);
+                        oDisFeeId.setNumber(0);
+                    } else {
+                        ofee.setNumber(discountedFee);
+                        if (oDisFeeId) {
+                            oDisFeeId.setNumber(totalDisFee);
+                        } else {
+                            oDisFeeId.setNumber(0);
+                        }
+                    }
+                } else {
+                    MessageBox.error("주차 요금 데이터를 불러오지 못했습니다.");
+                }
+
+                // myticketModel에 주차 요금과 주차 시간 저장
+                if (oticketModel) {
+                    oticketModel.setProperty("/ParkingFee", discountedFee);
+                    oticketModel.setProperty("/ParkingDisFee",totalDisFee);
+                    oticketModel.setProperty("/ParkingTime", parkingTimeText);
+                }
+            }
+        },
+
         // 정산 차량 테이블 sort
         onSort: function () {
 			this.getViewSettingsDialog("parking.view.Fragments.sortDialog")
@@ -521,11 +522,13 @@ function (Controller, JSONModel, MessageBox,Sorter,Filter,FilterOperator,Fragmen
 			oBinding.sort(aSorters);
 		},
 
+    // 정기권 등록 Dialog (신규 등록 / 입차 X)
     carDialogEditableOk: function () {
         this.byId("inputTypeName").setVisible(false);
         this.byId("inputNumberPlate").setEditable(true);
     },
 
+    // 정기권 등록 Dialog (입차 차량)
     carDialogEditable: function () {
         this.byId("inputTypeName").setVisible(true);
         this.byId("inputNumberPlate").setEditable(false);

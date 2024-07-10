@@ -7,8 +7,9 @@
 	xmlns:l="sap.ui.layout"
 	xmlns:c="sap.ui.core"
 >
-	<Page id="page">
-		<!-- 관리자 화면 -->
+	<Page id="page" title="CYE PARKING LOT">
+	<Panel>
+		<!-- 주차장 현황 헤더-->
 		<HBox visible="true" width="100%">
 			<GenericTile class="sapUiTinyMargin" header="입차한 차량"  press="onPress"
 			frameType="OneByHalf" subheader="20 대">
@@ -23,7 +24,7 @@
 				frameType="OneByHalf" subheader="200000 원">
 			</GenericTile>
 		</HBox>
-		
+	</Panel>
 		<!-- 차량번호 조회 -->
 		<!-- <core:Fragment fragmentName="parking.view.Fragments.Dynamic" type="XML"/> -->
 			<f:DynamicPage id="dynamicPageId"
@@ -36,9 +37,11 @@
 				<f:DynamicPageTitle>
 					<f:heading>
 						<!-- <Title text="CYE PARKING SYSTEM"/> -->
-						<!-- <Button icon="sap-icon://car-rental" type="Transparent" press=""/>
-							<c:Icon src="sap-icon://car-rental"/> -->
+						<!-- <Button icon="sap-icon://car-rental" type="Transparent" press=""/> -->
+							<HBox>
+								<c:Icon src="sap-icon://car-rental" size="1.5rem" class="sapUiTinyMarginEnd"/> 
 							<Title text="차량 조회" />
+							</HBox>
 					</f:heading>
 					<!-- <Button icon="sap-icon://decline" type="Transparent" press="onBack"/>-->
 					<f:actions>
@@ -56,20 +59,20 @@
 			<!-- DynamicPage Header -->
 			<f:header>
 				<f:DynamicPageHeader pinnable="true">
-					<c:Fragment fragmentName="parking.view.Fragments.SearchMain" type="XML"/>
+					<c:Fragment fragmentName="parking.view.Fragments.Main.SearchMain" type="XML"/>
 				</f:DynamicPageHeader>
 			</f:header>
 			<f:content>
 				<IconTabBar id="iconTabBar" class="sapUiResponsiveContentPadding">
 					<items>
 						<IconTabFilter text="정산완료 차량" id="paidCar" visible="true">
-							<c:Fragment fragmentName="parking.view.Fragments.PaidCarMain" type="XML"/>
+							<c:Fragment fragmentName="parking.view.Fragments.Main.PaidCarMain" type="XML"/>
 						</IconTabFilter>
 						<IconTabFilter text="정기권 차량" visible="true" id="ticketCar">
-							<c:Fragment fragmentName="parking.view.Fragments.Vipcar" type="XML"/>
+							<c:Fragment fragmentName="parking.view.Fragments.Main.Vipcar" type="XML"/>
 						</IconTabFilter>
 						<IconTabFilter text="현황 분석" id="chart" visible="true">
-							<c:Fragment fragmentName="parking.view.Fragments.Chart" type="XML"/>
+							<c:Fragment fragmentName="parking.view.Fragments.Main.Chart" type="XML"/>
 						</IconTabFilter>
 					</items>
 				</IconTabBar>

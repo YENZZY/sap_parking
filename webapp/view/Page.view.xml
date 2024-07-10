@@ -6,9 +6,13 @@
     xmlns:f="sap.f"
 	  xmlns:l="sap.ui.layout"
 	  xmlns:c="sap.ui.core"
->
-	<Page id="page">
+>	
+	<Page id="page" title="CYE PARKING LOT">
     <!-- 차량 조회 세부 내역  -->
+	<!-- <OverflowToolbar>
+	<core:Icon src="sap-icon://car-rental"/>
+	<Title text="CYE PARKING LOT" titleStyle="H4" />
+	</OverflowToolbar> -->
     <f:DynamicPage id="dynamicPageId"
 			stickySubheaderProvider="iconTabBar"
 			class="sapUiNoContentPadding"
@@ -19,9 +23,11 @@
 				<f:DynamicPageTitle>
 					<f:heading>
 						<!-- <Title text="CYE PARKING SYSTEM"/> -->
-						<!-- <Button icon="sap-icon://car-rental" type="Transparent" press=""/>
-							<c:Icon src="sap-icon://car-rental"/> -->
-							<Title text="차량 조회 내역"/>
+						<!-- <Button icon="sap-icon://car-rental" type="Transparent" press=""/> -->
+							<HBox>
+								<c:Icon src="sap-icon://insurance-car" size="1.5rem" class="sapUiTinyMarginEnd"/> 
+								<Title text="차량 조회 내역"/>
+							</HBox>
 					</f:heading>
 					<!-- <Button icon="sap-icon://decline" type="Transparent" press="onBack"/>-->
 					<!-- <f:actions>
@@ -39,14 +45,14 @@
 			<!-- DynamicPage Header -->
 			<f:header>
 				<f:DynamicPageHeader pinnable="true">
-					<c:Fragment fragmentName="parking.view.Fragments.CarPage" type="XML"/>
+					<c:Fragment fragmentName="parking.view.Fragments.Page.CarPage" type="XML"/>
 				</f:DynamicPageHeader>
 			</f:header>
 			<f:content>
 				<IconTabBar id="iconTabBar" class="sapUiResponsiveContentPadding">
 					<items>
 						<IconTabFilter text="할인권 사용 내역" id="myTicket" visible="true">
-							<c:Fragment fragmentName="parking.view.Fragments.TicketPage" type="XML"/>
+							<c:Fragment fragmentName="parking.view.Fragments.Page.TicketPage" type="XML"/>
 						</IconTabFilter>
 					</items>
 				</IconTabBar>

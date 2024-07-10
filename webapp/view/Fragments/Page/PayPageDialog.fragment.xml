@@ -48,7 +48,7 @@
             <ToolbarSpacer/>
 				<content>
 					<Button id= "payTicket"
-                            type="Accept"
+                            type="Ghost"
 							text="결제"
 							press="onPayTicket" visible="true"/>
 					

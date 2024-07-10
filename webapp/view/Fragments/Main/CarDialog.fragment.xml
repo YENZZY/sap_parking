@@ -40,7 +40,7 @@
             <ToolbarSpacer/>
 				<content>
 					<Button id= "saveCar"
-                            type="Accept"
+                            type="Ghost"
 							text="등록"
 							press="onSaveCar" visible="true"/>
 					

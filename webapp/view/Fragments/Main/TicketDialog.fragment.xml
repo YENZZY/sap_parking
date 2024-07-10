@@ -4,7 +4,7 @@
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:core="sap.ui.core"
 >
-    <Dialog id="TicketDialog" title="할인권 등록" contentWidth="22%">
+    <Dialog id="TicketDialog" title="할인권 등록" contentWidth="35%">
         <content>
                 <f:SimpleForm id="ticketForm" editable="true" layout="ColumnLayout" columnsM="1" columnsL="1" columnsXL="1">
                     <f:content>
@@ -12,15 +12,15 @@
                         <Input id="ticketTypeName" value="{registerModel>/TypeName}" required="true" change="onChange" editable="false" visible="true"/>
                          -->
                         <Label text="차량번호" design="Bold"/>
-                        <Input id="ticketNumberPlate" value="{registerModel>/NumberPlate}" required="true" change="onChange" editable="false"/>
+                        <Text id="ticketNumberPlate" text="{registerModel>/NumberPlate}"/>
                         
                         <!-- <Label text="입차시간" design="Bold"/>
                         <Text text="{path: 'carinfoModel>/EntryTime', type: 'sap.ui.model.type.DateTime', formatOptions: {pattern: 'yyyy-MM-dd HH:mm:ss'}}" width="20rem"/>
                          -->
                         <Label text="주차시간" design="Bold"/>
-                        <Text id="ParkingTime" text="{carinfoModel>/ParkingTime}" width="20rem"/>
+                        <Text id="ParkingTime" text="{ticketModel>/ParkingTime}"/>
                         
-                        <Label text="티켓 종류" design="Bold"/>
+                        <!-- <Label text="등록 가능 할인권" design="Bold"/> -->
                         <!-- <Select id="selTicketName" items="{discountModel>/}" selectedKey="{ticketModel>/Discountuuid}" width="15rem" change="onSelTicketChange">
                             <core:Item key="{discountModel>Uuid}" text="{discountModel>DiscountName}"/>
                         </Select>
@@ -32,6 +32,22 @@
 
                         <!-- 할인권 추가 버튼 -->
                         <!-- <Button text="﹢" press="onAddDiscount" width="2rem"/>  -->
+                        <!-- 요금 -->
+                        <ObjectNumber
+                                id="ParkingFee"
+                                number="{ticketModel>/ParkingFee}"
+                                unit="원"  
+                                visible="false"         
+                            />
+                        <Text text="(할인 금액" width="70%" visible="false"/>
+                            <ObjectNumber
+                                id="ParkingDisFee"
+                                number="{carinfoModel>/ParkingDisFee}"
+                                unit="원)"
+                                state="Error"
+                                class="sapUiTinyMarginBottom"
+                                visible="false"
+                        />
                     </f:content>
                 </f:SimpleForm>
 
@@ -42,7 +58,7 @@
 							}">
 							<columns>
 								<Column
-								width="5rem">
+								width="7rem">
 								<Text text="할인권명" textAlign="Center"/>
 								</Column>
 								<Column
@@ -58,10 +74,10 @@
 								<ColumnListItem vAlign="Middle">
 								<cells>
 								<Text text="{discountModel>DiscountName}" textAlign="Center"/>
-								<Input id="UsedTicket" value="0" textAlign="Center" width="2rem"/>
+								<Input id="UsedTicket" type="Number" value="{discountModel>UsedCount}" textAlign="Center" width="4rem" editable="false"/>
 								<HBox>
-									<Button	text="﹢" press="onPlus" class="sapUiTinyMarginEnd" type="Accept"/>
-									<Button	text="⧿" press="onMinus" type="Reject"/>
+									<Button	id="plusBtn" text="﹢" press="onPlus" class="sapUiTinyMarginEnd" type="Accept"/>
+									<Button	id="minusBtn" text="⧿" press="onMinus" type="Attention"/>
 								</HBox>
 								</cells>
 								</ColumnListItem>
@@ -72,7 +88,7 @@
             <Toolbar>
                 <ToolbarSpacer/>
                 <content>
-                    <Button id="buyTicket" type="Accept" text="등록" press="onBuyTicket" />
+                    <Button id="buyTicket" type="Ghost" text="등록" press="onBuyTicket" />
                     <Button id="cancelTicket" text="취소" type="Reject" press="onCloseTicket" ariaHasPopup="Dialog" />
                 </content>
             </Toolbar>
