@@ -4,34 +4,14 @@
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:core="sap.ui.core"
 >
-    <Dialog id="TicketDialog" title="할인권 등록" contentWidth="35%">
+    <Dialog id="TicketDialog" title="할인권 등록" contentWidth="30%">
         <content>
                 <f:SimpleForm id="ticketForm" editable="true" layout="ColumnLayout" columnsM="1" columnsL="1" columnsXL="1">
                     <f:content>
-                        <!-- <Label text="차량구분" design="Bold"/>
-                        <Input id="ticketTypeName" value="{registerModel>/TypeName}" required="true" change="onChange" editable="false" visible="true"/>
-                         -->
                         <Label text="차량번호" design="Bold"/>
                         <Text id="ticketNumberPlate" text="{registerModel>/NumberPlate}"/>
-                        
-                        <!-- <Label text="입차시간" design="Bold"/>
-                        <Text text="{path: 'carinfoModel>/EntryTime', type: 'sap.ui.model.type.DateTime', formatOptions: {pattern: 'yyyy-MM-dd HH:mm:ss'}}" width="20rem"/>
-                         -->
                         <Label text="주차시간" design="Bold"/>
                         <Text id="ParkingTime" text="{ticketModel>/ParkingTime}"/>
-                        
-                        <!-- <Label text="등록 가능 할인권" design="Bold"/> -->
-                        <!-- <Select id="selTicketName" items="{discountModel>/}" selectedKey="{ticketModel>/Discountuuid}" width="15rem" change="onSelTicketChange">
-                            <core:Item key="{discountModel>Uuid}" text="{discountModel>DiscountName}"/>
-                        </Select>
-                        <Input id="UsedTicket" value="{ticketModel>/UsedCount}" width="2rem">
-                            <layoutData>
-                                <f:ColumnElementData cellsSmall="2" cellsLarge="2" />
-                            </layoutData>
-                        </Input>  -->
-
-                        <!-- 할인권 추가 버튼 -->
-                        <!-- <Button text="﹢" press="onAddDiscount" width="2rem"/>  -->
                         <!-- 요금 -->
                         <ObjectNumber
                                 id="ParkingFee"
@@ -57,27 +37,24 @@
 								path: 'discountModel>/'
 							}">
 							<columns>
-								<Column
-								width="7rem">
-								<Text text="할인권명" textAlign="Center"/>
+								<Column width="7rem" hAlign="Center">
+								<Label text="할인권명" design="Bold" textAlign="Center"/>
 								</Column>
-								<Column
-								width="5rem">
-								<Text text="개수" textAlign="Center"/>
+								<Column width="4rem" hAlign="Center">
+								<Label text="개수" design="Bold" textAlign="Center"/>
 								</Column>
-								<Column
-								width="5rem">
-								<Text text="추가 / 삭제" textAlign="Center"/>
+								<Column width="5rem" hAlign="Center">
+								<Label text="추가 / 삭제" design="Bold" textAlign="Center"/>
 								</Column>
 							</columns>
 							<items>
 								<ColumnListItem vAlign="Middle">
 								<cells>
 								<Text text="{discountModel>DiscountName}" textAlign="Center"/>
-								<Input id="UsedTicket" type="Number" value="{discountModel>UsedCount}" textAlign="Center" width="4rem" editable="false"/>
-								<HBox>
+								<Input id="UsedTicket" type="Number" value="{discountModel>UsedCount}" textAlign="Center" width="2rem" editable="false"/>
+								<HBox justifyContent="Center">
 									<Button	id="plusBtn" text="﹢" press="onPlus" class="sapUiTinyMarginEnd" type="Accept"/>
-									<Button	id="minusBtn" text="⧿" press="onMinus" type="Attention"/>
+									<Button	id="minusBtn" text="-" press="onMinus" type="Attention"/>
 								</HBox>
 								</cells>
 								</ColumnListItem>

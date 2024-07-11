@@ -1,0 +1,51 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:f="sap.ui.layout.form"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core"
+>
+<!-- <OverflowToolbar>
+			<core:Icon src="sap-icon://car-rental"></core:Icon>
+			<Title text="차량 조회" titleStyle="H4"/>
+			<ToolbarSpacer/>
+			<Button press="onRegister" visible="true" text=" 정기권 등록 " type="Emphasized" ariaHasPopup="Dialog"></Button>
+			<Button press="onBuy" visible="true" text=" 할인권 구매 " type="Ghost" ariaHasPopup="Dialog"></Button>
+		</OverflowToolbar> -->
+		<Panel>
+			<!-- <Toolbar width="100%" height="4.5rem" style="Clear" >
+				<ToolbarSpacer/>
+				<Input id="findNumber" placeholder="차량번호 4자리 입력" class="findNumber"/>
+				<ToolbarSpacer/>
+			</Toolbar> -->
+
+			<!-- 차량번호 조회 -->
+			<HBox width="100%" justifyContent="Center" >
+			<VBox height="18rem" class="sapUiSmallMarginEnd">
+				<Input id="findNumber" placeholder="차량번호 4자리 입력" class="findNumber sapUiSmallMarginBottom"/>
+				<Image width="14rem" height="13rem" src="https://img.freepik.com/premium-vector/car-parking-sign-parking-space-icon-parking-lot-car-parking-flat-style-vector-illustration-web-element_435184-1157.jpg"></Image>
+			</VBox>
+				<VBox  height="18rem">
+					<HBox width="100%" height="4.5rem" justifyContent="Center" >
+						<Button text="1" press="onClick" class="keyPad sapUiTinyMarginEnd "/>
+						<Button text="2" press="onClick" class="keyPad sapUiTinyMarginEnd "/>
+						<Button text="3" press="onClick" class="keyPad "/>
+					</HBox>
+					<HBox width="100%" height="4.5rem" justifyContent="Center" >
+						<Button text="4" press="onClick" class="keyPad sapUiTinyMarginEnd "/>
+						<Button text="5" press="onClick" class="keyPad sapUiTinyMarginEnd "/>
+						<Button text="6" press="onClick" class="keyPad "/>
+					</HBox>
+					<HBox width="100%" height="4.5rem" justifyContent="Center" >
+						<Button text="7" press="onClick" class="keyPad sapUiTinyMarginEnd "/>
+						<Button text="8" press="onClick" class="keyPad sapUiTinyMarginEnd "/>
+						<Button text="9" press="onClick" class="keyPad "/>
+					</HBox>
+					<HBox width="100%" height="4.5rem" justifyContent="Center" >
+						<Button text="⌦" press="onClear" class="keyPad sapUiTinyMarginEnd "/>
+						<Button text="0" press="onClick" class="keyPad sapUiTinyMarginEnd "/>
+						<Button text="⏎" press="onSearch" class="keyPad "/>
+					</HBox>
+				</VBox>
+				</HBox>
+			</Panel>
+</core:FragmentDefinition>

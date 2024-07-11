@@ -8,88 +8,57 @@
 	xmlns:c="sap.ui.core"
 >
 	<Page id="page" title="CYE PARKING LOT">
-	<Panel>
-		<!-- 주차장 현황 헤더-->
-		<HBox visible="true" width="100%">
-			<GenericTile class="sapUiTinyMargin" header="입차한 차량"  press="onPress"
-			frameType="OneByHalf" subheader="20 대">
-			</GenericTile>
-			<GenericTile class="sapUiTinyMargin" header="일반 차량"  press="onPress"
-				frameType="OneByHalf" subheader="10 대">
-			</GenericTile>
-			<GenericTile class="sapUiTinyMargin" header="정기권 차량"  press="onPress"
-				frameType="OneByHalf" subheader="5 대">
-			</GenericTile>
-			<GenericTile class="sapUiTinyMargin" header="총 부과 요금"  press="onPress"
-				frameType="OneByHalf" subheader="200000 원">
-			</GenericTile>
-		</HBox>
-	</Panel>
 		<!-- 차량번호 조회 -->
-		<!-- <core:Fragment fragmentName="parking.view.Fragments.Dynamic" type="XML"/> -->
 			<f:DynamicPage id="dynamicPageId"
 			stickySubheaderProvider="iconTabBar"
 			class="sapUiNoContentPadding"
 			toggleHeaderOnTitleClick="{/titleClickable}"
 		>
 			<!-- DynamicPage Title -->
-			<f:title>
+			<f:title >
 				<f:DynamicPageTitle>
 					<f:heading>
-						<!-- <Title text="CYE PARKING SYSTEM"/> -->
-						<!-- <Button icon="sap-icon://car-rental" type="Transparent" press=""/> -->
 							<HBox>
 								<c:Icon src="sap-icon://car-rental" size="1.5rem" class="sapUiTinyMarginEnd"/> 
-							<Title text="차량 조회" />
+								<Title text="차량 조회" class="sapUiTinyMarginEnd"/>
+								<Button id="User" text="⇰ User" type="Accept" press="onUser" visible="true"/>
+								<Button id="Admin" text="⇰ Admin" type="Accept" press="onAdmin" visible="false"/>
 							</HBox>
 					</f:heading>
 					<!-- <Button icon="sap-icon://decline" type="Transparent" press="onBack"/>-->
 					<f:actions>
-						<Button press="onRegister" visible="true" text=" 정기권 등록 " type="Emphasized" ariaHasPopup="Dialog"></Button>
-						<Button press="onBuy" visible="true" text=" 할인권 등록 " type="Ghost" ariaHasPopup="Dialog"></Button>
+						<Button id="registerBtn" press="onRegister" visible="true" text=" 정기권 등록 " type="Emphasized" ariaHasPopup="Dialog"/>
+						<Button id="buyBtn" press="onBuy" visible="true" text=" 할인권 등록 " type="Ghost" ariaHasPopup="Dialog"/>
 						<!-- <Button text="수정" type="Emphasized"/>
 						<Button text="삭제" type="Transparent"/>
 						<Button text="Toggle Footer" type="Transparent" press="onToggleFooter"/> -->
 					</f:actions>
-					<!-- <f:navigationActions>
-					</f:navigationActions>  -->
 				</f:DynamicPageTitle>
 			</f:title>
-		
 			<!-- DynamicPage Header -->
 			<f:header>
-				<f:DynamicPageHeader pinnable="true">
-					<c:Fragment fragmentName="parking.view.Fragments.Main.SearchMain" type="XML"/>
+				<f:DynamicPageHeader id="ChartItem" visible="true" pinnable="false">
+					<c:Fragment fragmentName="parking.view.Fragments.Main.ChartItem" type="XML"/>
 				</f:DynamicPageHeader>
 			</f:header>
 			<f:content>
 				<IconTabBar id="iconTabBar" class="sapUiResponsiveContentPadding">
 					<items>
+						<IconTabFilter text="차량 조회" id="searchCar" visible="true">
+							<c:Fragment fragmentName="parking.view.Fragments.Main.SearchHeader" type="XML"/>
+						</IconTabFilter>
+						<IconTabFilter text="입차 차량" id="entryCar" visible="true">
+							<c:Fragment fragmentName="parking.view.Fragments.Main.EntryCarItem" type="XML"/>
+						</IconTabFilter>
 						<IconTabFilter text="정산완료 차량" id="paidCar" visible="true">
-							<c:Fragment fragmentName="parking.view.Fragments.Main.PaidCarMain" type="XML"/>
+							<c:Fragment fragmentName="parking.view.Fragments.Main.PaidCarItem" type="XML"/>
 						</IconTabFilter>
 						<IconTabFilter text="정기권 차량" visible="true" id="ticketCar">
-							<c:Fragment fragmentName="parking.view.Fragments.Main.Vipcar" type="XML"/>
-						</IconTabFilter>
-						<IconTabFilter text="현황 분석" id="chart" visible="true">
-							<c:Fragment fragmentName="parking.view.Fragments.Main.Chart" type="XML"/>
+							<c:Fragment fragmentName="parking.view.Fragments.Main.VipcarItem" type="XML"/>
 						</IconTabFilter>
 					</items>
 				</IconTabBar>
 			</f:content>
-			<!-- DynamicPage Footer -->
-			<!-- <f:footer>
-				<OverflowToolbar>
-					<Button icon="sap-icon://message-popup"
-						text="{/messagesLength}"
-						type="Emphasized"
-						press="onMessageButtonPress"
-						visible="{= !!${/messagesLength}}"/>
-					<ToolbarSpacer/>
-					<Button type="Accept" text="Accept"/>
-					<Button type="Reject" text="Reject"/>
-				</OverflowToolbar>
-			</f:footer> -->
 		</f:DynamicPage>
 	</Page>
 </mvc:View>

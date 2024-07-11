@@ -125,7 +125,7 @@ function (Controller, JSONModel, MessageBox) {
             var carinfoUuid = oRegisterData.Uuid;
             if(!this.oPayDialog){
                 this.oPayDialog = this.loadFragment({
-                    name: "parking.view.Fragments.Page.PayPageDialog"
+                    name: "parking.view.Fragments.Page.PayDialog"
                 });
             }
             this.oPayDialog.then(function (oDialog){

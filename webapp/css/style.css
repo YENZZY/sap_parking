@@ -1,0 +1,39 @@
+.findNumber {
+    width:14rem !important;
+    height: 3rem !important;
+    margin-left: 0 !important;
+    justify-content: end !important;
+}
+.findNumber ::placeholder {
+    font-size: x-large !important;
+    color: darkgrey;
+    height: 2rem !important;
+    line-height: 2rem !important;
+    align-items: center !important;
+
+}
+
+.findNumber div {
+    height: 3rem !important;
+    line-height: 3rem !important;
+}
+
+.findNumber div input {
+    font-size: xx-large !important;
+    line-height: 3rem !important;
+    height: 3rem !important;
+}
+
+.keyPad {
+    width: 4rem !important; 
+}
+
+.keyPad span {
+    height:4rem !important;
+}
+
+.keyPad span  span bdi {
+    height:4rem !important;
+    line-height: 4rem !important;
+    font-size: large !important;
+}

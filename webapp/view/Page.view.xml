@@ -44,15 +44,15 @@
 		
 			<!-- DynamicPage Header -->
 			<f:header>
-				<f:DynamicPageHeader pinnable="true">
-					<c:Fragment fragmentName="parking.view.Fragments.Page.CarPage" type="XML"/>
+				<f:DynamicPageHeader pinnable="false">
+					<c:Fragment fragmentName="parking.view.Fragments.Page.CarInfoHeader" type="XML"/>
 				</f:DynamicPageHeader>
 			</f:header>
 			<f:content>
 				<IconTabBar id="iconTabBar" class="sapUiResponsiveContentPadding">
 					<items>
 						<IconTabFilter text="할인권 사용 내역" id="myTicket" visible="true">
-							<c:Fragment fragmentName="parking.view.Fragments.Page.TicketPage" type="XML"/>
+							<c:Fragment fragmentName="parking.view.Fragments.Page.TicketItem" type="XML"/>
 						</IconTabFilter>
 					</items>
 				</IconTabBar>

@@ -41,8 +41,8 @@ function (Controller, JSONModel, MessageBox,Sorter,Filter,FilterOperator,Fragmen
 
             function(aGetData) {
             
-                this.setModel(new JSONModel(aGetData), "paidModel");
-            
+                this.setModel(new JSONModel(aGetData), "entryModel");
+                this.oEntryCarCount();
             }.bind(this)).fail(function () {
 
                 MessageBox.information("지점 조회를 할 수 없습니다.");
@@ -50,19 +50,55 @@ function (Controller, JSONModel, MessageBox,Sorter,Filter,FilterOperator,Fragmen
             });
 
             this.oVipcardata(); //정산된 차량 테이블 데이터 조회
+            this.oCardetaildata();
             //this.calculateParkingTime(); // 주차시간 및 요금 계산
-
         },
 
-        //정산권 차량 데이터 조회
+        //정산 완료 차량 데이터 조회
+        oCardetaildata : function () {
+            var oCarDetailModel = this.getOwnerComponent().getModel("cardetailData");
+            this._getODataRead(oCarDetailModel,"/Cardetail").done(
+                function(aCarGetData) {
+                    this.setModel(new JSONModel(aCarGetData),"paidModel");
+                }.bind(this)).fail(function () {
+                    MessageBox.information("정산 완료 차량 조회를 할 수 없습니다.");
+                })
+        },
+
+        //정기권 차량 데이터 조회
         oVipcardata : function () {
             var oVipcarModel = this.getOwnerComponent().getModel("vipcarData");
             this._getODataRead(oVipcarModel,"/Vipcar").done(
                 function(aVipGetData) {
                     this.setModel(new JSONModel(aVipGetData),"vipcarModel");
+                    this.oVipCarCount();
                 }.bind(this)).fail(function () {
                     MessageBox.information("정기권 차량 조회를 할 수 없습니다.");
                 })
+        },
+
+        //입차 차량 수 조회
+        oEntryCarCount : function () {
+            var oModel = this.getView().getModel("entryModel");
+            var entryData = oModel.getData(); 
+            var entryCarCount = entryData.length || 0; // 없으면 0
+            console.log(entryCarCount);
+            
+            // 가져온 값을 ObjectNumber에 설정 (chart.fragment에 있음)
+            var oObjectNumber = this.byId("entryCarCount");
+            oObjectNumber.setNumber(entryCarCount);
+        },
+
+        //정기권 차량 수 조회
+        oVipCarCount : function () {
+            var oModel = this.getView().getModel("vipcarModel");
+            var vipCarData = oModel.getData(); 
+            var vipCarCount = vipCarData.length || 0; // 없으면 0
+            console.log(vipCarCount);
+            
+            // 가져온 값을 NumericContent에 설정 (chart.fragment에 있음)
+            var oObjectNumber = this.byId("vipCarCount");
+            oObjectNumber.setNumber(vipCarCount);
         },
 
         //차량 조회
@@ -275,7 +311,7 @@ function (Controller, JSONModel, MessageBox,Sorter,Filter,FilterOperator,Fragmen
                 });
         },
         
-        //할인권 구매 다이얼로그 닫기 (다이얼로그가 닫힐 때 버튼 상태 초기화)
+        //할인권 등록 다이얼로그 닫기 (다이얼로그가 닫힐 때 버튼 상태 초기화)
         onCloseTicket: function () {
             var oDialog = this.byId("TicketDialog"); 
             var oTable = this.byId("TicketTable"); 
@@ -362,9 +398,14 @@ function (Controller, JSONModel, MessageBox,Sorter,Filter,FilterOperator,Fragmen
             var saveCarData = oRegisterModel.getData();
         
             var oCarTypeFilter = [new Filter("TypeName", FilterOperator.EQ, "정기권 차량")];
-            
+
+            // 차량번호 길이 확인
+            if (!saveCarData.NumberPlate || saveCarData.NumberPlate.length !== 4) {
+                MessageBox.error("차량번호를 4자리 입력해주세요.");
+                return;
+            }
+
             if(saveCarData.Uuid){
-            
             //차량구분 typeUUid(일반차량->정기권 차량) 업데이트
             oCartypeModel.read("/Cartype", {
                 filters: oCarTypeFilter,
@@ -401,14 +442,35 @@ function (Controller, JSONModel, MessageBox,Sorter,Filter,FilterOperator,Fragmen
             });
             // 신규 생성
         } else {
-             // 정기권 차량 테이블에 등록
-             oVipcarModel.create("/Vipcar",{
-                NumberPlate : saveCarData.NumberPlate,
-               });
-               MessageBox.success("차량 정보가 성공적으로 업데이트되었습니다.");
-                this.oDialog.close();
-                // vipcarModel 재실행(갱신)
-                this._getData();
+            // 정기권 차량 테이블에 등록
+            oVipcarModel.create("/Vipcar", {
+                NumberPlate: saveCarData.NumberPlate
+            }, {
+                success: function () {
+                    MessageBox.success("차량 정보가 성공적으로 업데이트되었습니다.");
+                    this.oDialog.close();
+                    // vipcarModel 재실행(갱신)
+                    this._getData();
+                }.bind(this),
+                error: function (oError) {
+                    // 오류 응답 처리
+                    var oMessage = JSON.parse(oError.responseText);
+                    if (oMessage.error && oMessage.error.message) {
+                        MessageBox.error(oMessage.error.message.value);
+                        this.oDialog.close();
+                    } else {
+                        MessageBox.error("차량 정보 업데이트 중 오류가 발생했습니다.");
+                    }
+                }.bind(this)
+            });
+            //  // 정기권 차량 테이블에 등록
+            //  oVipcarModel.create("/Vipcar",{
+            //     NumberPlate : saveCarData.NumberPlate,
+            //    });
+            //    MessageBox.success("차량 정보가 성공적으로 업데이트되었습니다.");
+            //     this.oDialog.close();
+            //     // vipcarModel 재실행(갱신)
+            //     this._getData();
             }
         },
         
@@ -507,7 +569,7 @@ function (Controller, JSONModel, MessageBox,Sorter,Filter,FilterOperator,Fragmen
 				});
 		},
         handleSortDialogConfirm: function (oEvent) {
-			var oTable = this.byId("CompleteTable"),
+			var oTable = this.byId("EntryCarTable"),
 				mParams = oEvent.getParameters(),
 				oBinding = oTable.getBinding("items"),
 				sPath,
@@ -534,9 +596,29 @@ function (Controller, JSONModel, MessageBox,Sorter,Filter,FilterOperator,Fragmen
         this.byId("inputNumberPlate").setEditable(false);
     },
 
-    oGrids: function () {
-        var oGrid = this.byId("grid1");
+    // 사용자 화면 이동 버튼
+    onUser: function () {
+        this.byId("buyBtn").setVisible(false);
+        this.byId("ChartItem").setVisible(false);
+        this.byId("entryCar").setVisible(false);
+        this.byId("ticketCar").setVisible(false);
+        this.byId("Admin").setVisible(true);
+        this.byId("User").setVisible(false);
+    },
 
+    // 관리자 화면 이동 버튼
+    onAdmin: function () {
+        this.byId("buyBtn").setVisible(true);
+        this.byId("ChartItem").setVisible(true);
+        this.byId("entryCar").setVisible(true);
+        this.byId("ticketCar").setVisible(true);
+        this.byId("Admin").setVisible(false);
+        this.byId("User").setVisible(true);
+    },
+
+    // 그리드 컨테이너
+    oGrids: function () {
+        var oGrid = this.byId("gridCar");
 
             oGrid.addDragDropConfig(new DragInfo({
                 sourceAggregation: "items"
@@ -568,17 +650,17 @@ function (Controller, JSONModel, MessageBox,Sorter,Filter,FilterOperator,Fragmen
                 }
             }));
     
-            oGrid.attachLayoutChange(function (oEvent) {
-                var sLayout = oEvent.getParameter("layout");
+            // oGrid.attachLayoutChange(function (oEvent) {
+            //     var sLayout = oEvent.getParameter("layout");
     
-                if (sLayout === "layoutXS" || sLayout === "layoutS") {
-                    oGrid.removeStyleClass("sapUiSmallMargin");
-                    oGrid.addStyleClass("sapUiTinyMargin");
-                } else {
-                    oGrid.removeStyleClass("sapUiTinyMargin");
-                    oGrid.addStyleClass("sapUiSmallMargin");
-                }
-            });    
+            //     if (sLayout === "layoutXS" || sLayout === "layoutS") {
+            //         oGrid.removeStyleClass("sapUiSmallMargin");
+            //         oGrid.addStyleClass("sapUiTinyMargin");
+            //     } else {
+            //         oGrid.removeStyleClass("sapUiTinyMargin");
+            //         oGrid.addStyleClass("sapUiSmallMargin");
+            //     }
+            // });    
     }
 
        
