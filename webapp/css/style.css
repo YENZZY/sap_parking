@@ -5,7 +5,7 @@
     justify-content: end !important;
 }
 .findNumber ::placeholder {
-    font-size: x-large !important;
+    font-size: large !important;
     color: darkgrey;
     height: 2rem !important;
     line-height: 2rem !important;

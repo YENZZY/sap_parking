@@ -52,9 +52,9 @@
             <items>
                 <ColumnListItem vAlign="Middle">
                 <cells >
-                    <Text	text="{myticketModel>DiscountName}" textAlign="Center"/>
-                    <Text	text="{myticketModel>DiscountTime}" textAlign="Center"/>
-                    <Text	text="{myticketModel>UsedCount}" textAlign="Center"/>
+                    <Text id="discountname" text="{myticketModel>DiscountName}" textAlign="Center"/>
+                    <Text id="discounttime" text="{myticketModel>DiscountTime}" textAlign="Center"/>
+                    <Text id="usedcount" text="{myticketModel>UsedCount}" textAlign="Center"/>
                 </cells>
                 </ColumnListItem>
             </items>

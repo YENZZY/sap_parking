@@ -27,11 +27,14 @@
 					</f:heading>
 					<!-- <Button icon="sap-icon://decline" type="Transparent" press="onBack"/>-->
 					<f:actions>
-						<Button id="registerBtn" press="onRegister" visible="true" text=" 정기권 등록 " type="Emphasized" ariaHasPopup="Dialog"/>
+						<Button id="registerBtn" press="onRegister" visible="true" text="정기 차량 등록" type="Accept" ariaHasPopup="Dialog"/>
+						<Button id="removeBtn" press="onRemove" visible="true" text="정기 차량 삭제 " type="Reject" ariaHasPopup="Dialog"/>
+							<ToolbarSeparator/>
 						<Button id="buyBtn" press="onBuy" visible="true" text=" 할인권 등록 " type="Ghost" ariaHasPopup="Dialog"/>
 					</f:actions>
 				</f:DynamicPageTitle>
 			</f:title>
+
 			<!-- DynamicPage Header -->
 			<f:header>
 				<f:DynamicPageHeader id="ChartItem" visible="true" pinnable="false">
@@ -44,13 +47,13 @@
 						<IconTabFilter text="차량 조회" id="searchCar" visible="true">
 							<c:Fragment fragmentName="parking.view.Fragments.Main.SearchHeader" type="XML"/>
 						</IconTabFilter>
+						<IconTabFilter text="정산 완료 차량" id="paidCar" visible="true">
+							<c:Fragment fragmentName="parking.view.Fragments.Main.PaidCarItem" type="XML"/>
+						</IconTabFilter>
 						<IconTabFilter text="입차 차량" id="entryCar" visible="true">
 							<c:Fragment fragmentName="parking.view.Fragments.Main.EntryCarItem" type="XML"/>
 						</IconTabFilter>
-						<IconTabFilter text="정산완료 차량" id="paidCar" visible="true">
-							<c:Fragment fragmentName="parking.view.Fragments.Main.PaidCarItem" type="XML"/>
-						</IconTabFilter>
-						<IconTabFilter text="정기권 차량" visible="true" id="ticketCar">
+						<IconTabFilter text="정기 차량" visible="true" id="ticketCar">
 							<c:Fragment fragmentName="parking.view.Fragments.Main.VipcarItem" type="XML"/>
 						</IconTabFilter>
 					</items>

@@ -28,7 +28,13 @@ function (Controller, JSONModel, MessageBox) {
             oMainModel.read(uuidPath, {
                 success: function (oData) {
                     var oCarinfoModel = new JSONModel(oData);
+                    if(oData.TypeName === "정기권 차량"){
+                        this.adminpage();
+                    }else{
+                        this.userpage();
+                    }
                     this.setModel(oCarinfoModel,"carinfoModel");
+
                 }.bind(this), error: function () {
                     MessageBox.information("carinfoModel 조회를 할 수 없습니다.");
                 }
@@ -189,7 +195,7 @@ function (Controller, JSONModel, MessageBox) {
                     MessageBox.error("결제 처리 중 오류가 발생했습니다.");
                 });
                 } else {
-                    MessageBox.information("결제하실 금액이 남았습니다.");
+                    MessageBox.information("결제 금액이 맞지 않습니다.");
                     this.byId("PayMoney").setValue("");
                 }
             },
@@ -203,6 +209,16 @@ function (Controller, JSONModel, MessageBox) {
             }
 
             this.oDialog.close();
+        },
+
+         // 사용자 화면 이동 버튼 (사용된 할인권 내역 O)
+         adminpage : function () {
+            this.byId("iconTabBar").setVisible(false);
+        },
+
+        // 관리자 화면 이동 버튼 (사용된 할인권 내역 X)
+        userpage : function () {
+            this.byId("iconTabBar").setVisible(true);
         }
     });
 });
