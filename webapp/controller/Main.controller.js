@@ -394,6 +394,7 @@ function (Controller, JSONModel, MessageBox,Sorter,Filter,FilterOperator,Fragmen
                 } else {
                     // 차량번호가 입력되지 않은 경우 새로운 차량 등록
                     this.carDialogEditableOk(); // 새로운 차량 등록 시 활성화
+
                     // 버튼 활성화 및 비활성화
                     this.byId("saveCar").setVisible(true);
                     this.byId("removeCar").setVisible(false);
@@ -464,16 +465,16 @@ function (Controller, JSONModel, MessageBox,Sorter,Filter,FilterOperator,Fragmen
             }.bind(this));
         },        
 
-
-        //정기권 차량 등록 다이얼로그 저장
+        // 정기권 차량 등록 다이얼로그 저장
         onSaveCar: function () {
             var oMainModel = this.getOwnerComponent().getModel();
             var oCartypeModel = this.getOwnerComponent().getModel("cartypeData");
             var oVipcarModel = this.getOwnerComponent().getModel("vipcarData");
             var oRegisterModel = this.getModel("registerModel");
             var saveCarData = oRegisterModel.getData();
-        
             var oCarTypeFilter = [new Filter("TypeName", FilterOperator.EQ, "정기권 차량")];
+            var oInputNumberPlate = this.byId("inputNumberPlate").getValue();
+            var entryData = this.getView().getModel("entryModel").getData();
 
             // 차량번호 길이 확인
             if (!saveCarData.NumberPlate || saveCarData.NumberPlate.length !== 4) {
@@ -481,67 +482,167 @@ function (Controller, JSONModel, MessageBox,Sorter,Filter,FilterOperator,Fragmen
                 return;
             }
 
-            if(saveCarData.Uuid){
-            //차량구분 typeUUid(일반차량->정기권 차량) 업데이트
-            oCartypeModel.read("/Cartype", {
-                filters: oCarTypeFilter,
-                success: function (oData) {
-                    if (oData && oData.results && oData.results.length > 0) {
-                        var typeUuid = oData.results[0].Uuid;
-                     
-                        var updateData = {
-                            Typeuuid: typeUuid
-                        };
-                        this._getODataUpdate(oMainModel, "/Carinfo(guid'" + saveCarData.Uuid + "')", updateData).done(function () { //Cartype(guid'112225ef-817e-1edf-8e89-372183f580f3')
-                        
-                        // 정기권 차량 테이블에 등록
-                        oVipcarModel.create("/Vipcar",{
-                        NumberPlate : saveCarData.NumberPlate,
-                       });
-
-                            MessageBox.success("차량 정보가 성공적으로 업데이트되었습니다.");
-                            this.oDialog.close();
-
+            var updateCarinfo = function (typeUuid, carUuid) {
+                var updateData = {
+                    Typeuuid: typeUuid
+                };
+                this._getODataUpdate(oMainModel, "/Carinfo(guid'" + carUuid + "')", updateData).done(function () {
+                    // 정기권 차량 테이블에 등록
+                    this._getODataCreate(oVipcarModel, "/Vipcar", {
+                        NumberPlate: saveCarData.NumberPlate
+                    }).done(function () {
+                        MessageBox.success("정기권 차량으로 등록 되었습니다.");
+                        this.oDialog.close();
                         // registerModel 재실행(갱신)
                         this._getData();
+                    }.bind(this)).fail(function () {
+                        MessageBox.error("정기권 차량 등록 중 오류가 발생했습니다.");
+                    });
+                }.bind(this)).fail(function () {
+                    MessageBox.error("차량 정보 업데이트 중 오류가 발생했습니다.");
+                });
+            }.bind(this);
 
-                        }.bind(this)).fail(function () {
-                            MessageBox.error("차량 정보 업데이트 중 오류가 발생했습니다.");
-                        });
+            if (saveCarData.Uuid) {
+                // 차량구분 typeUUid(일반차량->정기권 차량) 업데이트
+                this._getODataRead(oCartypeModel, "/Cartype", oCarTypeFilter).then(function (oData) {
+                    if (oData && oData.length > 0) {
+                        var typeUuid = oData[0].Uuid;
+                        updateCarinfo(typeUuid, saveCarData.Uuid);
                     } else {
                         MessageBox.error("정기권 차량 유형을 찾을 수 없습니다.");
                     }
-                }.bind(this),
-                error: function () {
+                }.bind(this)).fail(function () {
                     MessageBox.error("차량 유형 조회 중 오류가 발생했습니다.");
-                }
-            });
-            // 신규 생성
-        } else {
-            // 정기권 차량 테이블에 등록
-            oVipcarModel.create("/Vipcar", {
-                NumberPlate: saveCarData.NumberPlate
-            }, {
-                success: function () {
-                    MessageBox.success("차량 정보가 성공적으로 업데이트되었습니다.");
-                    this.oDialog.close();
-                    // vipcarModel 재실행(갱신)
-                    this._getData();
-                }.bind(this),
-                    error: function (oError) {
+                });
+            } else {
+                //input 박스가 있는 값이 db에 있을때 업데이트
+                var carInfo = entryData.find(function (item) {
+                    return item.NumberPlate === oInputNumberPlate;
+                });
+
+                if (carInfo) {
+                    this._getODataRead(oCartypeModel, "/Cartype", oCarTypeFilter).then(function (oData) {
+                        if (oData && oData.length > 0) {
+                            var typeUuid = oData[0].Uuid;
+                            updateCarinfo(typeUuid, carInfo.Uuid);
+                        } else {
+                            MessageBox.error("정기권 차량 유형을 찾을 수 없습니다.");
+                        }
+                    }.bind(this)).fail(function () {
+                        MessageBox.error("차량 유형 조회 중 오류가 발생했습니다.");
+                    });
+                } else {
+                    // 신규 생성 (입차 X)
+                    this._getODataCreate(oVipcarModel, "/Vipcar", {
+                        NumberPlate: saveCarData.NumberPlate
+                    }).done(function () {
+                        MessageBox.success("정기권 차량으로 등록 되었습니다.");
+                        this.oDialog.close();
+                        // vipcarModel 재실행(갱신)
+                        this._getData();
+                    }.bind(this)).fail(function (oError) {
                         // 오류 응답 처리
                         var oMessage = JSON.parse(oError.responseText);
                         if (oMessage.error && oMessage.error.message) {
                             MessageBox.error(oMessage.error.message.value);
-                            this.oDialog.close();
                         } else {
-                            MessageBox.error("차량 정보 업데이트 중 오류가 발생했습니다.");
+                            MessageBox.error("차량 정보 등록 중 오류가 발생했습니다.");
                         }
-                    }.bind(this)
-                });
+                    }.bind(this));
+                }
             }
         },
-        
+
+
+        //정기권 차량 삭제 다이얼로그 저장
+        onRemoveCar: function () {
+            var oMainModel = this.getOwnerComponent().getModel();
+            var oCartypeModel = this.getOwnerComponent().getModel("cartypeData");
+            var oVipcarModel = this.getOwnerComponent().getModel("vipcarData");
+            var oRegisterModel = this.getModel("registerModel");
+            var saveCarData = oRegisterModel.getData();
+            var oVipcarData = this.getModel("vipcarModel").getData();
+            var oCarTypeFilter = [new Filter("TypeName", FilterOperator.EQ, "일반 차량")];
+            var oInputNumberPlate = this.byId("inputNumberPlate").getValue();
+            var entryData = this.getView().getModel("entryModel").getData();
+
+            // 차량번호 길이 확인
+            if (!saveCarData.NumberPlate || saveCarData.NumberPlate.length !== 4) {
+                MessageBox.error("차량번호를 4자리 입력해주세요.");
+                return;
+            }
+
+            var oVipcarDelete = function (itemUuid) {
+                this._getODataDelete(oVipcarModel, "/Vipcar(guid'" + itemUuid + "')").done(function () {
+                    MessageBox.success("정기권 차량에서 삭제되었습니다.");
+                    this.oDialog.close();
+                    // vipcarModel 재실행(갱신)
+                    this._getData();
+                }.bind(this)).fail(function (oError) {
+                    var oMessage = JSON.parse(oError.responseText);
+                    if (oMessage.error && oMessage.error.message) {
+                        MessageBox.error(oMessage.error.message.value);
+                    } else {
+                        MessageBox.error("차량 정보 삭제 중 오류가 발생했습니다.");
+                    }
+                }.bind(this));
+            }.bind(this);
+
+            var updateCarInfoToGeneral = function (typeUuid, carUuid) {
+                var updateData = {
+                    Typeuuid: typeUuid
+                };
+                this._getODataUpdate(oMainModel, "/Carinfo(guid'" + carUuid + "')", updateData).done(function () {
+                    oVipcarData.forEach(function (item) {
+                        if (item.NumberPlate === saveCarData.NumberPlate) {
+                            oVipcarDelete(item.Uuid);
+                        }
+                    });
+                }.bind(this)).fail(function () {
+                    MessageBox.error("차량 정보 업데이트 중 오류가 발생했습니다.");
+                });
+            }.bind(this);
+
+            if (saveCarData.Uuid) {
+                // 차량구분 typeUUid(정기권 차량->일반차량) 업데이트
+                this._getODataRead(oCartypeModel, "/Cartype", oCarTypeFilter).then(function (oData) {
+                    if (oData && oData.length > 0) {
+                        var typeUuid = oData[0].Uuid;
+                        updateCarInfoToGeneral(typeUuid, saveCarData.Uuid);
+                    } else {
+                        MessageBox.error("일반 차량 유형을 찾을 수 없습니다.");
+                    }
+                }.bind(this)).fail(function () {
+                    MessageBox.error("차량 유형 조회 중 오류가 발생했습니다.");
+                });
+            } else {
+                //input 박스가 있는 값이 db에 있을때 삭제
+                var carInfo = entryData.find(function (item) {
+                    return item.NumberPlate === oInputNumberPlate;
+                });
+
+                if (carInfo) {
+                    this._getODataRead(oCartypeModel, "/Cartype", oCarTypeFilter).then(function (oData) {
+                        if (oData && oData.length > 0) {
+                            var typeUuid = oData[0].Uuid;
+                            updateCarInfoToGeneral(typeUuid, carInfo.Uuid);
+                        } else {
+                            MessageBox.error("일반 차량 유형을 찾을 수 없습니다.");
+                        }
+                    }.bind(this)).fail(function () {
+                        MessageBox.error("차량 유형 조회 중 오류가 발생했습니다.");
+                    });
+                } else {
+                    oVipcarData.forEach(function (item) {
+                        if (item.NumberPlate === saveCarData.NumberPlate) {
+                            oVipcarDelete(item.Uuid);
+                        }
+                    });
+                }
+            }
+        },
+
         //정기권 차량 등록 다이얼로그 닫기
         onCloseCar: function () {
             // 다이얼로그가 닫힐 때 입력 필드의 값을 초기화
