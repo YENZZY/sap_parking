@@ -20,7 +20,7 @@
 					<f:heading>
 							<HBox>
 								<c:Icon src="sap-icon://car-rental" size="1.5rem" class="sapUiTinyMarginEnd"/> 
-								<Title text="차량 조회" class="sapUiTinyMarginEnd"/>
+								<Title text="CYE 주차장" class="sapUiTinyMarginEnd"/>
 								<Button id="User" text="⇰ User" type="Accept" press="onUser" visible="true"/>
 								<Button id="Admin" text="⇰ Admin" type="Accept" press="onAdmin" visible="false"/>
 							</HBox>
@@ -29,9 +29,6 @@
 					<f:actions>
 						<Button id="registerBtn" press="onRegister" visible="true" text=" 정기권 등록 " type="Emphasized" ariaHasPopup="Dialog"/>
 						<Button id="buyBtn" press="onBuy" visible="true" text=" 할인권 등록 " type="Ghost" ariaHasPopup="Dialog"/>
-						<!-- <Button text="수정" type="Emphasized"/>
-						<Button text="삭제" type="Transparent"/>
-						<Button text="Toggle Footer" type="Transparent" press="onToggleFooter"/> -->
 					</f:actions>
 				</f:DynamicPageTitle>
 			</f:title>
