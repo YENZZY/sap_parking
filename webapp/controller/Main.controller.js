@@ -477,8 +477,9 @@ function (Controller, JSONModel, MessageBox,Sorter,Filter,FilterOperator,Fragmen
             var entryData = this.getView().getModel("entryModel").getData();
 
             // 차량번호 길이 확인
-            if (!saveCarData.NumberPlate || saveCarData.NumberPlate.length !== 4) {
+            if (!saveCarData.NumberPlate || !/^\d{4}$/.test(saveCarData.NumberPlate) ) {
                 MessageBox.error("차량번호를 4자리 입력해주세요.");
+                this.byId("inputNumberPlate").setValue("");
                 return;
             }
 
@@ -554,7 +555,6 @@ function (Controller, JSONModel, MessageBox,Sorter,Filter,FilterOperator,Fragmen
             }
         },
 
-
         //정기권 차량 삭제 다이얼로그 저장
         onRemoveCar: function () {
             var oMainModel = this.getOwnerComponent().getModel();
@@ -568,8 +568,9 @@ function (Controller, JSONModel, MessageBox,Sorter,Filter,FilterOperator,Fragmen
             var entryData = this.getView().getModel("entryModel").getData();
 
             // 차량번호 길이 확인
-            if (!saveCarData.NumberPlate || saveCarData.NumberPlate.length !== 4) {
+            if (!saveCarData.NumberPlate || !/^\d{4}$/.test(saveCarData.NumberPlate)) {
                 MessageBox.error("차량번호를 4자리 입력해주세요.");
+                this.byId("inputNumberPlate").setValue("");
                 return;
             }
 
@@ -771,7 +772,7 @@ function (Controller, JSONModel, MessageBox,Sorter,Filter,FilterOperator,Fragmen
             this.byId("registerBtn").setVisible(false);
             this.byId("removeBtn").setVisible(false);
             this.byId("buyBtn").setVisible(false);
-            this.byId("ChartItem").setVisible(false);
+            this.byId("ChartMain").setVisible(false);
             this.byId("entryCar").setVisible(false);
             this.byId("ticketCar").setVisible(false);
             this.byId("Admin").setVisible(true);
@@ -783,7 +784,7 @@ function (Controller, JSONModel, MessageBox,Sorter,Filter,FilterOperator,Fragmen
             this.byId("buyBtn").setVisible(true);
             this.byId("registerBtn").setVisible(true);
             this.byId("removeBtn").setVisible(true);
-            this.byId("ChartItem").setVisible(true);
+            this.byId("ChartMain").setVisible(true);
             this.byId("entryCar").setVisible(true);
             this.byId("ticketCar").setVisible(true);
             this.byId("Admin").setVisible(false);

@@ -32,13 +32,21 @@
 							<ToolbarSeparator/>
 						<Button id="buyBtn" press="onBuy" visible="true" text=" 할인권 등록 " type="Ghost" ariaHasPopup="Dialog"/>
 					</f:actions>
+					<f:expandedContent>
+						<VBox>
+							<Label text="상호명 : CYE 주차장"/>
+							<Label text="주차 요금 : 1시간 1000원"/>
+							<Label text="전화 번호 : 02-1004-0522"/>
+							<Label text="주소 : 서울시 서초구 남부순환로 2406 CYE 주차장"/>
+						</VBox>
+					</f:expandedContent>
 				</f:DynamicPageTitle>
 			</f:title>
 
 			<!-- DynamicPage Header -->
 			<f:header>
-				<f:DynamicPageHeader id="ChartItem" visible="true" pinnable="false">
-					<c:Fragment fragmentName="parking.view.Fragments.Main.ChartItem" type="XML"/>
+				<f:DynamicPageHeader id="ChartMain" visible="true" pinnable="false">
+					<c:Fragment fragmentName="parking.view.Fragments.Main.ChartMain" type="XML"/>
 				</f:DynamicPageHeader>
 			</f:header>
 			<f:content>

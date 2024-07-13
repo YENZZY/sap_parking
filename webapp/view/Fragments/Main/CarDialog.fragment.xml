@@ -7,7 +7,7 @@
 
 	<Dialog
 		id="carDialog"
-		title="정기 차량"
+		title="정기 차량 등록 / 삭제"
 		contentWidth="22%"
 		visible="true"
     >	
