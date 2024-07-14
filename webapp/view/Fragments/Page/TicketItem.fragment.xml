@@ -35,7 +35,7 @@
             items="{
                 path: 'myticketModel>/',
                 sorter: {
-                    path: 'DiscountName'
+                    path: 'DiscountTime'
                 }
             }">
             <columns>

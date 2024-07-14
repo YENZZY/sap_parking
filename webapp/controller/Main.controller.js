@@ -26,7 +26,6 @@ function (Controller, JSONModel, MessageBox,Sorter,Filter,FilterOperator,Fragmen
 
             // chart.fragment.xml grid 설정
             this.oGrids();
-
         },
 
         _onRouteMatched: function () {
@@ -53,19 +52,102 @@ function (Controller, JSONModel, MessageBox,Sorter,Filter,FilterOperator,Fragmen
             this.oVipcardata(); //정산된 차량 테이블 데이터 조회
             this.oCardetaildata();
             //this.calculateParkingTime(); // 주차시간 및 요금 계산
+            
         },
 
-        //정산 완료 차량 데이터 조회
-        oCardetaildata : function () {
+        oCardetaildata: function () {
             var oCarDetailModel = this.getOwnerComponent().getModel("cardetailData");
-            this._getODataRead(oCarDetailModel,"/Cardetail").done(
-                function(aCarGetData) {
-                    this.setModel(new JSONModel(aCarGetData),"paidModel");
-                }.bind(this)).fail(function () {
-                    MessageBox.information("정산 완료 차량 조회를 할 수 없습니다.");
-                })
-        },
+            this._getODataRead(oCarDetailModel, "/Cardetail").done(function (aCarGetData) {
+                // 데이터 그룹화 및 합산
+                var groupedData = this.groupAndSumDiscountPay(aCarGetData);
+                
+                // 총 할인 금액 및 총 수익 계산
+                var totalSpend = 0;
+                var totalIncome = 0;
 
+                // UI5 View에 그룹화된 데이터 설정
+                var groupedModel = new JSONModel(groupedData);
+                this.getView().setModel(groupedModel, "paidModel");
+                this.paidModelParkingTime();
+
+                groupedData.forEach(function (item) {
+                    totalSpend += item.TotalDiscountPay;
+                    totalIncome += item.ParkingFee;
+                });
+                this.byId("totalIncome").setNumber(totalIncome);
+                this.byId("totalSpend").setNumber(totalSpend);
+            }.bind(this)).fail(function () {
+                MessageBox.information("정산 완료 차량 조회를 할 수 없습니다.");
+            });
+        },
+        
+        // 입차시간과 차량번호로 데이터 그룹화 및 할인 금액 합산 메소드
+        groupAndSumDiscountPay: function (data) {
+            var groupedData = {};
+        
+            data.forEach(function (item) {
+                var key = item.EntryTime + item.NumberPlate;
+        
+                if (!groupedData[key]) {
+                    groupedData[key] = {
+                        Uuid: item.Uuid,
+                        Typeuuid: item.Typeuuid,
+                        TypeName: item.TypeName,
+                        NumberPlate: item.NumberPlate,
+                        EntryTime: item.EntryTime,
+                        ExitTime: item.ExitTime,
+                        TotalDiscountPay: 0
+                    };
+                }
+                // 할인 금액 합산
+                groupedData[key].TotalDiscountPay += item.DiscountTime * item.UsedCount * 1000;
+            });
+        
+            // 객체를 배열로 변환
+            var result = Object.values(groupedData);
+        
+            return result;
+        },
+        
+        paidModelParkingTime: function () {
+            var oPaidModel = this.getView().getModel("paidModel").getData();
+        
+            if (!oPaidModel) {
+                MessageBox.error("oPaidModel을 찾을 수 없습니다.");
+                return;
+            }
+        
+            oPaidModel.forEach(function (item) {
+                var entryTime = new Date(item.EntryTime);
+                var exitTime = new Date(item.ExitTime);
+                var typeName = item.TypeName;
+        
+                // 주차 시간 계산 (시간과 분)
+                var parkingTimes = exitTime.getTime() - entryTime.getTime();
+                var parkingHours = Math.floor(parkingTimes / (1000 * 60 * 60)); // 시간
+                var parkingMinutes = Math.floor((parkingTimes % (1000 * 60 * 60)) / (1000 * 60)); // 분
+        
+                // 주차 시간 문자열 생성
+                var parkingTimeText = parkingHours + " 시간 " + parkingMinutes + " 분";
+        
+                // 주차 요금 계산
+                var fee = (parkingHours + (parkingMinutes > 0 ? 1 : 0)) * 1000;
+                var discountedFee = fee - item.TotalDiscountPay;
+        
+                // 정기권 차량인 경우 요금을 0으로 설정
+                if (typeName === "정기권 차량") {
+                    discountedFee = 0;
+                }
+        
+                // paidModel에 ParkingTime 및 ParkingFee 속성 설정
+                item.ParkingTime = parkingTimeText;
+                item.ParkingFee = discountedFee;
+
+            }, this);
+            
+            // paidModel 업데이트
+            this.getView().getModel("paidModel").setData(oPaidModel);
+        },        
         //정기권 차량 데이터 조회
         oVipcardata : function () {
             var oVipcarModel = this.getOwnerComponent().getModel("vipcarData");
@@ -765,6 +847,28 @@ function (Controller, JSONModel, MessageBox,Sorter,Filter,FilterOperator,Fragmen
             this.byId("inputTypeName").setVisible(true);
             this.byId("inputNumberPlate").setEditable(false);
         },
+
+        formatParkingTime: function(value) {
+            if (!value) {
+                return ""; // 값이 없는 경우 빈 문자열 반환
+            }
+        
+            // 주차시간 계산 (value는 초 단위의 주차 시간)
+            var hours = Math.floor(value / 3600); // 시간 계산 (1시간 = 3600초)
+            var minutes = Math.floor((value % 3600) / 60); // 분 계산 (1분 = 60초)
+        
+            // 포맷팅된 문자열 반환
+            var formattedTime = "";
+            if (hours > 0) {
+                formattedTime += hours + "시간 ";
+            }
+            if (minutes > 0 || formattedTime === "") {
+                formattedTime += minutes + "분";
+            }
+        
+            return formattedTime.trim();
+        },
+             
 
         // 사용자 화면 이동 버튼
         onUser: function () {

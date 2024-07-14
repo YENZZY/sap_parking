@@ -49,6 +49,15 @@
             <Column width="12rem" minScreenWidth="Tablet" hAlign="Center" demandPopin="true">
                 <Label text="출차시간" textAlign="Center" design="Bold"/>
             </Column>
+             <Column width="12rem" minScreenWidth="Tablet" hAlign="Center" demandPopin="true">
+                <Label text="주차 시간" textAlign="Center" design="Bold"/>
+            </Column>
+            <Column width="12rem" minScreenWidth="Tablet" hAlign="Center" demandPopin="true">
+                <Label text="할인 요금" textAlign="Center" design="Bold"/>
+            </Column>
+            <Column width="12rem" minScreenWidth="Tablet" hAlign="Center" demandPopin="true">
+                <Label text="정산 요금" textAlign="Center" design="Bold"/>
+            </Column>
         </columns>
         <items>
             <ColumnListItem vAlign="Middle">
@@ -75,6 +84,16 @@
                     }"
                     textAlign="Center"
                 />
+                <!-- <Text
+                    text="{
+                        path: 'paidModel>ParkingTime',
+                        formatter: '.formatParkingTime'
+                    }"
+                    textAlign="Center"
+                /> -->
+                <Text id="PayTime" text="{paidModel>ParkingTime}" textAlign="Center"/>
+                <Text id="TotalDiscountPay" text="{paidModel>TotalDiscountPay}" textAlign="Center"/>
+                <Text id="PayFee" text="{paidModel>ParkingFee}" textAlign="Center"/>
             </cells>
             </ColumnListItem>
         </items>

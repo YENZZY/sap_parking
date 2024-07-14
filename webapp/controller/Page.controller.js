@@ -144,6 +144,7 @@ function (Controller, JSONModel, MessageBox) {
         
         //  정산하기 결제 
         onPayTicket: function () {
+            debugger;
         var carinfoData = this.getView().getModel("carinfoModel").getData();
         var myticketData = this.getView().getModel("myticketModel").getData();
         var oMainModel = this.getOwnerComponent().getModel();
@@ -159,7 +160,7 @@ function (Controller, JSONModel, MessageBox) {
                         Typeuuid: carinfoData.Typeuuid,
                         NumberPlate: carinfoData.NumberPlate,
                         EntryTime: carinfoData.EntryTime,
-                        Discountuuid: item.Uuid,
+                        Discountuuid: item.Discountuuid,
                         UsedCount: item.UsedCount
                     };
                     promises.push(this._getODataCreate(cardetailModel, "/Cardetail", oData));

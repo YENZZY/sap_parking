@@ -64,6 +64,9 @@
 						<IconTabFilter text="정기 차량" visible="true" id="ticketCar">
 							<c:Fragment fragmentName="parking.view.Fragments.Main.VipcarItem" type="XML"/>
 						</IconTabFilter>
+						<!-- <IconTabFilter text="현황 차트" visible="true" id="chartItem">
+							<c:Fragment fragmentName="parking.view.Fragments.Main.ChartItem" type="XML"/>
+						</IconTabFilter> -->
 					</items>
 				</IconTabBar>
 			</f:content>
