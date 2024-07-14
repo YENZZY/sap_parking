@@ -76,6 +76,7 @@ function (Controller, JSONModel, MessageBox,Sorter,Filter,FilterOperator,Fragmen
                 });
                 this.byId("totalIncome").setNumber(totalIncome);
                 this.byId("totalSpend").setNumber(totalSpend);
+                this.oExitCarCount();
             }.bind(this)).fail(function () {
                 MessageBox.information("정산 완료 차량 조회를 할 수 없습니다.");
             });
@@ -170,6 +171,18 @@ function (Controller, JSONModel, MessageBox,Sorter,Filter,FilterOperator,Fragmen
             // 가져온 값을 ObjectNumber에 설정 (chart.fragment에 있음)
             var oObjectNumber = this.byId("entryCarCount");
             oObjectNumber.setNumber(entryCarCount);
+        },
+
+        //출차 차량 수 조회
+        oExitCarCount : function () {
+            var oModel = this.getView().getModel("paidModel");
+            var exitData = oModel.getData(); 
+            var exitCarCount = exitData.length || 0; // 없으면 0
+            console.log(exitCarCount);
+            
+            // 가져온 값을 ObjectNumber에 설정 (chart.fragment에 있음)
+            var oObjectNumber = this.byId("exitCarCount");
+            oObjectNumber.setNumber(exitCarCount);
         },
 
         //정기권 차량 수 조회

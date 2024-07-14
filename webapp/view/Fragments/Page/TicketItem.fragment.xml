@@ -20,6 +20,7 @@
 </l:VerticalLayout> -->
 <!-- 정산된 차량 내역 목록 -->
 <Panel width="100%">
+	<MessageStrip text="주차장 이용 요금은 1시간 당 1000원입니다. 정산 후 5분 내에 출차해주세요." class="sapUiTinyMargin"/>
     <OverflowToolbar>
         <Label text="사용된 할인권 내역" design="Bold"/>
         <ToolbarSpacer/>

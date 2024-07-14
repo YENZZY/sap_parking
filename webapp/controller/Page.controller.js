@@ -176,7 +176,7 @@ function (Controller, JSONModel, MessageBox) {
             }
 
             $.when.apply($, promises).done(function () {
-                MessageBox.success("결제가 완료되었습니다.");
+                MessageBox.success("정산이 완료되었습니다. 5분 내에 출차해주세요.");
                 this.byId("PayMoney").setValue("");
                 if (this.oDialog) {
                     this.oDialog.close();
@@ -184,7 +184,7 @@ function (Controller, JSONModel, MessageBox) {
                 // Carinfo 데이터 삭제
                 this._getODataDelete(oMainModel, "/Carinfo(guid'" + carinfoData.Uuid + "')")
                 .done(function() {
-                    MessageBox.success("Carinfo 데이터가 성공적으로 삭제되었습니다.");
+                    //MessageBox.success("Carinfo 데이터가 성공적으로 삭제되었습니다.");
                     this.navTo("Main");
                 }.bind(this))
                 .fail(function(oError) {

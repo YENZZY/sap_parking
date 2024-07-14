@@ -32,19 +32,19 @@
             <VBox>
                 <HBox height="100%" alignItems="Center" class="sapUiMediumMarginBottom">
                     <Label text="차량번호" labelFor="NumberPlate" design="Bold" class="sapUiTinyMarginEnd"/>
-                    <Text id="NamePlate" width="20rem" text="{carinfoModel>/NumberPlate}" />
+                    <Title id="NamePlate" width="20rem" text="{carinfoModel>/NumberPlate}" titleStyle="H3"/>
                 </HBox>
                 <HBox height="100%" alignContent="Center" class="sapUiMediumMarginBottom">
                     <Label text="차량구분" labelFor="TypeName" design="Bold" class="sapUiTinyMarginEnd"/>
-                    <Text id="TypeName" width="20rem" text="{carinfoModel>/TypeName}"/>
+                    <Title id="TypeName" width="20rem" text="{carinfoModel>/TypeName}" titleStyle="H5"/>
                 </HBox>
                 <HBox height="100%" alignContent="Center" class="sapUiMediumMarginBottom">
                     <Label text="차량종류" design="Bold" class="sapUiTinyMarginEnd"/>
-                    <Text id="Brand"  width="20rem" text="{carinfoModel>/Brand}" />
+                    <Title id="Brand"  width="20rem" text="{carinfoModel>/Brand}" titleStyle="H5"/>
                 </HBox>
                 <HBox height="100%" alignContent="Center" class="sapUiMediumMarginBottom">
                     <Label text="입차시간" design="Bold" class="sapUiTinyMarginEnd"/>
-                    <Text
+                    <Title
                         text="{
                             path: 'carinfoModel>/EntryTime',
                             type: 'sap.ui.model.type.DateTime',
@@ -53,11 +53,12 @@
                             }
                         }"
                         width="20rem"
+                        titleStyle="H5"
                     />
                 </HBox>
                 <HBox height="100%" alignContent="Center" class="sapUiMediumMarginBottom">
                     <Label text="주차시간" design="Bold" class="sapUiTinyMarginEnd"/>
-                        <Text id="ParkingTime" text="{carinfoModel>/ParkingTime}" width="20rem"/>
+                        <Title id="ParkingTime" text="{carinfoModel>/ParkingTime}" width="20rem" titleStyle="H5"/>
                 </HBox>
                 <HBox justifyContent="End" class="sapUiMediumMarginBottom">
                     <Button text="정산하기" press="onPay" />

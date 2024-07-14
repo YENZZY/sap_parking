@@ -24,7 +24,19 @@
                     />
 				</TileContent>
 			</GenericTile>
-
+			<GenericTile header="출차한 차량" frameType="OneByHalf">
+				<layoutData>
+					<f:GridContainerItemLayoutData minRows="1" columns="2"/>
+				</layoutData>
+				<TileContent>
+					<ObjectNumber
+                        id="exitCarCount"
+						class="sapMObjectNumberLarge"
+                        number=""
+                        unit="대"
+                    />
+				</TileContent>
+			</GenericTile>
 			<GenericTile header="정기권 차량" frameType="OneByHalf">
 				<layoutData>
 					<f:GridContainerItemLayoutData minRows="1" columns="2"/>
