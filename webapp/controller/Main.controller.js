@@ -838,27 +838,90 @@ function (Controller, JSONModel, MessageBox,Sorter,Filter,FilterOperator,Fragmen
             this.byId("inputNumberPlate").setEditable(false);
         },
 
-        formatParkingTime: function(value) {
-            if (!value) {
-                return ""; // 값이 없는 경우 빈 문자열 반환
-            }
+       
+        // formatParkingTime: function(value) {
+        //     if (!value) {
+        //         return ""; // 값이 없는 경우 빈 문자열 반환
+        //     }
         
-            // 주차시간 계산 (value는 초 단위의 주차 시간)
-            var hours = Math.floor(value / 3600); // 시간 계산 (1시간 = 3600초)
-            var minutes = Math.floor((value % 3600) / 60); // 분 계산 (1분 = 60초)
+        //     // 주차시간 계산 (value는 초 단위의 주차 시간)
+        //     var hours = Math.floor(value / 3600); // 시간 계산 (1시간 = 3600초)
+        //     var minutes = Math.floor((value % 3600) / 60); // 분 계산 (1분 = 60초)
         
-            // 포맷팅된 문자열 반환
-            var formattedTime = "";
-            if (hours > 0) {
-                formattedTime += hours + "시간 ";
-            }
-            if (minutes > 0 || formattedTime === "") {
-                formattedTime += minutes + "분";
-            }
+        //     // 포맷팅된 문자열 반환
+        //     var formattedTime = "";
+        //     if (hours > 0) {
+        //         formattedTime += hours + "시간 ";
+        //     }
+        //     if (minutes > 0 || formattedTime === "") {
+        //         formattedTime += minutes + "분";
+        //     }
         
-            return formattedTime.trim();
+        //     return formattedTime.trim();
+        // },
+        
+        //테이블 서치
+        // onSearch: function (oEvent) {
+			
+		// 	var aFilters = [];
+		// 	var sQuery = oEvent.getSource().getValue();
+		// 	if (sQuery && sQuery.length > 0) {
+		// 		var filter = new Filter("NumberPlate", FilterOperator.Contains, sQuery);
+		// 		aFilters.push(filter);
+		// 	}
+
+		// 	// 업데이트 리스트 테이블 바인딩
+		// 	var oList = this.byId("PaidCarTable");
+		// 	var oBinding = oList.getBinding("items");
+		// 	oBinding.filter(aFilters, "Application");
+		// },
+
+        //테이블 검색
+        onSearch: function (oEvent) {
+            this.tableSearch(oEvent, "PaidCarTable");
         },
-             
+        
+        onEntrycarSearch: function (oEvent) {
+            this.tableSearch(oEvent, "EntryCarTable");
+        },
+        
+        onVipcarSearch: function (oEvent) {
+            this.tableSearch(oEvent, "VipcarTable");
+        },
+
+        // 테이블 검색 공통 함수
+        tableSearch: function (oEvent, sTableId) {
+            var aFilters = [];
+            var sQuery = oEvent.getSource().getValue();
+            if (sQuery && sQuery.length > 0) {
+                var filter = new Filter("NumberPlate", FilterOperator.Contains, sQuery);
+                aFilters.push(filter);
+            }
+        
+            // 업데이트 리스트 테이블 바인딩
+            var oList = this.byId(sTableId);
+            var oBinding = oList.getBinding("items");
+            oBinding.filter(aFilters, "Application");
+        },
+
+        //테이블 검색 시 테이블 값 변화
+        onSelectionChange: function (oEvent) {
+            this.tableSelectionChange(oEvent, "idFilterLabel", "idInfoToolbar");
+        },
+        
+        //테이블 검색 시 테이블 값 변화 공통 함수
+        tableSelectionChange: function(oEvent, sLabelId, sFilterId) {
+            var oList = oEvent.getSource();
+            var oLabel = this.byId(sLabelId);
+            var oInfoToolbar = this.byId(sFilterId);
+            var aContexts = oList.getSelectedContexts(true);
+
+			// UI 업데이트
+			var bSelected = (aContexts && aContexts.length > 0);
+			var sText = (bSelected) ? aContexts.length + " selected" : null;
+			oInfoToolbar.setVisible(bSelected);
+			oLabel.setText(sText);
+        },
 
         // 사용자 화면 이동 버튼
         onUser: function () {

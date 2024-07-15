@@ -22,21 +22,25 @@
 <Panel width="100%">
 <OverflowToolbar>
     <Label text="정산 차량 현황" design="Bold"/>
-    <ToolbarSpacer/>
-<!-- <Button
-    tooltip="Sort"
-    icon="sap-icon://sort"
-    press="onSort"/> -->
+        <ToolbarSpacer/>
+	<SearchField liveChange="onSearch" width="20%" />
 </OverflowToolbar>
     <Table id="PaidCarTable"
         inset="false"
+        selectionChange="onSelectionChange"
         items="{
             path: 'paidModel>/',
             sorter: {
                 path: 'ExitTime',
                 descending: true
             }
-        }">
+        }"
+    >
+    <infoToolbar>
+				<OverflowToolbar visible="false" id="idInfoToolbar">
+					<Label id="idFilterLabel" />
+				</OverflowToolbar>
+	</infoToolbar>
         <columns>
             <Column width="12rem" minScreenWidth="Tablet" hAlign="Center" demandPopin="true">
                 <Label text="차량번호" textAlign="Center" design="Bold"/>

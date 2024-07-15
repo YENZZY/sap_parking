@@ -9,17 +9,25 @@
 <Panel width="100%">
 <OverflowToolbar>
     <Label text="입차 차량 현황" design="Bold"/>
-    <ToolbarSpacer/>
+        <ToolbarSpacer/>
+    <SearchField liveChange="onEntrycarSearch" width="20%" />
 </OverflowToolbar>
     <Table id="EntryCarTable"
         inset="false"
+        selectionChange="onSelectionChange"
         items="{
             path: 'entryModel>/',
             sorter: {
                 path: 'EntryTime',
                 descending: true
             }
-        }">
+        }"
+    >
+    <infoToolbar>
+				<OverflowToolbar visible="false" id="idInfoToolbarEntry">
+					<Label id="idFilterLabelEntry" />
+				</OverflowToolbar>
+	</infoToolbar>
         <columns>
             <Column width="12rem" minScreenWidth="Tablet" hAlign="Center" demandPopin="true">
                 <Label text="차량번호" textAlign="Center" design="Bold"/>
