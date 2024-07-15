@@ -10,7 +10,7 @@
 <OverflowToolbar>
     <Label text="입차 차량 현황" design="Bold"/>
         <ToolbarSpacer/>
-    <SearchField liveChange="onEntrycarSearch" width="20%" />
+    <SearchField liveChange="onEntrycarSearch" width="20%" placeholder="차량번호를 입력해주세요."/>
 </OverflowToolbar>
     <Table id="EntryCarTable"
         inset="false"

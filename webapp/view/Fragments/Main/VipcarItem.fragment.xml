@@ -10,7 +10,7 @@
 <OverflowToolbar>
     <Label text="정기권 차량 현황" design="Bold"/>
         <ToolbarSpacer/>
-    <SearchField liveChange="onVipcarSearch" width="50%" />
+    <SearchField liveChange="onVipcarSearch" width="50%" placeholder="차량번호를 입력해주세요."/>
 </OverflowToolbar>
     <Table id="VipcarTable"
         inset="false"

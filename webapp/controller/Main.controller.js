@@ -2,22 +2,19 @@ sap.ui.define([
     "parking/controller/BaseController",
     "sap/ui/model/json/JSONModel",
     "sap/m/MessageBox",
-    'sap/ui/model/Sorter',
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
-    'sap/ui/core/Fragment',
     "sap/ui/core/dnd/DragInfo",
 	"sap/f/dnd/GridDropInfo",
-	"parking/RevealGrid/RevealGrid",
 	"sap/ui/core/library"
 ],
-function (Controller, JSONModel, MessageBox,Sorter,Filter,FilterOperator,Fragment,DragInfo, GridDropInfo, RevealGrid, coreLibrary) {
+function (Controller, JSONModel, MessageBox, Filter, FilterOperator, DragInfo, GridDropInfo, coreLibrary) {
     "use strict";
 
-    // shortcut for sap.ui.core.dnd.DropLayout
+    // sap.ui.core.dnd.DropLayout
 	var DropLayout = coreLibrary.dnd.DropLayout;
 
-	// shortcut for sap.ui.core.dnd.DropPosition
+	// sap.ui.core.dnd.DropPosition
 	var DropPosition = coreLibrary.dnd.DropPosition;
 
     return Controller.extend("parking.controller.Main", {
@@ -592,7 +589,7 @@ function (Controller, JSONModel, MessageBox,Sorter,Filter,FilterOperator,Fragmen
                         // registerModel 재실행(갱신)
                         this._getData();
                     }.bind(this)).fail(function () {
-                        MessageBox.error("정기권 차량 등록 중 오류가 발생했습니다.");
+                        MessageBox.error("정기권 차량으로 이미 등록되어있습니다.");
                     });
                 }.bind(this)).fail(function () {
                     MessageBox.error("차량 정보 업데이트 중 오류가 발생했습니다.");
@@ -650,7 +647,7 @@ function (Controller, JSONModel, MessageBox,Sorter,Filter,FilterOperator,Fragmen
             }
         },
 
-        //정기권 차량 삭제 다이얼로그 저장
+        //차량번호 삭제 시 정기권 차량 목록에 해당 차량 번호가 없으면 오류 메세지 출력
         onRemoveCar: function () {
             var oMainModel = this.getOwnerComponent().getModel();
             var oCartypeModel = this.getOwnerComponent().getModel("cartypeData");
@@ -669,6 +666,21 @@ function (Controller, JSONModel, MessageBox,Sorter,Filter,FilterOperator,Fragmen
                 return;
             }
 
+            var updateCarInfoToGeneral = function (typeUuid, carUuid) {
+                var updateData = {
+                    Typeuuid: typeUuid
+                };
+                this._getODataUpdate(oMainModel, "/Carinfo(guid'" + carUuid + "')", updateData).done(function () {
+                    oVipcarData.forEach(function (item) {
+                        if (item.NumberPlate === saveCarData.NumberPlate) {
+                            oVipcarDelete(item.Uuid);
+                        }
+                    });
+                }.bind(this)).fail(function () {
+                    MessageBox.error("차량 정보 업데이트 중 오류가 발생했습니다.");
+                });
+            }.bind(this);
+
             var oVipcarDelete = function (itemUuid) {
                 this._getODataDelete(oVipcarModel, "/Vipcar(guid'" + itemUuid + "')").done(function () {
                     MessageBox.success("정기권 차량에서 삭제되었습니다.");
@@ -683,21 +695,6 @@ function (Controller, JSONModel, MessageBox,Sorter,Filter,FilterOperator,Fragmen
                         MessageBox.error("차량 정보 삭제 중 오류가 발생했습니다.");
                     }
                 }.bind(this));
-            }.bind(this);
-
-            var updateCarInfoToGeneral = function (typeUuid, carUuid) {
-                var updateData = {
-                    Typeuuid: typeUuid
-                };
-                this._getODataUpdate(oMainModel, "/Carinfo(guid'" + carUuid + "')", updateData).done(function () {
-                    oVipcarData.forEach(function (item) {
-                        if (item.NumberPlate === saveCarData.NumberPlate) {
-                            oVipcarDelete(item.Uuid);
-                        }
-                    });
-                }.bind(this)).fail(function () {
-                    MessageBox.error("차량 정보 업데이트 중 오류가 발생했습니다.");
-                });
             }.bind(this);
 
             if (saveCarData.Uuid) {
@@ -715,7 +712,7 @@ function (Controller, JSONModel, MessageBox,Sorter,Filter,FilterOperator,Fragmen
             } else {
                 //input 박스가 있는 값이 db에 있을때 삭제
                 var carInfo = entryData.find(function (item) {
-                    return item.NumberPlate === oInputNumberPlate;
+                    return item.NumberPlate === oInputNumberPlate && item.TypeName === '정기권 차량';
                 });
 
                 if (carInfo) {
@@ -730,14 +727,21 @@ function (Controller, JSONModel, MessageBox,Sorter,Filter,FilterOperator,Fragmen
                         MessageBox.error("차량 유형 조회 중 오류가 발생했습니다.");
                     });
                 } else {
+                    var found = false;
                     oVipcarData.forEach(function (item) {
                         if (item.NumberPlate === saveCarData.NumberPlate) {
+                            found = true;
                             oVipcarDelete(item.Uuid);
                         }
                     });
+                    if (!found) {
+                        MessageBox.error("해당 차량번호가 정기권 차량 목록에 없습니다.");
+                        this.byId("inputNumberPlate").setValue("");
+                    }
                 }
             }
         },
+ 
 
         //정기권 차량 등록 다이얼로그 닫기
         onCloseCar: function () {
@@ -837,44 +841,6 @@ function (Controller, JSONModel, MessageBox,Sorter,Filter,FilterOperator,Fragmen
             this.byId("inputTypeName").setVisible(true);
             this.byId("inputNumberPlate").setEditable(false);
         },
-
-       
-        // formatParkingTime: function(value) {
-        //     if (!value) {
-        //         return ""; // 값이 없는 경우 빈 문자열 반환
-        //     }
-        
-        //     // 주차시간 계산 (value는 초 단위의 주차 시간)
-        //     var hours = Math.floor(value / 3600); // 시간 계산 (1시간 = 3600초)
-        //     var minutes = Math.floor((value % 3600) / 60); // 분 계산 (1분 = 60초)
-        
-        //     // 포맷팅된 문자열 반환
-        //     var formattedTime = "";
-        //     if (hours > 0) {
-        //         formattedTime += hours + "시간 ";
-        //     }
-        //     if (minutes > 0 || formattedTime === "") {
-        //         formattedTime += minutes + "분";
-        //     }
-        
-        //     return formattedTime.trim();
-        // },
-        
-        //테이블 서치
-        // onSearch: function (oEvent) {
-			
-		// 	var aFilters = [];
-		// 	var sQuery = oEvent.getSource().getValue();
-		// 	if (sQuery && sQuery.length > 0) {
-		// 		var filter = new Filter("NumberPlate", FilterOperator.Contains, sQuery);
-		// 		aFilters.push(filter);
-		// 	}
-
-		// 	// 업데이트 리스트 테이블 바인딩
-		// 	var oList = this.byId("PaidCarTable");
-		// 	var oBinding = oList.getBinding("items");
-		// 	oBinding.filter(aFilters, "Application");
-		// },
 
         //테이블 검색
         onSearch: function (oEvent) {
