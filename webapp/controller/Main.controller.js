@@ -38,6 +38,7 @@ function (Controller, JSONModel, MessageBox, Filter, FilterOperator, DragInfo, G
             function(aGetData) {
             
                 this.setModel(new JSONModel(aGetData), "entryModel");
+                this.setModel(new JSONModel(aGetData), "RadioEntryModel"); // 입차차량 필터링
                 this.oEntryCarCount();
                 console.log(aGetData);
             }.bind(this)).fail(function () {
@@ -52,6 +53,40 @@ function (Controller, JSONModel, MessageBox, Filter, FilterOperator, DragInfo, G
             
         },
 
+        onRadioBtnChange: function (oEvent) {
+          
+            var sSelectedFilter = oEvent.getParameter("selectedIndex");
+        
+            // entryModel에서 데이터 읽어오기
+            var aEntryData = this.getView().getModel("entryModel").getData();
+            console.log(aEntryData);
+            // 필터링된 데이터 초기화
+            var aFilteredData = [];
+        
+            switch (sSelectedFilter) {
+                case 0: // 전체
+                    aFilteredData = aEntryData;
+                    break;
+                case 1: // 정기권 차량
+                    aFilteredData = aEntryData.filter(function (item) {
+                        return item.TypeName === "정기권 차량";
+                    });
+                    break;
+                case 2: // 일반 차량
+                    aFilteredData = aEntryData.filter(function (item) {
+                        return item.TypeName === "일반 차량";
+                    });
+                    break;
+                default:
+                    aFilteredData = aEntryData; // 기본적으로 전체 데이터 보기
+            }
+        
+            // 필터링된 데이터를 새로운 모델로 설정하여 테이블에 바인딩
+            var oFilterModel = new JSONModel(aFilteredData);
+            this.getView().setModel(oFilterModel, "RadioEntryModel");
+        },
+        
+        // 정산 완료 차량 테이블 데이터
         oCardetaildata: function () {
             var oCarDetailModel = this.getOwnerComponent().getModel("cardetailData");
             this._getODataRead(oCarDetailModel, "/Cardetail").done(function (aCarGetData) {
@@ -843,7 +878,7 @@ function (Controller, JSONModel, MessageBox, Filter, FilterOperator, DragInfo, G
         },
 
         //테이블 검색
-        onSearch: function (oEvent) {
+        onPaidcarSearch: function (oEvent) {
             this.tableSearch(oEvent, "PaidCarTable");
         },
         

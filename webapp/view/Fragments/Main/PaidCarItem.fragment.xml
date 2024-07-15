@@ -23,7 +23,7 @@
 <OverflowToolbar>
     <Label text="정산 차량 현황" design="Bold"/>
         <ToolbarSpacer/>
-	<SearchField liveChange="onSearch" width="20%" placeholder="차량번호를 입력해주세요."/>
+	<SearchField liveChange="onPaidcarSearch" width="20%" placeholder="차량번호를 입력해주세요."/>
 </OverflowToolbar>
     <Table id="PaidCarTable"
         inset="false"

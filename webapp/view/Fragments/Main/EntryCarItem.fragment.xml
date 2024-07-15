@@ -12,11 +12,16 @@
         <ToolbarSpacer/>
     <SearchField liveChange="onEntrycarSearch" width="20%" placeholder="차량번호를 입력해주세요."/>
 </OverflowToolbar>
+<RadioButtonGroup id="rbg3" columns="5" valueState="Warning" select="onRadioBtnChange" class="sapUiTinyMarginBottom">
+    <RadioButton id="Totalcar" text="전체" selected="true"/>
+    <RadioButton id="Vipcar" text="정기권 차량" />
+    <RadioButton id="nVipCar" text="일반 차량" />
+</RadioButtonGroup>
     <Table id="EntryCarTable"
         inset="false"
         selectionChange="onSelectionChange"
         items="{
-            path: 'entryModel>/',
+            path: 'RadioEntryModel>/',
             sorter: {
                 path: 'EntryTime',
                 descending: true
@@ -45,12 +50,12 @@
         <items>
             <ColumnListItem vAlign="Middle">
             <cells>
-            <Text text="{entryModel>NumberPlate}" textAlign="Center"/>
-            <Text text="{entryModel>TypeName}" textAlign="Center"/>
-            <Text text="{entryModel>Brand}" textAlign="Center"/>
+            <Text text="{RadioEntryModel>NumberPlate}" textAlign="Center"/>
+            <Text text="{RadioEntryModel>TypeName}" textAlign="Center"/>
+            <Text text="{RadioEntryModel>Brand}" textAlign="Center"/>
             <Text
                     text="{
-                        path: 'entryModel>EntryTime',
+                        path: 'RadioEntryModel>EntryTime',
                         type: 'sap.ui.model.type.DateTime',
                         formatOptions: {
                             pattern: 'yyyy-MM-dd HH:mm:ss'

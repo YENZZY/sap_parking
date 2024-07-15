@@ -10,7 +10,9 @@
             <VBox class="sapUiMediumMarginEnd">
                 <Image src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfOMEINIPIaBoNnOP6pvMSUrJnplMq6v6fbScOAxnk1AFSIUk6" width="300px" height="235px" class="sapUiSmallMarginBottom"/>
                 <HBox>
-                    <Title text="요금 :" titleStyle="H3" class="sapUiTinyMarginEnd"/>
+                    <VBox height="32px" alignContent="Center">
+                        <Title text="요금 :" titleStyle="H3" class="sapUiTinyMarginEnd feeheight"/>
+                    </VBox>
                     <ObjectNumber
                         id="ParkingFee"
                         number="{carinfoModel>/ParkingFee}"

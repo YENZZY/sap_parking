@@ -37,3 +37,7 @@
     line-height: 4rem !important;
     font-size: large !important;
 }
+
+.feeheight {
+    line-height: 32px;
+}

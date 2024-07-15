@@ -5,30 +5,12 @@
 	xmlns:core="sap.ui.core"
     xmlns:l="sap.ui.layout"
 >
-<!-- 주차장 이용가능 대수 -->
-<!-- <l:VerticalLayout
-    width="100%"
->
-    <l:content>
-        <ProgressIndicator
-            class="sapUiSmallMarginBottom"
-            percentValue="50"
-            displayValue="주차장 이용 가능 대수"
-            showValue="true"
-            state="Error"/>
-    </l:content>
-</l:VerticalLayout> -->
 <!-- 정산된 차량 내역 목록 -->
 <Panel width="100%">
 	<MessageStrip text="주차장 이용 요금은 1시간 당 1000원입니다. 정산 후 5분 내에 출차해주세요." class="sapUiTinyMargin"/>
     <OverflowToolbar>
         <Label text="사용된 할인권 내역" design="Bold"/>
         <ToolbarSpacer/>
-        <Button
-            tooltip="Sort"
-            icon="sap-icon://sort"
-            press="onSort"
-        />
     </OverflowToolbar>
         <Table id="myticketTable"
             inset="false" 

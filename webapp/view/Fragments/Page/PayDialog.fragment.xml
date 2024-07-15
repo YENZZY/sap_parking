@@ -49,7 +49,7 @@
 				<content>
 					<Button id= "payTicket"
                             type="Ghost"
-							text="정산"
+							text="결제"
 							press="onPayTicket" visible="true"/>
 					
                     <Button id="cancelPay"
