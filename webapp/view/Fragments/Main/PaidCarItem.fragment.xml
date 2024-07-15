@@ -33,7 +33,8 @@
         items="{
             path: 'paidModel>/',
             sorter: {
-                path: 'NumberPlate'
+                path: 'ExitTime',
+                descending: true
             }
         }">
         <columns>

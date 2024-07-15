@@ -5,35 +5,19 @@
 	xmlns:core="sap.ui.core"
     xmlns:l="sap.ui.layout"
 >
-<!-- 주차장 이용가능 대수 -->
-<!-- <l:VerticalLayout
-    width="100%"
->
-    <l:content>
-        <ProgressIndicator
-            class="sapUiSmallMarginBottom"
-            percentValue="50"
-            displayValue="주차장 이용 가능 대수"
-            showValue="true"
-            state="Error"/>
-    </l:content>
-</l:VerticalLayout> -->
 <!-- 정산된 차량 내역 목록 -->
 <Panel width="100%">
 <OverflowToolbar>
     <Label text="입차 차량 현황" design="Bold"/>
     <ToolbarSpacer/>
-<!-- <Button
-    tooltip="Sort"
-    icon="sap-icon://sort"
-    press="onSort"/> -->
 </OverflowToolbar>
     <Table id="EntryCarTable"
         inset="false"
         items="{
             path: 'entryModel>/',
             sorter: {
-                path: 'NumberPlate'
+                path: 'EntryTime',
+                descending: true
             }
         }">
         <columns>

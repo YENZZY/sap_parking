@@ -24,10 +24,10 @@
 <OverflowToolbar>
     <Label text="정기권 차량 현황" design="Bold"/>
     <ToolbarSpacer/>
-<Button
+<!-- <Button
     tooltip="Sort"
     icon="sap-icon://sort"
-    press="onSort"/>
+    press="onSort"/> -->
 </OverflowToolbar>
     <Table id="VipcarTable"
         inset="false"

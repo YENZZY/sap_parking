@@ -826,29 +826,6 @@ function (Controller, JSONModel, MessageBox,Sorter,Filter,FilterOperator,Fragmen
             }
         },
 
-        // 정산 차량 테이블 sort
-        onSort: function () {
-			this.getViewSettingsDialog("parking.view.Fragments.sortDialog")
-				.then(function (osortDialog) {
-					osortDialog.open();
-				});
-		},
-        handleSortDialogConfirm: function (oEvent) {
-			var oTable = this.byId("EntryCarTable"),
-				mParams = oEvent.getParameters(),
-				oBinding = oTable.getBinding("items"),
-				sPath,
-				bDescending,
-				aSorters = [];
-
-			sPath = mParams.sortItem.getKey();
-			bDescending = mParams.sortDescending;
-			aSorters.push(new Sorter(sPath, bDescending));
-
-			// apply the selected sort and group settings
-			oBinding.sort(aSorters);
-		},
-
         // 정기권 등록 Dialog (신규 등록 / 입차 X)
         carDialogEditableOk: function () {
             this.byId("inputTypeName").setVisible(false);

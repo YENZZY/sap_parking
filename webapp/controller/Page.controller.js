@@ -88,10 +88,15 @@ function (Controller, JSONModel, MessageBox) {
                         totalDisFee += item.UsedCount * item.DiscountTime * 1000;
                     });
                 }
-
+                
                 var discountedParkingHours = oParkingHour - totalDisTime;
                 var discountedFee = fee - totalDisFee;
+                
+                // 할인 금액이 요금을 초과하지 않도록 설정
+                discountedFee = Math.min(discountedFee, fee);
 
+                // 최소 0원으로 설정
+                discountedFee = Math.max(0, discountedFee)
                 if (oPkTime) {
                     var parkingTimeText = discountedParkingHours + " 시간 " + oParkingMinutes + " 분";
                     oPkTime.setText(parkingTimeText);

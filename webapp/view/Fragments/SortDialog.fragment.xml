@@ -2,12 +2,64 @@
 	xmlns="sap.m"
 	xmlns:core="sap.ui.core">
 	<ViewSettingsDialog
-		confirm="SortDialog">
+		confirm="handleSortDialogConfirm">
 		<sortItems>
 			<ViewSettingsItem text="차량번호" key="NumberPlate" />
 			<ViewSettingsItem text="차량구분" key="TypeName" />
-			<ViewSettingsItem text="차량종류" key="Brand" />
+			<ViewSettingsItem text="입차시간" key="EntryTime" />
 			<ViewSettingsItem text="출차시간" key="ExitTime" selected="true"/>
+			<ViewSettingsItem text="주차시간" key="ParkingTime" />
+			<ViewSettingsItem text="할인 요금" key="TotalDiscountPay" />
+			<ViewSettingsItem text="정산 요금" key="ParkingFee" />
 		</sortItems>
 	</ViewSettingsDialog>
 </core:FragmentDefinition>
+
+<!-- onSort: function () {
+            var sDialogFragmentName = "parking.view.Fragments.Main.SortDialog";
+        
+            this.getViewSettingsDialog(sDialogFragmentName)
+                .then(function (oViewSettingsDialog) {
+                    oViewSettingsDialog.open();
+                })
+                .catch(function (error) {
+                    console.error("Error loading or opening dialog:", error);
+                });
+        },
+        
+        getViewSettingsDialog: function (sDialogFragmentName) {
+            if (!this._mViewSettingsDialogs[sDialogFragmentName]) {
+                this._mViewSettingsDialogs[sDialogFragmentName] = this.loadFragment({
+                    name: sDialogFragmentName
+                }).catch(function (error) {
+                    console.error("Error loading fragment:", error);
+                    throw error;
+                });
+            }
+        
+            return this._mViewSettingsDialogs[sDialogFragmentName];
+        },
+        
+        handleSort: function () {
+            var oTable = this.byId("PaidCarTable");
+            var oBinding = oTable.getBinding("items");
+        
+            var sPath, bDescending;
+            var aSorters = [];
+        
+            // 정렬 다이얼로그 열기
+            this.getViewSettingsDialog("parking.view.Fragments.Main.SortDialog")
+                .then(function (oViewSettingsDialog) {
+                    // 정렬 다이얼로그에서 선택한 정렬 기준 가져오기
+                    var mParams = oViewSettingsDialog.getParameters();
+                    sPath = mParams.sortItem.getKey();
+                    bDescending = mParams.sortDescending;
+                    aSorters.push(new Sorter(sPath, bDescending));
+        
+                    // 선택된 정렬 기준 적용
+                    oBinding.sort(aSorters);
+                })
+                .catch(function (error) {
+                    console.error("Error loading or opening dialog:", error);
+                });
+        }, -->
