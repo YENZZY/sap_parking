@@ -31,26 +31,24 @@ function (Controller, JSONModel, MessageBox, Filter, FilterOperator, DragInfo, G
 
         _getData: function () {
 
-        var oMainModel = this.getOwnerComponent().getModel(); // 메인 모델 가져오기
+            var oMainModel = this.getOwnerComponent().getModel(); // 메인 모델 가져오기
         
-        this._getODataRead(oMainModel, "/Carinfo", null, '$expand=to_Ticket').done(
+            this._getODataRead(oMainModel, "/Carinfo", null, '$expand=to_Ticket').done(
 
-            function(aGetData) {
-            
-                this.setModel(new JSONModel(aGetData), "entryModel");
-                this.setModel(new JSONModel(aGetData), "RadioEntryModel"); // 입차차량 필터링
-                this.oEntryCarCount();
-                console.log(aGetData);
-            }.bind(this)).fail(function () {
+                function(aGetData) {
+                
+                    this.setModel(new JSONModel(aGetData), "entryModel");
+                    this.setModel(new JSONModel(aGetData), "RadioEntryModel"); // 입차차량 필터링
+                    this.oEntryCarCount();
+                    console.log(aGetData);
 
-                MessageBox.information("차량 조회를 할 수 없습니다.");
+                }.bind(this)).fail(function () {
 
-            });
+                    MessageBox.information("차량 조회를 할 수 없습니다.");
 
-            this.oVipcardata(); //정산된 차량 테이블 데이터 조회
-            this.oCardetaildata();
-            //this.calculateParkingTime(); // 주차시간 및 요금 계산
-            
+                });
+                this.oVipcardata(); //정산된 차량 테이블 데이터 조회
+                this.oCardetaildata();
         },
 
         onRadioBtnChange: function (oEvent) {
@@ -109,6 +107,7 @@ function (Controller, JSONModel, MessageBox, Filter, FilterOperator, DragInfo, G
                 this.byId("totalIncome").setNumber(totalIncome);
                 this.byId("totalSpend").setNumber(totalSpend);
                 this.oExitCarCount();
+
             }.bind(this)).fail(function () {
                 MessageBox.information("정산 완료 차량 조회를 할 수 없습니다.");
             });
@@ -142,6 +141,7 @@ function (Controller, JSONModel, MessageBox, Filter, FilterOperator, DragInfo, G
             return result;
         },
         
+        // 정산 완료 테이블 주차 시간 및 요금 
         paidModelParkingTime: function () {
             var oPaidModel = this.getView().getModel("paidModel").getData();
         
@@ -180,7 +180,8 @@ function (Controller, JSONModel, MessageBox, Filter, FilterOperator, DragInfo, G
             
             // paidModel 업데이트
             this.getView().getModel("paidModel").setData(oPaidModel);
-        },        
+        },
+
         //정기권 차량 데이터 조회
         oVipcardata : function () {
             var oVipcarModel = this.getOwnerComponent().getModel("vipcarData");
@@ -420,6 +421,7 @@ function (Controller, JSONModel, MessageBox, Filter, FilterOperator, DragInfo, G
                         UsedCount: existingTicket.UsedCount
                     };
                     aPromises.push(this._getODataUpdate(oMainModel, "/Ticket(Uuid=guid'" + existingTicket.Uuid + "',Parentsuuid=guid'" + registerData.Uuid + "')", oUpdateData));
+                
                 } else {
                     // 기존의 티켓이 없는 경우 생성
                     var oCreateData = {
@@ -778,7 +780,6 @@ function (Controller, JSONModel, MessageBox, Filter, FilterOperator, DragInfo, G
             }
         },
  
-
         //정기권 차량 등록 다이얼로그 닫기
         onCloseCar: function () {
             // 다이얼로그가 닫힐 때 입력 필드의 값을 초기화
@@ -794,6 +795,7 @@ function (Controller, JSONModel, MessageBox, Filter, FilterOperator, DragInfo, G
 
             this.oDialog.close();
         },
+        
         // 주차요금 계산하기 (할인 쿠폰 적용)
         calculateParkingTime: function () {
             var oRegisterModel = this.getView().getModel("registerModel");

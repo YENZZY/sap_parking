@@ -8,41 +8,28 @@
 	  xmlns:c="sap.ui.core"
 >	
 	<Page id="page" title="CYE PARKING LOT">
-    <!-- 차량 조회 세부 내역  -->
-	<!-- <OverflowToolbar>
-	<core:Icon src="sap-icon://car-rental"/>
-	<Title text="CYE PARKING LOT" titleStyle="H4" />
-	</OverflowToolbar> -->
-    <f:DynamicPage id="dynamicPageId"
+    <!-- 차량 조회 내역  -->
+    <f:DynamicPage
+			id="dynamicPageId"
 			stickySubheaderProvider="iconTabBar"
 			class="sapUiNoContentPadding"
 			toggleHeaderOnTitleClick="{/titleClickable}"
 		>
-			<!-- DynamicPage Title -->
+			<!-- 다이나믹 페이지 제목 -->
 			<f:title>
 				<f:DynamicPageTitle>
 					<f:heading>
-						<!-- <Title text="CYE PARKING SYSTEM"/> -->
-						<!-- <Button icon="sap-icon://car-rental" type="Transparent" press=""/> -->
 							<HBox>
 								<c:Icon src="sap-icon://insurance-car" size="1.5rem" class="sapUiTinyMarginEnd"/> 
 								<Title text="차량 조회 내역"/>
 							</HBox>
 					</f:heading>
-					<!-- <Button icon="sap-icon://decline" type="Transparent" press="onBack"/>-->
-					<!-- <f:actions>
-						<Button press="onRegister" visible="true" text=" 정기권 등록 " type="Emphasized" ariaHasPopup="Dialog"></Button>
-						<Button press="onBuy" visible="true" text=" 할인권 등록 " type="Ghost" ariaHasPopup="Dialog"></Button>
-						<Button text="수정" type="Emphasized"/>
-						<Button text="삭제" type="Transparent"/>
-						<Button text="Toggle Footer" type="Transparent" press="onToggleFooter"/>
-					</f:actions> -->
 					<f:navigationActions>
 					</f:navigationActions> 
 				</f:DynamicPageTitle>
 			</f:title>
 		
-			<!-- DynamicPage Header -->
+			<!-- 다이나믹 페이지 헤더 -->
 			<f:header>
 				<f:DynamicPageHeader pinnable="false">
 					<c:Fragment fragmentName="parking.view.Fragments.Page.CarInfoHeader" type="XML"/>
@@ -57,19 +44,6 @@
 					</items>
 				</IconTabBar>
 			</f:content>
-			<!-- DynamicPage Footer -->
-			<!-- <f:footer>
-				<OverflowToolbar>
-					<Button icon="sap-icon://message-popup"
-						text="{/messagesLength}"
-						type="Emphasized"
-						press="onMessageButtonPress"
-						visible="{= !!${/messagesLength}}"/>
-					<ToolbarSpacer/>
-					<Button type="Accept" text="Accept"/>
-					<Button type="Reject" text="Reject"/>
-				</OverflowToolbar>
-			</f:footer> -->
 		</f:DynamicPage>
   </Page>
 </mvc:View>

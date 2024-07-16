@@ -17,7 +17,7 @@
 					columnsM="1"
 					columnsL="1"
 					columnsXL="1"
-                    >
+                >
 					<f:content>
 						<Label text="차량번호" design="Bold" class="sapUiTinyMarginEnd"/>
 						    <Input id="payNumberPlate" value="{carinfoModel>/NumberPlate}" required="true" change="onChange" editable="false" class="sapUiTinyMarginBottom"/>
@@ -47,16 +47,22 @@
 			<Toolbar>
             <ToolbarSpacer/>
 				<content>
-					<Button id= "payTicket"
+					<Button
+							id= "payTicket"
                             type="Ghost"
 							text="결제"
-							press="onPayTicket" visible="true"/>
+							press="onPayTicket"
+							visible="true"
+					/>
 					
-                    <Button id="cancelPay"
+                    <Button
+						id="cancelPay"
 						text="취소"
 						type="Reject"
 						press="onClosePay"
-						ariaHasPopup="Dialog" visible="true"/>
+						ariaHasPopup="Dialog"
+						visible="true"
+					/>
 				</content>
 			</Toolbar>
 		</footer>

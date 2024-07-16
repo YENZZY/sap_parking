@@ -27,10 +27,14 @@ function (Controller, JSONModel, MessageBox) {
             // 헤드 데이터
             oMainModel.read(uuidPath, {
                 success: function (oData) {
+                  
                     var oCarinfoModel = new JSONModel(oData);
+                    
                     if(oData.TypeName === "정기권 차량"){
+                      
                         this.adminpage();
-                    }else{
+
+                    } else {
                         this.userpage();
                     }
                     this.setModel(oCarinfoModel,"carinfoModel");
@@ -149,12 +153,11 @@ function (Controller, JSONModel, MessageBox) {
         
         //  정산하기 결제 
         onPayTicket: function () {
-            debugger;
-        var carinfoData = this.getView().getModel("carinfoModel").getData();
-        var myticketData = this.getView().getModel("myticketModel").getData();
-        var oMainModel = this.getOwnerComponent().getModel();
-        var cardetailModel = this.getOwnerComponent().getModel("cardetailData");
-        var paymoney = this.byId("PayMoney").getValue();
+            var carinfoData = this.getView().getModel("carinfoModel").getData();
+            var myticketData = this.getView().getModel("myticketModel").getData();
+            var oMainModel = this.getOwnerComponent().getModel();
+            var cardetailModel = this.getOwnerComponent().getModel("cardetailData");
+            var paymoney = this.byId("PayMoney").getValue();
         
         if (paymoney == carinfoData.ParkingFee) {
             var promises = [];
@@ -176,9 +179,9 @@ function (Controller, JSONModel, MessageBox) {
                     Typeuuid: carinfoData.Typeuuid,
                     NumberPlate: carinfoData.NumberPlate,
                     EntryTime: carinfoData.EntryTime
-                };
-                promises.push(this._getODataCreate(cardetailModel, "/Cardetail", oData));
-            }
+            };
+            promises.push(this._getODataCreate(cardetailModel, "/Cardetail", oData));
+        }
 
             $.when.apply($, promises).done(function () {
                 MessageBox.success("정산이 완료되었습니다. 5분 내에 출차해주세요.");

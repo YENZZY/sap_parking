@@ -9,13 +9,14 @@
 >
 	<Page id="page" title="CYE PARKING LOT">
 		<!-- 차량번호 조회 -->
-			<f:DynamicPage id="dynamicPageId"
+		<f:DynamicPage 
+			id="dynamicPageId"
 			stickySubheaderProvider="iconTabBar"
 			class="sapUiNoContentPadding"
 			toggleHeaderOnTitleClick="{/titleClickable}"
 		>
-			<!-- DynamicPage Title -->
-			<f:title >
+			<!-- 다이나믹 페이지 제목 -->
+			<f:title>
 				<f:DynamicPageTitle>
 					<f:heading>
 							<HBox>
@@ -25,7 +26,6 @@
 								<Button id="Admin" text="⇰ Admin" type="Accept" press="onAdmin" visible="false"/>
 							</HBox>
 					</f:heading>
-					<!-- <Button icon="sap-icon://decline" type="Transparent" press="onBack"/>-->
 					<f:actions>
 						<Button id="registerBtn" press="onRegister" visible="true" text="정기 차량 등록" type="Accept" ariaHasPopup="Dialog"/>
 						<Button id="removeBtn" press="onRemove" visible="true" text="정기 차량 삭제 " type="Reject" ariaHasPopup="Dialog"/>
@@ -43,7 +43,7 @@
 				</f:DynamicPageTitle>
 			</f:title>
 
-			<!-- DynamicPage Header -->
+			<!-- 다이나믹 페이지 헤더 -->
 			<f:header>
 				<f:DynamicPageHeader id="ChartMain" visible="true" pinnable="false">
 					<c:Fragment fragmentName="parking.view.Fragments.Main.ChartMain" type="XML"/>
@@ -64,9 +64,6 @@
 						<IconTabFilter key="ticketCar" text="정기 차량" id="ticketCar" visible="true" >
 							<c:Fragment fragmentName="parking.view.Fragments.Main.VipcarItem" type="XML"/>
 						</IconTabFilter>
-						<!-- <IconTabFilter text="현황 차트" visible="true" id="chartItem">
-							<c:Fragment fragmentName="parking.view.Fragments.Main.ChartItem" type="XML"/>
-						</IconTabFilter> -->
 					</items>
 				</IconTabBar>
 			</f:content>

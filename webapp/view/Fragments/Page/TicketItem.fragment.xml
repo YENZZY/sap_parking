@@ -20,7 +20,8 @@
                 sorter: {
                     path: 'DiscountTime'
                 }
-            }">
+            }"
+        >
             <columns>
                 <Column width="12rem" vAlign="Middle" hAlign="Center">
                     <Label text="할인권명" textAlign="Center" design="Bold"/>
@@ -34,11 +35,11 @@
             </columns>
             <items>
                 <ColumnListItem vAlign="Middle">
-                <cells >
-                    <Text id="discountname" text="{myticketModel>DiscountName}" textAlign="Center"/>
-                    <Text id="discounttime" text="{myticketModel>DiscountTime}" textAlign="Center"/>
-                    <Text id="usedcount" text="{myticketModel>UsedCount}" textAlign="Center"/>
-                </cells>
+                    <cells>
+                        <Text id="discountname" text="{myticketModel>DiscountName}" textAlign="Center"/>
+                        <Text id="discounttime" text="{myticketModel>DiscountTime}" textAlign="Center"/>
+                        <Text id="usedcount" text="{myticketModel>UsedCount}" textAlign="Center"/>
+                    </cells>
                 </ColumnListItem>
             </items>
         </Table>

@@ -4,8 +4,7 @@
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:core="sap.ui.core"
 > 
-      <!-- <Title value="{NumberPlate}" titleStyle="H4"/> -->
-      <Panel width="100%">
+    <Panel width="100%">
         <HBox width="100%" justifyContent="Center" class="sapUiLargeMarginTop">
             <VBox class="sapUiMediumMarginEnd">
                 <Image src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfOMEINIPIaBoNnOP6pvMSUrJnplMq6v6fbScOAxnk1AFSIUk6" width="300px" height="235px" class="sapUiSmallMarginBottom"/>
@@ -19,8 +18,8 @@
                         unit="원"
                         class="sapMObjectNumberLarge sapUiTinyMarginBottom"
                     />
-                    </HBox>
-                    <HBox>
+                </HBox>
+                <HBox>
                     <Text text="( 할인 금액 :" class="sapUiTinyMarginEnd sapMObjectNumberLarge"/>
                     <ObjectNumber
                         id="ParkingDisFee"
@@ -65,7 +64,7 @@
                 <HBox justifyContent="End" class="sapUiMediumMarginBottom">
                     <Button text="정산하기" press="onPay" />
                 </HBox>
-                </VBox>
-            </HBox>
-        </Panel>
+            </VBox>
+        </HBox>
+    </Panel>
 </core:FragmentDefinition>

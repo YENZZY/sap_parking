@@ -7,65 +7,66 @@
 >
 <!-- 정산된 차량 내역 목록 -->
 <Panel width="100%">
-<OverflowToolbar>
-    <Label text="입차 차량 현황" design="Bold"/>
-        <ToolbarSpacer/>
-    <SearchField id="entrycarSearch" liveChange="onEntrycarSearch" width="20%" placeholder="차량번호를 입력해주세요."/>
-</OverflowToolbar>
-<RadioButtonGroup id="rbg3" columns="5" valueState="Warning" select="onRadioBtnChange" class="sapUiTinyMarginBottom">
-    <RadioButton id="Totalcar" text="전체" selected="true"/>
-    <RadioButton id="Vipcar" text="정기권 차량" />
-    <RadioButton id="nVipCar" text="일반 차량" />
-</RadioButtonGroup>
-    <Table id="EntryCarTable"
-        inset="false"
-        selectionChange="onSelectionChange"
-        items="{
-            path: 'RadioEntryModel>/',
-            sorter: {
-                path: 'EntryTime',
-                descending: true
-            }
-        }"
-    >
-    <infoToolbar>
-				<OverflowToolbar visible="false" id="idInfoToolbarEntry">
-					<Label id="idFilterLabelEntry" />
-				</OverflowToolbar>
-	</infoToolbar>
-        <columns>
-            <Column width="12rem" minScreenWidth="Tablet" hAlign="Center" demandPopin="true">
-                <Label text="차량번호" textAlign="Center" design="Bold"/>
-            </Column>
-            <Column width="12rem" minScreenWidth="Tablet" hAlign="Center" demandPopin="true">
-                <Label text="차량구분" textAlign="Center" design="Bold"/>
-            </Column>
-            <Column width="12rem" minScreenWidth="Tablet" hAlign="Center" demandPopin="true">
-                <Label text="차량종류" textAlign="Center" design="Bold"/>
-            </Column>
-            <Column width="12rem" minScreenWidth="Tablet" hAlign="Center" demandPopin="true">
-                <Label text="입차시간" textAlign="Center" design="Bold"/>
-            </Column>
-        </columns>
-        <items>
-            <ColumnListItem vAlign="Middle">
-            <cells>
-            <Text text="{RadioEntryModel>NumberPlate}" textAlign="Center"/>
-            <Text text="{RadioEntryModel>TypeName}" textAlign="Center"/>
-            <Text text="{RadioEntryModel>Brand}" textAlign="Center"/>
-            <Text
-                    text="{
-                        path: 'RadioEntryModel>EntryTime',
-                        type: 'sap.ui.model.type.DateTime',
-                        formatOptions: {
-                            pattern: 'yyyy-MM-dd HH:mm:ss'
-                        }
-                    }"
-                    textAlign="Center"
-                />
-            </cells>
-            </ColumnListItem>
-        </items>
-    </Table>
+    <OverflowToolbar>
+        <Label text="입차 차량 현황" design="Bold"/>
+            <ToolbarSpacer/>
+        <SearchField id="entrycarSearch" liveChange="onEntrycarSearch" width="20%" placeholder="차량번호를 입력해주세요."/>
+    </OverflowToolbar>
+    <!-- 차량 구분 필터링 -->
+    <RadioButtonGroup id="rbg3" columns="5" valueState="Warning" select="onRadioBtnChange" class="sapUiTinyMarginBottom">
+        <RadioButton id="Totalcar" text="전체" selected="true"/>
+        <RadioButton id="Vipcar" text="정기권 차량" />
+        <RadioButton id="nVipCar" text="일반 차량" />
+    </RadioButtonGroup>
+        <Table id="EntryCarTable"
+            inset="false"
+            selectionChange="onSelectionChange"
+            items="{
+                path: 'RadioEntryModel>/',
+                sorter: {
+                    path: 'EntryTime',
+                    descending: true
+                }
+            }"
+        >
+        <infoToolbar>
+            <OverflowToolbar visible="false" id="idInfoToolbarEntry">
+                <Label id="idFilterLabelEntry" />
+            </OverflowToolbar>
+        </infoToolbar>
+            <columns>
+                <Column width="12rem" minScreenWidth="Tablet" hAlign="Center" demandPopin="true">
+                    <Label text="차량번호" textAlign="Center" design="Bold"/>
+                </Column>
+                <Column width="12rem" minScreenWidth="Tablet" hAlign="Center" demandPopin="true">
+                    <Label text="차량구분" textAlign="Center" design="Bold"/>
+                </Column>
+                <Column width="12rem" minScreenWidth="Tablet" hAlign="Center" demandPopin="true">
+                    <Label text="차량종류" textAlign="Center" design="Bold"/>
+                </Column>
+                <Column width="12rem" minScreenWidth="Tablet" hAlign="Center" demandPopin="true">
+                    <Label text="입차시간" textAlign="Center" design="Bold"/>
+                </Column>
+            </columns>
+            <items>
+                <ColumnListItem vAlign="Middle">
+                    <cells>
+                        <Text text="{RadioEntryModel>NumberPlate}" textAlign="Center"/>
+                        <Text text="{RadioEntryModel>TypeName}" textAlign="Center"/>
+                        <Text text="{RadioEntryModel>Brand}" textAlign="Center"/>
+                        <Text
+                            text="{
+                                path: 'RadioEntryModel>EntryTime',
+                                type: 'sap.ui.model.type.DateTime',
+                                formatOptions: {
+                                    pattern: 'yyyy-MM-dd HH:mm:ss'
+                                }
+                            }"
+                            textAlign="Center"
+                        />
+                    </cells>
+                </ColumnListItem>
+            </items>
+        </Table>
     </Panel>
 </core:FragmentDefinition>

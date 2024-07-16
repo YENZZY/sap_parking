@@ -4,80 +4,80 @@
 	xmlns:f="sap.f"
 	xmlns:card="sap.f.cards"
 	xmlns:w="sap.ui.integration.widgets"
-	displayBlock="true">
-
+	displayBlock="true"
+>
 	<f:GridContainer
 		id="gridCar"
 		class="sapUiSmallMarginBegin sapUiSmallMarginBottom"
 		snapToRow="true"
 	>
-			<GenericTile header="입차한 차량" frameType="OneByHalf">
-				<layoutData>
-					<f:GridContainerItemLayoutData minRows="1" columns="2"/>
-				</layoutData>
-				<TileContent>
-					<ObjectNumber
-                        id="entryCarCount"
-						class="sapMObjectNumberLarge"
-                        number=""
-                        unit="대"
-                    />
-				</TileContent>
-			</GenericTile>
-			<GenericTile header="출차한 차량" frameType="OneByHalf">
-				<layoutData>
-					<f:GridContainerItemLayoutData minRows="1" columns="2"/>
-				</layoutData>
-				<TileContent>
-					<ObjectNumber
-                        id="exitCarCount"
-						class="sapMObjectNumberLarge"
-                        number=""
-                        unit="대"
-                    />
-				</TileContent>
-			</GenericTile>
-			<GenericTile header="정기권 차량" frameType="OneByHalf">
-				<layoutData>
-					<f:GridContainerItemLayoutData minRows="1" columns="2"/>
-				</layoutData>
-				<TileContent>
-					<ObjectNumber
-                        id="vipCarCount"
-						class="sapMObjectNumberLarge"
-                        number=""
-                        unit="대"
-                    />
-				</TileContent>
-			</GenericTile>
-			<GenericTile header="정산 수입" frameType="OneByHalf">
-				<layoutData>
-					<f:GridContainerItemLayoutData minRows="1" columns="2" />
-				</layoutData>
-				<TileContent>
-					<ObjectNumber
-                        id="totalIncome"
-						class="sapMObjectNumberLarge"
-                        number=""
-                        unit="원"
-						state="Success"
-                    />
-				</TileContent>
-			</GenericTile>
-			<GenericTile header="할인 지출" frameType="OneByHalf">
-				<layoutData>
-					<f:GridContainerItemLayoutData minRows="1" columns="2" />
-				</layoutData>
-				<TileContent>
-					<ObjectNumber
-                        id="totalSpend"
-						class="sapMObjectNumberLarge"
-                        number=""
-                        unit="원"
-						state="Error"
-                    />
-				</TileContent>
-			</GenericTile>
+		<GenericTile header="입차한 차량" frameType="OneByHalf">
+			<layoutData>
+				<f:GridContainerItemLayoutData minRows="1" columns="2"/>
+			</layoutData>
+			<TileContent>
+				<ObjectNumber
+					id="entryCarCount"
+					class="sapMObjectNumberLarge"
+					number=""
+					unit="대"
+				/>
+			</TileContent>
+		</GenericTile>
+		<GenericTile header="출차한 차량" frameType="OneByHalf">
+			<layoutData>
+				<f:GridContainerItemLayoutData minRows="1" columns="2"/>
+			</layoutData>
+			<TileContent>
+				<ObjectNumber
+					id="exitCarCount"
+					class="sapMObjectNumberLarge"
+					number=""
+					unit="대"
+				/>
+			</TileContent>
+		</GenericTile>
+		<GenericTile header="정기권 차량" frameType="OneByHalf">
+			<layoutData>
+				<f:GridContainerItemLayoutData minRows="1" columns="2"/>
+			</layoutData>
+			<TileContent>
+				<ObjectNumber
+					id="vipCarCount"
+					class="sapMObjectNumberLarge"
+					number=""
+					unit="대"
+				/>
+			</TileContent>
+		</GenericTile>
+		<GenericTile header="정산 수입" frameType="OneByHalf">
+			<layoutData>
+				<f:GridContainerItemLayoutData minRows="1" columns="2" />
+			</layoutData>
+			<TileContent>
+				<ObjectNumber
+					id="totalIncome"
+					class="sapMObjectNumberLarge"
+					number=""
+					unit="원"
+					state="Success"
+				/>
+			</TileContent>
+		</GenericTile>
+		<GenericTile header="할인 지출" frameType="OneByHalf">
+			<layoutData>
+				<f:GridContainerItemLayoutData minRows="1" columns="2" />
+			</layoutData>
+			<TileContent>
+				<ObjectNumber
+					id="totalSpend"
+					class="sapMObjectNumberLarge"
+					number=""
+					unit="원"
+					state="Error"
+				/>
+			</TileContent>
+		</GenericTile>
 	</f:GridContainer>
 </core:FragmentDefinition>
         

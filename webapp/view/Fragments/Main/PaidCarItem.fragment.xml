@@ -5,96 +5,83 @@
 	xmlns:core="sap.ui.core"
     xmlns:l="sap.ui.layout"
 >
-<!-- 주차장 이용가능 대수 -->
-<!-- <l:VerticalLayout
-    width="100%"
->
-    <l:content>
-        <ProgressIndicator
-            class="sapUiSmallMarginBottom"
-            percentValue="50"
-            displayValue="주차장 이용 가능 대수"
-            showValue="true"
-            state="Error"/>
-    </l:content>
-</l:VerticalLayout> -->
 <!-- 정산된 차량 내역 목록 -->
-<Panel width="100%">
-<OverflowToolbar>
-    <Label text="정산 차량 현황" design="Bold"/>
-        <ToolbarSpacer/>
-	<SearchField id="paidcarSearch" liveChange="onPaidcarSearch" width="20%" placeholder="차량번호를 입력해주세요."/>
-</OverflowToolbar>
-    <Table id="PaidCarTable"
-        inset="false"
-        selectionChange="onSelectionChange"
-        items="{
-            path: 'paidModel>/',
-            sorter: {
-                path: 'ExitTime',
-                descending: true
-            }
-        }"
-    >
-    <infoToolbar>
-				<OverflowToolbar visible="false" id="idInfoToolbar">
-					<Label id="idFilterLabel" />
-				</OverflowToolbar>
-	</infoToolbar>
-        <columns>
-            <Column width="12rem" minScreenWidth="Tablet" hAlign="Center" demandPopin="true">
-                <Label text="차량번호" textAlign="Center" design="Bold"/>
-            </Column>
-            <Column width="12rem" minScreenWidth="Tablet" hAlign="Center" demandPopin="true">
-                <Label text="차량구분" textAlign="Center" design="Bold"/>
-            </Column>
-            <Column width="12rem" minScreenWidth="Tablet" hAlign="Center" demandPopin="true">
-                <Label text="입차시간" textAlign="Center" design="Bold"/>
-            </Column>
-            <Column width="12rem" minScreenWidth="Tablet" hAlign="Center" demandPopin="true">
-                <Label text="출차시간" textAlign="Center" design="Bold"/>
-            </Column>
-             <Column width="12rem" minScreenWidth="Tablet" hAlign="Center" demandPopin="true">
-                <Label text="주차 시간" textAlign="Center" design="Bold"/>
-            </Column>
-            <Column width="12rem" minScreenWidth="Tablet" hAlign="Center" demandPopin="true">
-                <Label text="할인 요금" textAlign="Center" design="Bold"/>
-            </Column>
-            <Column width="12rem" minScreenWidth="Tablet" hAlign="Center" demandPopin="true">
-                <Label text="정산 요금" textAlign="Center" design="Bold"/>
-            </Column>
-        </columns>
-        <items>
-            <ColumnListItem vAlign="Middle">
-            <cells>
-                <Text text="{paidModel>NumberPlate}" textAlign="Center"/>
-                <Text text="{paidModel>TypeName}" textAlign="Center"/>
-                <Text
-                    text="{
-                        path: 'paidModel>EntryTime',
-                        type: 'sap.ui.model.type.DateTime',
-                        formatOptions: {
-                            pattern: 'yyyy-MM-dd HH:mm:ss'
-                        }
-                    }"
-                    textAlign="Center"
-                />
-                <Text
-                    text="{
-                        path: 'paidModel>ExitTime',
-                        type: 'sap.ui.model.type.DateTime',
-                        formatOptions: {
-                            pattern: 'yyyy-MM-dd HH:mm:ss'
-                        }
-                    }"
-                    textAlign="Center"
-                />
-                <Text id="PayTime" text="{paidModel>ParkingTime}" textAlign="Center"/>
-                <Text id="TotalDiscountPay" text="{paidModel>TotalDiscountPay}" textAlign="Center"/>
-                <Text id="PayFee" text="{paidModel>ParkingFee}" textAlign="Center"/>
-            </cells>
-            </ColumnListItem>
-        </items>
-    </Table>
+    <Panel width="100%">
+        <OverflowToolbar>
+            <Label text="정산 차량 현황" design="Bold"/>
+                <ToolbarSpacer/>
+            <SearchField id="paidcarSearch" liveChange="onPaidcarSearch" width="20%" placeholder="차량번호를 입력해주세요."/>
+        </OverflowToolbar>
+        <Table id="PaidCarTable"
+            inset="false"
+            selectionChange="onSelectionChange"
+            items="{
+                path: 'paidModel>/',
+                sorter: {
+                    path: 'ExitTime',
+                    descending: true
+                }
+            }"
+        >
+            <infoToolbar>
+                <OverflowToolbar visible="false" id="idInfoToolbar">
+                    <Label id="idFilterLabel" />
+                </OverflowToolbar>
+            </infoToolbar>
+            <columns>
+                <Column width="12rem" minScreenWidth="Tablet" hAlign="Center" demandPopin="true">
+                    <Label text="차량번호" textAlign="Center" design="Bold"/>
+                </Column>
+                <Column width="12rem" minScreenWidth="Tablet" hAlign="Center" demandPopin="true">
+                    <Label text="차량구분" textAlign="Center" design="Bold"/>
+                </Column>
+                <Column width="12rem" minScreenWidth="Tablet" hAlign="Center" demandPopin="true">
+                    <Label text="입차시간" textAlign="Center" design="Bold"/>
+                </Column>
+                <Column width="12rem" minScreenWidth="Tablet" hAlign="Center" demandPopin="true">
+                    <Label text="출차시간" textAlign="Center" design="Bold"/>
+                </Column>
+                <Column width="12rem" minScreenWidth="Tablet" hAlign="Center" demandPopin="true">
+                    <Label text="주차 시간" textAlign="Center" design="Bold"/>
+                </Column>
+                <Column width="12rem" minScreenWidth="Tablet" hAlign="Center" demandPopin="true">
+                    <Label text="할인 요금" textAlign="Center" design="Bold"/>
+                </Column>
+                <Column width="12rem" minScreenWidth="Tablet" hAlign="Center" demandPopin="true">
+                    <Label text="정산 요금" textAlign="Center" design="Bold"/>
+                </Column>
+            </columns>
+            <items>
+                <ColumnListItem vAlign="Middle">
+                    <cells>
+                        <Text text="{paidModel>NumberPlate}" textAlign="Center"/>
+                        <Text text="{paidModel>TypeName}" textAlign="Center"/>
+                        <Text
+                            text="{
+                                path: 'paidModel>EntryTime',
+                                type: 'sap.ui.model.type.DateTime',
+                                formatOptions: {
+                                    pattern: 'yyyy-MM-dd HH:mm:ss'
+                                }
+                            }"
+                            textAlign="Center"
+                        />
+                        <Text
+                            text="{
+                                path: 'paidModel>ExitTime',
+                                type: 'sap.ui.model.type.DateTime',
+                                formatOptions: {
+                                    pattern: 'yyyy-MM-dd HH:mm:ss'
+                                }
+                            }"
+                            textAlign="Center"
+                        />
+                        <Text id="PayTime" text="{paidModel>ParkingTime}" textAlign="Center"/>
+                        <Text id="TotalDiscountPay" text="{paidModel>TotalDiscountPay}" textAlign="Center"/>
+                        <Text id="PayFee" text="{paidModel>ParkingFee}" textAlign="Center"/>
+                    </cells>
+                </ColumnListItem>
+            </items>
+        </Table>
     </Panel>
 </core:FragmentDefinition>
