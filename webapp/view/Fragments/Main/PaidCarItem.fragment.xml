@@ -23,7 +23,7 @@
 <OverflowToolbar>
     <Label text="정산 차량 현황" design="Bold"/>
         <ToolbarSpacer/>
-	<SearchField liveChange="onPaidcarSearch" width="20%" placeholder="차량번호를 입력해주세요."/>
+	<SearchField id="paidcarSearch" liveChange="onPaidcarSearch" width="20%" placeholder="차량번호를 입력해주세요."/>
 </OverflowToolbar>
     <Table id="PaidCarTable"
         inset="false"
@@ -89,13 +89,6 @@
                     }"
                     textAlign="Center"
                 />
-                <!-- <Text
-                    text="{
-                        path: 'paidModel>ParkingTime',
-                        formatter: '.formatParkingTime'
-                    }"
-                    textAlign="Center"
-                /> -->
                 <Text id="PayTime" text="{paidModel>ParkingTime}" textAlign="Center"/>
                 <Text id="TotalDiscountPay" text="{paidModel>TotalDiscountPay}" textAlign="Center"/>
                 <Text id="PayFee" text="{paidModel>ParkingFee}" textAlign="Center"/>

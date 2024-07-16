@@ -437,6 +437,7 @@ function (Controller, JSONModel, MessageBox, Filter, FilterOperator, DragInfo, G
                     MessageBox.success("할인권 등록이 완료 되었습니다.");
                     if (this.oTDialog) {
                         this.oTDialog.close();
+                        this._getData();
                     }
                 }.bind(this))
                 .fail(function() {
@@ -935,6 +936,7 @@ function (Controller, JSONModel, MessageBox, Filter, FilterOperator, DragInfo, G
             this.byId("ticketCar").setVisible(false);
             this.byId("Admin").setVisible(true);
             this.byId("User").setVisible(false);
+
         },
 
         // 관리자 화면 이동 버튼
@@ -947,6 +949,38 @@ function (Controller, JSONModel, MessageBox, Filter, FilterOperator, DragInfo, G
             this.byId("ticketCar").setVisible(true);
             this.byId("Admin").setVisible(false);
             this.byId("User").setVisible(true);
+
+        },
+
+        //Tap 할 때 초기화
+        onRefresh: function (oEvent) {
+            var sSelectedKey = oEvent.getParameter("item").getKey() || "searchCar";
+    
+            if (sSelectedKey === "searchCar") {
+                this.byId("findNumber").setValue("");
+
+            } else if (sSelectedKey === "paidCar") {
+                this.byId("paidcarSearch").setValue("");
+
+                var aPaidData = this.getModel("paidModel").getData();
+                var oPaidModel = new JSONModel(aPaidData);
+                this.setModel(oPaidModel, "paidModel");
+
+            } else if (sSelectedKey === "entryCar") {
+                this.byId("entrycarSearch").setValue("");
+                this.byId("rbg3").setSelectedIndex(0);
+                // 테이블 데이터 초기화 (entryModel을 다시 설정)
+                var aEntryData = this.getModel("entryModel").getData();
+                var oFilterModel = new JSONModel(aEntryData);
+                this.setModel(oFilterModel, "RadioEntryModel");
+                
+            } else if (sSelectedKey === "ticketCar") {
+                this.byId("vipcarSearch").setValue("");
+                var avipcarModelData = this.getModel("vipcarModel").getData();
+                var ovipcarModelModel = new JSONModel(avipcarModelData);
+                this.setModel(ovipcarModelModel, "vipcarModel");
+                
+            }
         },
 
         // 그리드 컨테이너

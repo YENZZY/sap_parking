@@ -10,7 +10,7 @@
 <OverflowToolbar>
     <Label text="입차 차량 현황" design="Bold"/>
         <ToolbarSpacer/>
-    <SearchField liveChange="onEntrycarSearch" width="20%" placeholder="차량번호를 입력해주세요."/>
+    <SearchField id="entrycarSearch" liveChange="onEntrycarSearch" width="20%" placeholder="차량번호를 입력해주세요."/>
 </OverflowToolbar>
 <RadioButtonGroup id="rbg3" columns="5" valueState="Warning" select="onRadioBtnChange" class="sapUiTinyMarginBottom">
     <RadioButton id="Totalcar" text="전체" selected="true"/>

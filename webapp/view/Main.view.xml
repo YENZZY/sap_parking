@@ -50,18 +50,18 @@
 				</f:DynamicPageHeader>
 			</f:header>
 			<f:content>
-				<IconTabBar id="iconTabBar" class="sapUiResponsiveContentPadding">
+				<IconTabBar id="iconTabBar" class="sapUiResponsiveContentPadding" select="onRefresh">
 					<items>
-						<IconTabFilter text="차량 조회" id="searchCar" visible="true">
+						<IconTabFilter key="searchCar" text="차량 조회" id="searchCar" visible="true">
 							<c:Fragment fragmentName="parking.view.Fragments.Main.SearchHeader" type="XML"/>
 						</IconTabFilter>
-						<IconTabFilter text="정산 완료 차량" id="paidCar" visible="true">
+						<IconTabFilter key="paidCar" text="정산 완료 차량" id="paidCar" visible="true">
 							<c:Fragment fragmentName="parking.view.Fragments.Main.PaidCarItem" type="XML"/>
 						</IconTabFilter>
-						<IconTabFilter text="입차 차량" id="entryCar" visible="true">
+						<IconTabFilter key="entryCar" text="입차 차량" id="entryCar" visible="true">
 							<c:Fragment fragmentName="parking.view.Fragments.Main.EntryCarItem" type="XML"/>
 						</IconTabFilter>
-						<IconTabFilter text="정기 차량" visible="true" id="ticketCar">
+						<IconTabFilter key="ticketCar" text="정기 차량" id="ticketCar" visible="true" >
 							<c:Fragment fragmentName="parking.view.Fragments.Main.VipcarItem" type="XML"/>
 						</IconTabFilter>
 						<!-- <IconTabFilter text="현황 차트" visible="true" id="chartItem">
